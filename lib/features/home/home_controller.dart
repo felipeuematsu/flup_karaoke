@@ -2,33 +2,39 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:karaoke_request_client/features/home/components/playlists_scroll_item.dart';
-import 'package:karaoke_request_client/features/home/components/playlists_scroll_loading_item.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
+import 'package:karaoke_request_client/features/home/components/playlists/playlists_scroll_item.dart';
+import 'package:karaoke_request_client/features/home/components/playlists/playlists_scroll_loading_item.dart';
+import 'package:karaoke_request_client/features/home/components/playlists/scroll_item_type.dart';
+import 'package:karaoke_request_client/features/home/use_case/get_artists_playlists_use_case.dart';
 import 'package:karaoke_request_client/features/home/use_case/get_complete_playlist.dart';
 import 'package:karaoke_request_client/features/home/use_case/get_now_playing_song_use_case.dart';
 import 'package:karaoke_request_client/features/home/use_case/get_playlists_use_case.dart';
-import 'package:karaoke_request_client/features/models/now_playing_song_model.dart';
-import 'package:karaoke_request_client/features/models/simple_playlist_model.dart';
 import 'package:karaoke_request_client/features/playlist/playlist_view.dart';
 
 class HomeController extends GetxController {
-  HomeController(this.getPlaylistsUseCase, this.getNowPlayingSongUseCase, this.getPlaylistSongsUseCase);
+  HomeController(this.getPlaylistsUseCase, this.getNowPlayingSongUseCase, this.getDetailedPlaylistUseCase, this.getArtistsPlaylistsUseCase);
 
   final GetPlaylistsUseCase getPlaylistsUseCase;
-  final GetPlaylistSongsUseCase getPlaylistSongsUseCase;
+  final GetArtistsPlaylistsUseCase getArtistsPlaylistsUseCase;
+  final GetDetailedPlaylistUseCase getDetailedPlaylistUseCase;
   final GetNowPlayingSongUseCase getNowPlayingSongUseCase;
 
   final _playlists = RxList<SimplePlaylistModel>();
+  final _artists = RxList<SimplePlaylistModel>();
   final _nowPlayingSong = Rxn<NowPlayingSongModel>();
   final _remainingTimePercentage = Rx(0.0);
-  final _isLoading = RxBool(false);
+  final _artistsAreLoading = RxBool(false);
+  final _playlistsAreLoading = RxBool(false);
 
-  late final Timer refreshTimer, remainingTimeTimer;
+  late final Timer _refreshTimer, _remainingTimeTimer;
 
-  get isLoading => _isLoading.value;
+  get playlistsAreLoading => _playlistsAreLoading.value;
 
-  get playlistsWidgets {
-    if (isLoading) {
+  get artistsAreLoading => _artistsAreLoading.value;
+
+  List<StatelessWidget> playlistsWidgets(ScrollItemType type) {
+    if (playlistsAreLoading && type == ScrollItemType.playlist) {
       return const [
         PlaylistScrollLoadingItem(),
         PlaylistScrollLoadingItem(),
@@ -37,14 +43,24 @@ class HomeController extends GetxController {
         PlaylistScrollLoadingItem(),
       ];
     }
-    return _playlists
+    if (artistsAreLoading && type == ScrollItemType.artist) {
+      return const [
+        PlaylistScrollLoadingItem(scrollItemType: ScrollItemType.artist),
+        PlaylistScrollLoadingItem(scrollItemType: ScrollItemType.artist),
+        PlaylistScrollLoadingItem(scrollItemType: ScrollItemType.artist),
+        PlaylistScrollLoadingItem(scrollItemType: ScrollItemType.artist),
+        PlaylistScrollLoadingItem(scrollItemType: ScrollItemType.artist),
+      ];
+    }
+    final list = type == ScrollItemType.playlist ? _playlists : _artists;
+    return list
         .map((playlist) => PlaylistScrollItem(
-            name: playlist.title ?? '',
-            onPressed: () {
-              Get.to(() {
-                return PlaylistView(playlistModel: playlist, futureSongs: getPlaylistSongsUseCase.execute(playlist.id ?? 0));
-              });
-            }))
+            url: playlist.imageUrl,
+            scrollItemType: type,
+            name: playlist.name ?? '',
+            onPressed: (context) => () => Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              return PlaylistView(futurePlaylist: getDetailedPlaylistUseCase.execute(playlist.id ?? 0), service: Get.find());
+            }))))
         .toList();
   }
 
@@ -53,39 +69,44 @@ class HomeController extends GetxController {
   double get remainingTimePercentage => _remainingTimePercentage.value;
 
   double get updateRemainingTimePercentage {
-    final time = nowPlayingSong?.startTime;
+    final position = nowPlayingSong?.position;
     final duration = nowPlayingSong?.song?.duration;
-    if (time == null || duration == null) {
+    if (position == null || duration == null) {
       return 0;
     }
-    final now = DateTime.now();
-    final diff = now.difference(time);
-    final percent = diff.inMilliseconds / duration;
-    return percent;
+    return 1 - (position / duration);
   }
 
   @override
   Future<void> onInit() async {
-    _isLoading.value = true;
-    _playlists.value = await getPlaylistsUseCase.execute(null);
+    _playlistsAreLoading.value = true;
+    getPlaylistsUseCase.execute(null).then((value) {
+      _playlistsAreLoading.value = false;
+      _playlists.value = value;
+    });
 
-    refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _artistsAreLoading.value = true;
+    getArtistsPlaylistsUseCase.execute(null).then((value) {
+      _artistsAreLoading.value = false;
+      _artists.value = value;
+    });
+
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       getNowPlayingSongUseCase.execute(null).then((nowPlayingSong) {
         _nowPlayingSong.value = nowPlayingSong;
       });
     });
 
-    remainingTimeTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+    _remainingTimeTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
       _remainingTimePercentage.value = updateRemainingTimePercentage;
     });
-    _isLoading.value = false;
     super.onInit();
   }
 
   @override
   void onClose() {
-    refreshTimer.cancel();
-    remainingTimeTimer.cancel();
+    _refreshTimer.cancel();
+    _remainingTimeTimer.cancel();
     super.onClose();
   }
 }

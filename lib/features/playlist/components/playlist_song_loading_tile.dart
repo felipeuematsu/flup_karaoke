@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:karaoke_request_client/features/playlist/components/playlist_song_tile.dart';
+import 'package:karaoke_request_client/features/playlist/components/song_tile.dart';
 
 class PlaylistSongLoadingTile extends StatelessWidget {
   const PlaylistSongLoadingTile({Key? key}) : super(key: key);
 
-  static const height = PlaylistSongTile.height;
+  static const height = SongTile.height;
 
   @override
   Widget build(BuildContext context) {

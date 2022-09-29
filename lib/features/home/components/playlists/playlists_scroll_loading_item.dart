@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:karaoke_request_client/features/home/components/playlists/scroll_item_type.dart';
 
 class PlaylistScrollLoadingItem extends StatelessWidget {
-  const PlaylistScrollLoadingItem({Key? key}) : super(key: key);
+  const PlaylistScrollLoadingItem({Key? key, this.scrollItemType = ScrollItemType.playlist}) : super(key: key);
+
+  final ScrollItemType scrollItemType;
 
   double get size => Platform.isAndroid || Platform.isIOS ? 120.0 : 200.0;
 

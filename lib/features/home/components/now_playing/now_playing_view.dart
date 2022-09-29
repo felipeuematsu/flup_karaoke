@@ -22,9 +22,9 @@ class NowPlayingView extends GetView<HomeController> {
           Expanded(
             child: Obx(() {
               final song = controller.nowPlayingSong?.song;
-              final initialTime = controller.nowPlayingSong?.startTime;
+              final position = controller.nowPlayingSong?.position;
               final singer = controller.nowPlayingSong?.singer;
-              if (song == null || initialTime == null || singer == null) {
+              if (song == null || position == null || singer == null) {
                 return Center(child: Text(AppStrings.nowPlayingEmpty.tr));
               } else {
                 return Padding(

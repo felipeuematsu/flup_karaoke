@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AppTheme {
   static const _darkBlue = Color(0xFF265db3);
@@ -16,9 +15,9 @@ class AppTheme {
       onSecondary: Colors.black,
       onSecondaryContainer: Colors.black,
       background: Colors.grey.shade200,
-
     ),
-  ).copyWith(progressIndicatorTheme: const ProgressIndicatorThemeData(
+  ).copyWith(
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: _mediumGreen,
     circularTrackColor: _mediumGreen,
     linearTrackColor: _mediumGreen,
