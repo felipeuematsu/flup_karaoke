@@ -27,7 +27,7 @@ class HomeController extends GetxController {
   final _artistsAreLoading = RxBool(false);
   final _playlistsAreLoading = RxBool(false);
 
-  late final Timer _refreshTimer, _remainingTimeTimer;
+  late final Timer _refreshTimer;
 
   get playlistsAreLoading => _playlistsAreLoading.value;
 
@@ -59,8 +59,8 @@ class HomeController extends GetxController {
             scrollItemType: type,
             name: playlist.name ?? '',
             onPressed: (context) => () => Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return PlaylistView(futurePlaylist: getDetailedPlaylistUseCase.execute(playlist.id ?? 0), service: Get.find());
-            }))))
+                  return PlaylistView(futurePlaylist: getDetailedPlaylistUseCase.execute(playlist.id ?? 0), service: Get.find());
+                }))))
         .toList();
   }
 
@@ -74,7 +74,7 @@ class HomeController extends GetxController {
     if (position == null || duration == null) {
       return 0;
     }
-    return 1 - (position / duration);
+    return position / duration;
   }
 
   @override
@@ -91,14 +91,11 @@ class HomeController extends GetxController {
       _artists.value = value;
     });
 
-    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _refreshTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       getNowPlayingSongUseCase.execute(null).then((nowPlayingSong) {
         _nowPlayingSong.value = nowPlayingSong;
+        _remainingTimePercentage.value = updateRemainingTimePercentage;
       });
-    });
-
-    _remainingTimeTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      _remainingTimePercentage.value = updateRemainingTimePercentage;
     });
     super.onInit();
   }
@@ -106,7 +103,6 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     _refreshTimer.cancel();
-    _remainingTimeTimer.cancel();
     super.onClose();
   }
 }

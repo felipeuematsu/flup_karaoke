@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/nav2/get_router_delegate.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:karaoke_request_client/features/app_strings.dart';
+import 'package:karaoke_request_client/features/home/home_view.dart';
+import 'package:karaoke_request_client/features/menu/menu_view.dart';
+import 'package:karaoke_request_client/features/queue/queue_view.dart';
+import 'package:karaoke_request_client/features/search/components/search_view.dart';
 import 'package:karaoke_request_client/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 
 class MainView extends StatefulWidget {
-  MainView({Key? key, required this.children}) : super(key: key);
+  MainView({Key? key, required this.service}) : super(key: key);
 
-  final List<Widget> children;
+  final KaraokeApiService service;
   final pageController = PageController();
 
   @override
@@ -18,9 +25,26 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.appName.tr)),
+      appBar: AppBar(
+        title: Text(AppStrings.appName.tr),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(NavigationRoutes.login.route, (route) => false),
+          )
+        ],
+      ),
       bottomNavigationBar: CustomBottomNavigationBar(currentIndex: currentIndex, onTap: (index) => setState(() => widget.pageController.jumpToPage(index))),
-      body: PageView(controller: widget.pageController, children: widget.children),
+      body: PageView(
+        controller: widget.pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          const HomeView(),
+          SearchView(service: widget.service),
+          QueueView(service: widget.service),
+          MenuView(service: widget.service),
+        ],
+      ),
     );
   }
 

@@ -2,44 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/configurations/api_configuration.dart';
 import 'package:karaoke_request_client/configurations/app_theme.dart';
+import 'package:karaoke_request_client/database/database.dart';
+import 'package:karaoke_request_client/database/database_keys.dart';
 import 'package:karaoke_request_client/features/app_strings.dart';
 import 'package:karaoke_request_client/features/home/home_bindings.dart';
-import 'package:karaoke_request_client/features/home/home_view.dart';
-import 'package:karaoke_request_client/features/menu/menu_view.dart';
-import 'package:karaoke_request_client/features/queue/queue_view.dart';
-import 'package:karaoke_request_client/features/search/components/search_view.dart';
+import 'package:karaoke_request_client/features/login/login_view.dart';
 import 'package:karaoke_request_client/features/singers/singers_view.dart';
 import 'package:karaoke_request_client/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:karaoke_request_client/features/widgets/main_view.dart';
+import 'package:karaoke_request_client/features/youtube_search/youtube_search_view.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  final KaraokeApiService service = KaraokeApiService(configuration: karaokeAPIConfiguration);
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       getPages: [
-        GetPage(
-          name: NavigationRoutes.home.route,
-          page: () => MainView(
-            children: [
-              const HomeView(),
-              SearchView(service: service),
-              QueueView(service: service),
-              MenuView(service: service),
-            ],
-          ),
-          bindings: [HomeBindings()],
-        ),
-        GetPage(name: NavigationRoutes.singers.route, page: () => SingersView(service: service)),
+        GetPage(name: NavigationRoutes.login.route, page: () => const LoginView()),
+        GetPage(name: NavigationRoutes.home.route, page: () {
+          try {
+            final KaraokeApiService service = Get.find();
+            return MainView(service: Get.find());
+          } catch (e) {
+            return const LoginView();
+          }
+        }, bindings: [HomeBindings()]),
+        GetPage(name: NavigationRoutes.singers.route, page: () => SingersView(service: Get.find())),
+        GetPage(name: NavigationRoutes.youtubeSearch.route, page: () => YoutubeSearchView(service: Get.find())),
       ],
       initialBinding: _AppBindings(),
       fallbackLocale: const Locale('pt', 'BR'),
@@ -65,7 +65,10 @@ class MyApp extends StatelessWidget {
 
 class _AppBindings extends Bindings {
   @override
-  void dependencies() {
-    Get.put<KaraokeApiService>(KaraokeApiService(configuration: karaokeAPIConfiguration));
+  Future<void> dependencies()  async {
+    await Database().readPersistent(DatabaseKeys.host.name).then((value) {
+      final host = value ?? 'localhost';
+      Get.lazyPut<KaraokeApiService>(() => KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: host, port: 8159)));
+    });
   }
 }

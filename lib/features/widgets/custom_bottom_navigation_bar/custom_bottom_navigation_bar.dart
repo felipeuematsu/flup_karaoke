@@ -4,6 +4,8 @@ import 'package:karaoke_request_client/features/app_strings.dart';
 enum NavigationRoutes {
   home('/'),
   singers('/singers'),
+  youtubeSearch('/youtube-search'),
+  login('/login'),
   ;
 
   const NavigationRoutes(this.route);

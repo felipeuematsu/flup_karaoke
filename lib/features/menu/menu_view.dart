@@ -17,6 +17,16 @@ class MenuView extends StatelessWidget {
           text: AppStrings.singersTitle.tr,
           onTap: () => Navigator.of(context).pushNamed(NavigationRoutes.singers.route),
         ),
+        MenuTile(
+          icon: const Icon(Icons.youtube_searched_for),
+          text: AppStrings.youtubeSearchTitle.tr,
+          onTap: () => Navigator.of(context).pushNamed(NavigationRoutes.youtubeSearch.route),
+        ),
+        MenuTile(
+          icon: const Icon(Icons.playlist_add_circle),
+          text: AppStrings.updatePlaylists.tr,
+          onTap: () => service.updatePlaylists(),
+        ),
       ],
     );
   }

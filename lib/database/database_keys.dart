@@ -5,6 +5,7 @@ final _database = Database();
 enum DatabaseKeys {
   accessToken,
   userId,
+  host,
   ;
 
   Future<T?> read<T>({bool persistent = false}) async => await _database.read<T>(name, persistent: persistent);

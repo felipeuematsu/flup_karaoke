@@ -25,6 +25,17 @@ enum AppStrings {
   artistNameHint,
   searchTooShort,
   removeFromQueue,
+  addYoutubeSong,
+  youtubeSearchHint,
+  youtubeSearchTitle,
+  enterHost,
+  connect,
+  playButton,
+  pauseButton,
+  skipButton,
+  volumeUp,
+  volumeDown,
+  updatePlaylists
   ;
 
   String get tr => toString().tr;
@@ -60,6 +71,17 @@ class AppTranslations extends Translations {
           AppStrings.artistNameHint.key: "Nome do artista",
           AppStrings.searchTooShort.key: "A busca deve ter pelo menos 3 caracteres",
           AppStrings.removeFromQueue.key: "Remover da fila",
+          AppStrings.addYoutubeSong.key: "Adicionar música do Youtube",
+          AppStrings.youtubeSearchHint.key: "Insira o nome de uma música ou artista...",
+          AppStrings.youtubeSearchTitle.key: "Buscar no Youtube",
+          AppStrings.enterHost.key: "Insira o endereço do servidor",
+          AppStrings.connect.key: "Conectar",
+          AppStrings.playButton.key: "Tocar",
+          AppStrings.pauseButton.key: "Pausar",
+          AppStrings.skipButton.key: "Pular",
+          AppStrings.volumeUp.key: "+ Volume",
+          AppStrings.volumeDown.key: "- Volume",
+          AppStrings.updatePlaylists.key: "Atualizar playlists",
         },
         "en_US": {
           AppStrings.appName.key: "Felipe Karaoke",
@@ -86,6 +108,17 @@ class AppTranslations extends Translations {
           AppStrings.artistNameHint.key: "Artist name",
           AppStrings.searchTooShort.key: "Search must be at least 3 characters long",
           AppStrings.removeFromQueue.key: "Remove from queue",
+          AppStrings.addYoutubeSong.key: "Add song from Youtube",
+          AppStrings.youtubeSearchHint.key: "Enter a song or artist...",
+          AppStrings.youtubeSearchTitle.key: "Search on Youtube",
+          AppStrings.enterHost.key: "Enter server address",
+          AppStrings.connect.key: "Connect",
+          AppStrings.playButton.key: "Play",
+          AppStrings.pauseButton.key: "Pause",
+          AppStrings.skipButton.key: "Skip",
+          AppStrings.volumeUp.key: "+ Volume",
+          AppStrings.volumeDown.key: "- Volume",
+          AppStrings.updatePlaylists.key: "Update playlists",
         },
       };
 }
