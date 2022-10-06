@@ -43,9 +43,6 @@ jobs:
       - name: Run analyzer
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
-      - name: Run tests
-        run: flutter test
-
       - name: Download Android keystore
         id: android_keystore
         uses: timheuer/base64-to-file@v1.0.3
