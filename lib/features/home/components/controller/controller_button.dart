@@ -9,14 +9,20 @@ class ControllerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          icon,
-          Text(text),
-        ],
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 200),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: AspectRatio(
+          aspectRatio: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              icon,
+              Text(text),
+            ],
+          ),
+        ),
       ),
     );
   }
