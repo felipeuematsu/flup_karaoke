@@ -39,7 +39,10 @@ dependencies:
   get: ^4.6.5
   shared_preferences: ^2.0.15
   karaoke_request_api:
-    path: ../karaoke_request_api
+    git:
+      url: https://github.com/felipeuematsu/karaoke_request_api
+      ref: main
+
   material_color_utilities: ^0.1.5
   firebase_auth: ^3.4.1
   hive: ^2.2.3
