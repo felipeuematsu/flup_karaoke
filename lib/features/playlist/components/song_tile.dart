@@ -19,7 +19,7 @@ class SongTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: song.imageUrl == null ? Image.network(song.imageUrl ?? '', height: height, width: height, fit: BoxFit.cover) : const Icon(Icons.music_note),
+      leading: song.imageUrl != null ? Image.network(song.imageUrl ?? '', fit: BoxFit.cover) : const Icon(Icons.music_note),
       visualDensity: VisualDensity.compact,
       title: Text('${song.title} $bySinger', overflow: TextOverflow.ellipsis, maxLines: 1),
       dense: true,

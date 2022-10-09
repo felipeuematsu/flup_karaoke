@@ -28,20 +28,15 @@ class _PlaylistViewState extends State<PlaylistView> {
                 expandedHeight: playlist?.imageUrl == null ? null : 300.0,
                 pinned: true,
                 backgroundColor: Colors.transparent,
-                stretch: false,
                 foregroundColor: Colors.black,
                 flexibleSpace: FlexibleSpaceBar(
                   background: playlist?.imageUrl != null
                       ? Container(
-                    color: Colors.white38,
-                    padding: const EdgeInsets.only(bottom: 64.0),
-                        child: Image.network(
-                            playlist?.imageUrl ?? '',
-                            fit: BoxFit.contain,
-                          ),
-                      )
+                          color: Colors.white38,
+                          padding: const EdgeInsets.only(bottom: 64.0),
+                          child: Image.network(playlist?.imageUrl ?? '', fit: BoxFit.cover),
+                        )
                       : null,
-
                   title: Text(playlist?.name ?? '', style: const TextStyle(color: Colors.black)),
                   stretchModes: const [StretchMode.fadeTitle],
                   collapseMode: CollapseMode.pin,
@@ -50,33 +45,14 @@ class _PlaylistViewState extends State<PlaylistView> {
               if (playlist != null)
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-
-                    (context, index) {
-                      final songModel = songs[index];
-                      return SongTile(song: songModel, onTap: () => showDialog(context: context, builder: (context) => AddToQueueDialog(service: widget.service, song: songModel)));
-                    },
+                    (context, index) => SongTile(song: songs[index], onTap: () => showDialog(context: context, builder: (_) => AddToQueueDialog(service: widget.service, song: songs[index]))),
                     childCount: songs.length,
                   ),
-                ),
-              if (playlist == null)
-                const SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
+                )
+              else
+                const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
             ],
           );
-
-          // if (snapshot.hasData && playlist != null) {
-          //   return ListView.builder(
-          //     shrinkWrap: true,
-          //     itemCount: playlist.length,
-          //     itemBuilder: (context, index) => PlaylistSongTile(song: playlist[index]),
-          //   );
-          // } else if (snapshot.hasError) {
-          //   return Center(child: Text(AppStrings.genericErrorMessage.tr));
-          // }
-          // return const Center(child: CircularProgressIndicator());
         },
       ),
     );

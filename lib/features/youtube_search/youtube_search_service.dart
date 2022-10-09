@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YoutubeSearchService {
@@ -12,16 +13,18 @@ class YoutubeSearchService {
   List<Video> results = [];
   VideoSearchList? last;
 
-  void search(String query) async {
+  Future<void> search(String query) async {
     try {
       final VideoSearchList searchResults = await yt.search.search(query);
       searchResultsController.add(results = last = searchResults);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
-  void searchMore() async {
+  Future<void> searchMore() async {
     final searchList = last;
     if (searchList != null) {
       final searchResults = await searchList.nextPage();

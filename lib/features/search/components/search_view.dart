@@ -55,7 +55,6 @@ class _SearchViewState extends State<SearchView> {
             if (data != null) {
               if (data.isEmpty) {
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     searchComponent,
                     Text(AppStrings.noResults.tr),
@@ -67,7 +66,9 @@ class _SearchViewState extends State<SearchView> {
                 itemCount: data.length + 2,
                 itemBuilder: (context, index) {
                   if (index == 0) return searchComponent;
-                  if (index == data.length + 1) return IconButton(onPressed: () => _songSearchService.search(), icon: const Icon(Icons.add), iconSize: 64.0);
+                  if (index == data.length + 1) {
+                    return _songSearchService.page != null ? IconButton(onPressed: () => _songSearchService.searchMore(), icon: const Icon(Icons.add), iconSize: 48.0) : const SizedBox();
+                  }
                   final songModel = data[index - 1];
                   return SongTile(song: songModel, onTap: () => showDialog(context: context, builder: (context) => AddToQueueDialog(service: widget.service, song: songModel)));
                 },
@@ -75,7 +76,7 @@ class _SearchViewState extends State<SearchView> {
             } else {
               return Column(
                 children: [
-                  const Spacer(flex: 1),
+                  const Spacer(),
                   searchComponent,
                   const Spacer(flex: 3),
                 ],

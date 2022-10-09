@@ -8,6 +8,6 @@ class GetDetailedPlaylistUseCase extends AbstractUseCase<int, PlaylistModel> {
 
   @override
   Future<PlaylistModel> execute(int params) async {
-    return await service.getPlaylist(params);
+    return service.getPlaylist(params);
   }
 }

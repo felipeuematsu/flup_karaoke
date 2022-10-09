@@ -29,9 +29,9 @@ class HomeController extends GetxController {
 
   late final Timer _refreshTimer;
 
-  get playlistsAreLoading => _playlistsAreLoading.value;
+  bool get playlistsAreLoading => _playlistsAreLoading.value;
 
-  get artistsAreLoading => _artistsAreLoading.value;
+  bool get artistsAreLoading => _artistsAreLoading.value;
 
   List<StatelessWidget> playlistsWidgets(ScrollItemType type) {
     if (playlistsAreLoading && type == ScrollItemType.playlist) {

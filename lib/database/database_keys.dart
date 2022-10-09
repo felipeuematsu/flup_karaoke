@@ -8,11 +8,11 @@ enum DatabaseKeys {
   host,
   ;
 
-  Future<T?> read<T>({bool persistent = false}) async => await _database.read<T>(name, persistent: persistent);
+  Future<T?> read<T>({bool persistent = false}) async => _database.read<T>(name, persistent: persistent);
 
-  Future<void> write<T>(T value, {bool persistent = false}) async => await _database.write(name, value, persistent: persistent);
+  Future<void> write<T>(T value, {bool persistent = false}) async => _database.write(name, value, persistent: persistent);
 
-  Future<T?> readPersistent<T>() async => await _database.readPersistent<T>(name);
+  Future<T?> readPersistent<T>() async => _database.readPersistent<T>(name);
 
-  Future<void> writePersistent<T>(T value) async => await _database.writePersistent(name, value);
+  Future<void> writePersistent<T>(T value) async => _database.writePersistent(name, value);
 }

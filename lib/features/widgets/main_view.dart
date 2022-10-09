@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_navigation/src/nav2/get_router_delegate.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:karaoke_request_client/features/app_strings.dart';
 import 'package:karaoke_request_client/features/home/home_view.dart';

@@ -43,7 +43,7 @@ dependencies:
       url: https://github.com/felipeuematsu/karaoke_request_api
       ref: main
 
-  material_color_utilities: ^0.1.5
+  material_color_utilities: any
   firebase_auth: ^3.4.1
   hive: ^2.2.3
   flutter_secure_storage: ^5.0.2

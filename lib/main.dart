@@ -30,14 +30,16 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       getPages: [
         GetPage(name: NavigationRoutes.login.route, page: () => const LoginView()),
-        GetPage(name: NavigationRoutes.home.route, page: () {
-          try {
-            final KaraokeApiService service = Get.find();
-            return MainView(service: Get.find());
-          } catch (e) {
-            return const LoginView();
-          }
-        }, bindings: [HomeBindings()]),
+        GetPage(
+            name: NavigationRoutes.home.route,
+            page: () {
+              try {
+                return MainView(service: Get.find());
+              } catch (e) {
+                return const LoginView();
+              }
+            },
+            bindings: [HomeBindings()]),
         GetPage(name: NavigationRoutes.singers.route, page: () => SingersView(service: Get.find())),
         GetPage(name: NavigationRoutes.youtubeSearch.route, page: () => YoutubeSearchView(service: Get.find())),
       ],
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
       locale: const Locale('pt', 'BR'),
       title: 'Karaoke',
-      theme: AppTheme.themeDataFromFinnBlue.copyWith(
+      theme: themeDataFromFinnBlue.copyWith(
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -65,10 +67,12 @@ class _MyAppState extends State<MyApp> {
 
 class _AppBindings extends Bindings {
   @override
-  Future<void> dependencies()  async {
+  Future<void> dependencies() async {
     await Database().readPersistent(DatabaseKeys.host.name).then((value) {
-      final host = value ?? 'localhost';
-      Get.lazyPut<KaraokeApiService>(() => KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: host, port: 8159)));
+      if (value is String?) {
+        final host = value ?? 'localhost';
+        Get.lazyPut<KaraokeApiService>(() => KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: host, port: 8159)));
+      }
     });
   }
 }

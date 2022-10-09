@@ -31,7 +31,6 @@ class _LoginViewState extends State<LoginView> {
           });
         } catch (e) {
           setState(() => hasError = true);
-          print(e);
         }
       };
 

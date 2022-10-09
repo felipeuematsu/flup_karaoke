@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:karaoke_request_client/util/abstract_use_case.dart';
 

@@ -37,7 +37,8 @@ enum AppStrings {
   volumeDown,
   updatePlaylists,
   invalidHost,
-  youtubeSearchNotSupportedOnWeb;
+  youtubeSearchNotSupportedOnWeb,
+  searchError;
 
   String get tr => toString().tr;
 
@@ -85,6 +86,7 @@ class AppTranslations extends Translations {
           AppStrings.updatePlaylists.key: "Atualizar playlists",
           AppStrings.invalidHost.key: "Endereço inválido",
           AppStrings.youtubeSearchNotSupportedOnWeb.key: "Busca no Youtube não é suportada no navegador",
+          AppStrings.searchError.key: "Ocorreu um erro ao buscar músicas",
         },
         "en_US": {
           AppStrings.appName.key: "Felipe Karaoke",
@@ -124,6 +126,7 @@ class AppTranslations extends Translations {
           AppStrings.updatePlaylists.key: "Update playlists",
           AppStrings.invalidHost.key: "Invalid host",
           AppStrings.youtubeSearchNotSupportedOnWeb.key: "Youtube search is not supported on web",
+          AppStrings.searchError.key: "An error occurred while searching for songs",
         },
       };
 }

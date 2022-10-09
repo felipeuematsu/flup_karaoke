@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
@@ -61,7 +62,9 @@ class _AddToQueueDialogState extends State<AddToQueueDialog> {
               try {
                 widget.service.addToQueue(widget.song.songId ?? 0, id).then((_) => Navigator.of(context).pop());
               } catch (e) {
-                print(e);
+                if (kDebugMode) {
+                  print(e);
+                }
               }
             } else {
               showBottomSheet(context: context, builder: (context) => const Text('Please select a singer'));
