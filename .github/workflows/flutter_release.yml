@@ -58,7 +58,7 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
       - name: Build Android App Bundle
-        run: flutter build appbundle --build-number ${{ GITHUB_RUN_NUMBER }}
+        run: flutter build appbundle --build-number "${{ e.vGITHUB_RUN_NUMBER }}"
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
