@@ -84,4 +84,9 @@ jobs:
         run: |
           bundle exec fastlane supply \
           --aab build/app/outputs/bundle/release/app-release.aab \
-          --track internal --verbose
+          --track internal || echo "Could not upload"
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: release-${{ github.run_number }}.aab
+          path: build/app/outputs/bundle/release/app-release.aab
