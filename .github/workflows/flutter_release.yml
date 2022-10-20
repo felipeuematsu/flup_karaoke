@@ -3,11 +3,64 @@ name: Flutter release
 on:
   release:
     types: [published]
+
   workflow_dispatch:
   
 jobs:
-  release:
-    name: Test, build and release
+  release-web:
+    name: Test, build and Release on Web
+    runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: "11.0"
+      FLUTTER_VERSION: "3.3.0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Download pub dependencies
+        run: flutter pub get
+
+      - name: Run analyzer
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Build Android App Bundle
+        run: flutter build web --release --web-renderer html --base-href /
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: web-release-${{ github.run_number }}
+          path: build/web/
+
+  release-android:
+    name: Test, build and release on Android
 
     runs-on: ubuntu-latest
     env:
@@ -88,7 +141,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: release-${{ github.run_number }}.aab
+          name: aar-release-${{ github.run_number }}
           path: build/app/outputs/bundle/release/app-release.aab
       - name: Upload a Build Artifact - Mappings
         uses: actions/upload-artifact@v3.1.0
