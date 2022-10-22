@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
+import 'package:karaoke_request_client/app_imports.dart';
 import 'package:karaoke_request_client/features/menu/components/menu_tile.dart';
-import 'package:karaoke_request_client/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
+import 'package:karaoke_request_client/router/app_router.dart';
 
 class MenuView extends StatelessWidget {
   const MenuView({Key? key, required this.service}) : super(key: key);
@@ -15,12 +16,12 @@ class MenuView extends StatelessWidget {
         MenuTile(
           icon: const Icon(Icons.people),
           text: AppStrings.singersTitle.tr,
-          onTap: () => Navigator.of(context).pushNamed(NavigationRoutes.singers.route),
+          onTap: () => context.pushRoute(SingersViewRoute(service: GetIt.I.get())),
         ),
         MenuTile(
           icon: const Icon(Icons.youtube_searched_for),
           text: AppStrings.youtubeSearchTitle.tr,
-          onTap: () => Navigator.of(context).pushNamed(NavigationRoutes.youtubeSearch.route),
+          onTap: () => context.pushRoute(YoutubeSearchViewRoute(service: GetIt.I.get())),
         ),
         MenuTile(
           icon: const Icon(Icons.playlist_add_circle),

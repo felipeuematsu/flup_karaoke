@@ -18,6 +18,7 @@ analyzer:
 # and https://github.com/dart-lang/linter/blob/master/example/all.yaml
 linter:
   rules:
+    - prefer_single_quotes
     # Prevents accidental return type changes which results in a breaking API change.
     # Enforcing return type makes API changes visible in a diff
     # pedantic: enabled

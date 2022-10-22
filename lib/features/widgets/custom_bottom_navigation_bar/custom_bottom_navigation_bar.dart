@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_client/features/app_strings.dart';
 
-enum NavigationRoutes {
-  home('/'),
-  singers('/singers'),
-  youtubeSearch('/youtube-search'),
-  login('/login'),
-  ;
-
-  const NavigationRoutes(this.route);
-
-  final String route;
-}
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({Key? key, required this.currentIndex, required this.onTap}) : super(key: key);

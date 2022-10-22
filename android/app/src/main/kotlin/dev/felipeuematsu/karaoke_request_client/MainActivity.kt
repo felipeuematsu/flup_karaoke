@@ -1,4 +1,4 @@
-package br.com.felipeuematsu.karaoke_request_client
+package dev.felipeuematsu.karaoke_request_client
 
 import io.flutter.embedding.android.FlutterActivity
 

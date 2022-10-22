@@ -1,13 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
+import 'package:karaoke_request_client/features/home/use_case/get_complete_playlist.dart';
 import 'package:karaoke_request_client/features/playlist/components/song_tile.dart';
 import 'package:karaoke_request_client/features/widgets/add_to_queue_dialog/add_to_queue_dialog.dart';
 
 class PlaylistView extends StatefulWidget {
-  const PlaylistView({Key? key, required this.futurePlaylist, required this.service}) : super(key: key);
+  const PlaylistView({Key? key, @PathParam() required this.id, required this.service, required this.getDetailedPlaylistUseCase}) : super(key: key);
 
   final KaraokeApiService service;
-  final Future<PlaylistModel> futurePlaylist;
+  final GetDetailedPlaylistUseCase getDetailedPlaylistUseCase;
+  final int id;
 
   @override
   State<PlaylistView> createState() => _PlaylistViewState();
@@ -18,7 +21,7 @@ class _PlaylistViewState extends State<PlaylistView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<PlaylistModel?>(
-        future: widget.futurePlaylist,
+        future: widget.getDetailedPlaylistUseCase.execute(widget.id),
         builder: (context, snapshot) {
           final PlaylistModel? playlist = snapshot.data;
           final songs = playlist?.songs ?? [];

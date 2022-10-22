@@ -1,20 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:karaoke_request_client/configurations/app_theme.dart';
-import 'package:karaoke_request_client/database/database.dart';
-import 'package:karaoke_request_client/database/database_keys.dart';
 import 'package:karaoke_request_client/features/app_strings.dart';
-import 'package:karaoke_request_client/features/home/home_bindings.dart';
-import 'package:karaoke_request_client/features/login/login_view.dart';
-import 'package:karaoke_request_client/features/singers/singers_view.dart';
-import 'package:karaoke_request_client/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
-import 'package:karaoke_request_client/features/widgets/main_view.dart';
-import 'package:karaoke_request_client/features/youtube_search/youtube_search_view.dart';
+import 'package:karaoke_request_client/router/app_router.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
+      ],
+      path: 'none',
+      fallbackLocale: const Locale('en', 'US'),
+      assetLoader: AppCustomLoader(),
+      startLocale: const Locale('en', 'US'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -25,54 +31,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      getPages: [
-        GetPage(name: NavigationRoutes.login.route, page: () => const LoginView()),
-        GetPage(
-            name: NavigationRoutes.home.route,
-            page: () {
-              try {
-                return MainView(service: Get.find());
-              } catch (e) {
-                return const LoginView();
-              }
-            },
-            bindings: [HomeBindings()]),
-        GetPage(name: NavigationRoutes.singers.route, page: () => SingersView(service: Get.find())),
-        GetPage(name: NavigationRoutes.youtubeSearch.route, page: () => YoutubeSearchView(service: Get.find())),
-      ],
-      initialBinding: _AppBindings(),
-      fallbackLocale: const Locale('pt', 'BR'),
-      localizationsDelegates: const [
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      translations: AppTranslations(),
-      supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
-      locale: const Locale('pt', 'BR'),
-      title: 'Karaoke',
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      title: 'Flup Karaoke',
       theme: themeDataFromFinnBlue.copyWith(
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         }),
       ),
-      initialRoute: NavigationRoutes.home.route,
     );
-  }
-}
-
-class _AppBindings extends Bindings {
-  @override
-  Future<void> dependencies() async {
-    await Database().readPersistent(DatabaseKeys.host.name).then((value) {
-      if (value is String?) {
-        final host = value ?? 'localhost';
-        Get.lazyPut<KaraokeApiService>(() => KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: host, port: 8159)));
-      }
-    });
   }
 }
