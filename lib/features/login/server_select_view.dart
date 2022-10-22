@@ -6,7 +6,6 @@ import 'package:karaoke_request_client/app_imports.dart';
 import 'package:karaoke_request_client/database/database.dart';
 import 'package:karaoke_request_client/database/database_keys.dart';
 import 'package:karaoke_request_client/router/app_router.dart';
-import 'package:karaoke_request_client/util/host_checker_util.dart';
 
 class ServerSelectView extends StatefulWidget {
   const ServerSelectView({Key? key, @QueryParam() this.host}) : super(key: key);
@@ -24,33 +23,9 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   bool hasError = false;
 
-  @override
-  void initState() {
-    if (GetIt.I.isRegistered<KaraokeApiService>()) {
-      return super.initState();
-    }
-    Database().readPersistent<String?>(DatabaseKeys.host.name).then((value) {
-      final host = testHosts([widget.host, value, if (kIsWeb) Uri.base.toString()]);
-
-      if (host == null) {
-        context.replaceRoute(ServerSelectViewRoute());
-        return;
-      }
-
-      final configuration = KaraokeAPIConfiguration(port: 80, baseUrl: 'https://${host.host}');
-      final service = KaraokeApiService(configuration: configuration);
-
-      service.getQueue().then((_) {
-        GetIt.I.registerLazySingleton(() => service);
-        context.replaceRoute(const HomeViewRoute());
-      }).onError((error, stackTrace) => context.replaceRoute(ServerSelectViewRoute()));
-    });
-    super.initState();
-  }
-
   VoidCallback get onPressed => () {
         final uri = Uri.tryParse(hostController.text.trim());
-        final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(port: 80, baseUrl: 'https://${uri?.host}'));
+        final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: 'https://${uri?.host}'));
 
         service.getQueue().then((value) {
           database.writePersistent(DatabaseKeys.host.name, hostController.text);

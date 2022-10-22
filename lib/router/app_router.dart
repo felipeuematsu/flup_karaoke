@@ -30,6 +30,11 @@ part 'app_router.gr.dart';
         AutoRoute(page: SingersView),
       ]),
     ]),
+    RedirectRoute(path: '*', redirectTo: '/'),
   ],
 )
-class AppRouter extends _$AppRouter {}
+class AppRouter extends _$AppRouter {
+  String initialDeepLink() {
+    return '/main';
+  }
+}

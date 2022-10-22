@@ -51,6 +51,8 @@ dependencies:
   auto_route: ^5.0.2
   easy_localization: ^3.0.1
   get_it: ^7.2.0
+  uni_links: ^0.5.1
+  focus_detector: ^2.0.1
 
 dev_dependencies:
   auto_route_generator: ^5.0.2

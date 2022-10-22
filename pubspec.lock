@@ -357,6 +357,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  focus_detector:
+    dependency: "direct main"
+    description:
+      name: focus_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   freezed_annotation:
     dependency: transitive
     description:
@@ -391,7 +398,7 @@ packages:
       name: graphs
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   hive:
     dependency: "direct main"
     description:
@@ -467,7 +474,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "4ee885b01c34f71650d2eecf5e781f4b82a44c39"
+      resolved-ref: "4ab50555f4312eacc541d5fa293f13ce9241b87a"
       url: "https://github.com/felipeuematsu/karaoke_request_api"
     source: git
     version: "0.0.1"
@@ -777,6 +784,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  uni_links:
+    dependency: "direct main"
+    description:
+      name: uni_links
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
+  uni_links_platform_interface:
+    dependency: transitive
+    description:
+      name: uni_links_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  uni_links_web:
+    dependency: transitive
+    description:
+      name: uni_links_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   vector_math:
     dependency: transitive
     description:
@@ -784,6 +812,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  visibility_detector:
+    dependency: transitive
+    description:
+      name: visibility_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   watcher:
     dependency: transitive
     description:

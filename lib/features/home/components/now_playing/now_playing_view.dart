@@ -75,4 +75,16 @@ class _NowPlayingViewState extends State<NowPlayingView> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.init();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
+  }
 }

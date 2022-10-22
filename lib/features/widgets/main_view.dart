@@ -22,27 +22,6 @@ class _MainViewState extends State<MainView> {
   int currentIndex = 0;
 
   @override
-  void initState() {
-    if (GetIt.I.isRegistered<KaraokeApiService>()) {
-      return super.initState();
-    }
-    Database().readPersistent<String?>(DatabaseKeys.host.name).then((value) {
-      final host = testHosts([widget.host, value, if (kIsWeb) Uri.base.host]);
-
-      if (host == null) {
-        context.replaceRoute(ServerSelectViewRoute());
-        return;
-      }
-
-      final configuration = KaraokeAPIConfiguration(port: 80, baseUrl: 'https://${host.host}');
-      final service = KaraokeApiService(configuration: configuration);
-
-      service.getQueue().then((_) => GetIt.I.registerLazySingleton(() => service)).onError((error, stackTrace) => context.replaceRoute(ServerSelectViewRoute()));
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.pageView(
       physics: const NeverScrollableScrollPhysics(),

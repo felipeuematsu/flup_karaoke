@@ -13,7 +13,7 @@
         <string>felipeuematsu.dev</string>
         <key>CFBundleURLSchemes</key>
         <array>
-        <string>karaokeclient</string>
+            <string>felipeuematsukaraoke</string>
         </array>
         </dict>
     </array>
