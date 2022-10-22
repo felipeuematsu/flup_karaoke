@@ -14,12 +14,14 @@ import 'package:karaoke_request_client/dependency_injection/initial.dart';
 import 'package:karaoke_request_client/router/app_router.dart';
 import 'package:karaoke_request_client/util/host_checker_util.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 bool _initialUriIsHandled = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  setPathUrlStrategy();
 
   runApp(
     EasyLocalization(
@@ -145,7 +147,7 @@ class _MyAppState extends State<MyApp> {
         if (!mounted) return;
       } on PlatformException {
         // Platform messages may fail but we ignore the exception
-      } on FormatException catch (err) {
+      } on FormatException {
         if (!mounted) return;
       }
     }
