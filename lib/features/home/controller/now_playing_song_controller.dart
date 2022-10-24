@@ -18,10 +18,7 @@ class NowPlayingSongController {
   double? updateRemainingTimePercentage(NowPlayingSongModel? nowPlayingSong) {
     final position = nowPlayingSong?.position;
     final duration = nowPlayingSong?.song?.duration;
-    if (position == null || duration == null) {
-      return null;
-    }
-    return position / duration;
+    return position == null || duration == null ? null : position / duration;
   }
   Future<void> _refresh() async {
     final nowPlayingSongModel = await getNowPlayingSongUseCase.execute(null);
@@ -33,7 +30,7 @@ class NowPlayingSongController {
   }
 
   void init() {
-    _refreshTimer = Timer.periodic(const Duration(milliseconds: 500), (_) => _refresh());
+    _refreshTimer = Timer.periodic(const Duration(seconds: 1), (_) => _refresh());
   }
 
   void dispose() {

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_client/features/home/components/playlists/scroll_item_type.dart';
 
@@ -11,44 +10,33 @@ class PlaylistScrollItem extends StatelessWidget {
   final String name;
   final String? url;
 
-  double get size => Platform.isAndroid || Platform.isIOS ? 120.0 : 200.0;
+  static double get size => kIsWeb ? 200.0 : 120.0;
+  static double get fullSize => 24.0 + (kIsWeb ? 200.0 : 120.0);
+
+  Color _primaryColor(BuildContext context) => Theme.of(context).colorScheme.primary.withOpacity(0.2);
+
+  Color _secondaryColor(BuildContext context) => Theme.of(context).colorScheme.secondary.withOpacity(0.2);
 
   @override
   Widget build(BuildContext context) {
     final url = this.url;
-    final BoxDecoration decoration;
-    if (url != null) {
-      decoration = BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        image: DecorationImage(
-          image: NetworkImage(url),
-          fit: BoxFit.cover,
-        ),
-      );
-    } else {
-      decoration = BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
-        ),
-      );
-    }
-
     return Material(
       color: Colors.transparent,
       child: Container(
-        height: 120,
-        width: 120,
+        height: size,
+        width: size,
         margin: const EdgeInsets.all(12.0),
-        decoration: decoration,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          gradient: url == null ? LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [_primaryColor(context), _secondaryColor(context)]) : null,
+          image: url != null ? DecorationImage(image: NetworkImage(url), fit: BoxFit.cover) : null,
+        ),
         child: MaterialButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           padding: const EdgeInsets.all(8.0),
           clipBehavior: Clip.hardEdge,
           onPressed: onPressed(context),
-          child: url != null ? null : Center(child: Text(name, style: Theme.of(context).textTheme.titleSmall)),
+          child: url == null ? Center(child: Text(name, style: Theme.of(context).textTheme.titleSmall)) : null,
         ),
       ),
     );

@@ -23,12 +23,17 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   bool hasError = false;
 
-  VoidCallback get onPressed => () {
-        final uri = Uri.tryParse(hostController.text.trim());
+  VoidCallback get onPressed =>
+          () {
+        final input = hostController.text.trim();
+        var uri = Uri.tryParse(input);
+        if (uri?.host == null) {
+          uri = Uri.tryParse('https://$input');
+        }
         final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: 'https://${uri?.host}'));
 
         service.getQueue().then((value) {
-          database.writePersistent(DatabaseKeys.host.name, hostController.text);
+          database.writePersistent(DatabaseKeys.host.name, input);
           GetIt.I.registerLazySingleton(() => service);
           return context.replaceRoute(const HomeViewRoute());
         }).onError((error, stackTrace) => setState(() => hasError = true));
@@ -43,25 +48,33 @@ class _ServerSelectViewState extends State<ServerSelectView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(AppStrings.enterHost.tr, style: Theme.of(context).textTheme.titleMedium),
+              Text(AppStrings.enterHost.tr, style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium),
               const SizedBox(height: 16),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: TextField(
                   controller: hostController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.url,
+                  textInputAction: TextInputAction.send,
                   textAlign: TextAlign.center,
                   onChanged: (_) => setState(() => hasError = false),
                   onSubmitted: (_) => onPressed(),
                 ),
               ),
               if (hasError) const SizedBox(height: 16),
-              if (hasError) Text(AppStrings.invalidHost.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
+              if (hasError) Text(AppStrings.invalidHost.tr, style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: Theme
+                  .of(context)
+                  .colorScheme
+                  .error)),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: onPressed,
-                child: Text(AppStrings.connect.tr),
-              ),
+              ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
             ],
           ),
         ),

@@ -13,7 +13,12 @@
 part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+  _$AppRouter({
+    GlobalKey<NavigatorState>? navigatorKey,
+    required this.serviceGuard,
+  }) : super(navigatorKey);
+
+  final ServiceGuard serviceGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
@@ -22,23 +27,52 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<ServerSelectViewRouteArgs>(
           orElse: () =>
               ServerSelectViewRouteArgs(host: queryParams.optString('host')));
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: ServerSelectView(
           key: args.key,
           host: args.host,
         ),
+        transitionsBuilder: TransitionsBuilders.noTransition,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    PlaylistViewRoute.name: (routeData) {
+      final args = routeData.argsAs<PlaylistViewRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: PlaylistView(
+          key: args.key,
+          id: args.id,
+          service: args.service,
+          getDetailedPlaylistUseCase: args.getDetailedPlaylistUseCase,
+        ),
       );
     },
     MainViewRoute.name: (routeData) {
-      final queryParams = routeData.queryParams;
-      final args = routeData.argsAs<MainViewRouteArgs>(
-          orElse: () => MainViewRouteArgs(host: queryParams.optString('host')));
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: MainView(
+        child: const MainView(),
+      );
+    },
+    SingersViewRoute.name: (routeData) {
+      final args = routeData.argsAs<SingersViewRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SingersView(
           key: args.key,
-          host: args.host,
+          service: args.service,
+        ),
+      );
+    },
+    YoutubeSearchViewRoute.name: (routeData) {
+      final args = routeData.argsAs<YoutubeSearchViewRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: YoutubeSearchView(
+          key: args.key,
+          service: args.service,
         ),
       );
     },
@@ -78,95 +112,71 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    PlaylistViewRoute.name: (routeData) {
-      final args = routeData.argsAs<PlaylistViewRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: PlaylistView(
-          key: args.key,
-          id: args.id,
-          service: args.service,
-          getDetailedPlaylistUseCase: args.getDetailedPlaylistUseCase,
-        ),
-      );
-    },
-    SingersViewRoute.name: (routeData) {
-      final args = routeData.argsAs<SingersViewRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: SingersView(
-          key: args.key,
-          service: args.service,
-        ),
-      );
-    },
-    YoutubeSearchViewRoute.name: (routeData) {
-      final args = routeData.argsAs<YoutubeSearchViewRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: YoutubeSearchView(
-          key: args.key,
-          service: args.service,
-        ),
-      );
-    },
   };
 
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          ServerSelectViewRoute.name,
+          '/#redirect',
           path: '/',
+          redirectTo: '',
+          fullMatch: true,
+        ),
+        RouteConfig(
+          ServerSelectViewRoute.name,
+          path: '/server-select-view',
+        ),
+        RouteConfig(
+          PlaylistViewRoute.name,
+          path: 'playlist/:id',
+          guards: [serviceGuard],
         ),
         RouteConfig(
           MainViewRoute.name,
-          path: '/',
+          path: '',
+          guards: [serviceGuard],
           children: [
             RouteConfig(
               HomeViewRoute.name,
               path: '',
               parent: MainViewRoute.name,
-              children: [
-                RouteConfig(
-                  PlaylistViewRoute.name,
-                  path: 'playlist/:id',
-                  parent: HomeViewRoute.name,
-                )
-              ],
+              guards: [serviceGuard],
             ),
             RouteConfig(
               SearchViewRoute.name,
               path: 'search-view',
               parent: MainViewRoute.name,
+              guards: [serviceGuard],
             ),
             RouteConfig(
               QueueViewRoute.name,
               path: 'queue-view',
               parent: MainViewRoute.name,
+              guards: [serviceGuard],
             ),
             RouteConfig(
               MenuViewRoute.name,
               path: 'menu-view',
               parent: MainViewRoute.name,
-              children: [
-                RouteConfig(
-                  SingersViewRoute.name,
-                  path: 'singers-view',
-                  parent: MenuViewRoute.name,
-                ),
-                RouteConfig(
-                  YoutubeSearchViewRoute.name,
-                  path: 'youtube-search-view',
-                  parent: MenuViewRoute.name,
-                ),
-                RouteConfig(
-                  SingersViewRoute.name,
-                  path: 'singers-view',
-                  parent: MenuViewRoute.name,
-                ),
-              ],
+              guards: [serviceGuard],
             ),
           ],
+        ),
+        RouteConfig(
+          SingersViewRoute.name,
+          path: '/singers-view',
+          guards: [serviceGuard],
+        ),
+        RouteConfig(
+          YoutubeSearchViewRoute.name,
+          path: '/youtube-search-view',
+          guards: [serviceGuard],
+        ),
+        RouteConfig(
+          '*#redirect',
+          path: '*',
+          redirectTo: '/',
+          fullMatch: true,
         ),
       ];
 }
@@ -179,7 +189,7 @@ class ServerSelectViewRoute extends PageRouteInfo<ServerSelectViewRouteArgs> {
     String? host,
   }) : super(
           ServerSelectViewRoute.name,
-          path: '/',
+          path: '/server-select-view',
           args: ServerSelectViewRouteArgs(
             key: key,
             host: host,
@@ -207,50 +217,138 @@ class ServerSelectViewRouteArgs {
 }
 
 /// generated route for
-/// [MainView]
-class MainViewRoute extends PageRouteInfo<MainViewRouteArgs> {
-  MainViewRoute({
+/// [PlaylistView]
+class PlaylistViewRoute extends PageRouteInfo<PlaylistViewRouteArgs> {
+  PlaylistViewRoute({
     Key? key,
-    String? host,
-    List<PageRouteInfo>? children,
+    required int id,
+    required KaraokeApiService service,
+    required GetDetailedPlaylistUseCase getDetailedPlaylistUseCase,
   }) : super(
-          MainViewRoute.name,
-          path: '/',
-          args: MainViewRouteArgs(
+          PlaylistViewRoute.name,
+          path: 'playlist/:id',
+          args: PlaylistViewRouteArgs(
             key: key,
-            host: host,
+            id: id,
+            service: service,
+            getDetailedPlaylistUseCase: getDetailedPlaylistUseCase,
           ),
-          rawQueryParams: {'host': host},
+          rawPathParams: {'id': id},
+        );
+
+  static const String name = 'PlaylistViewRoute';
+}
+
+class PlaylistViewRouteArgs {
+  const PlaylistViewRouteArgs({
+    this.key,
+    required this.id,
+    required this.service,
+    required this.getDetailedPlaylistUseCase,
+  });
+
+  final Key? key;
+
+  final int id;
+
+  final KaraokeApiService service;
+
+  final GetDetailedPlaylistUseCase getDetailedPlaylistUseCase;
+
+  @override
+  String toString() {
+    return 'PlaylistViewRouteArgs{key: $key, id: $id, service: $service, getDetailedPlaylistUseCase: $getDetailedPlaylistUseCase}';
+  }
+}
+
+/// generated route for
+/// [MainView]
+class MainViewRoute extends PageRouteInfo<void> {
+  const MainViewRoute({List<PageRouteInfo>? children})
+      : super(
+          MainViewRoute.name,
+          path: '',
           initialChildren: children,
         );
 
   static const String name = 'MainViewRoute';
 }
 
-class MainViewRouteArgs {
-  const MainViewRouteArgs({
+/// generated route for
+/// [SingersView]
+class SingersViewRoute extends PageRouteInfo<SingersViewRouteArgs> {
+  SingersViewRoute({
+    Key? key,
+    required KaraokeApiService service,
+  }) : super(
+          SingersViewRoute.name,
+          path: '/singers-view',
+          args: SingersViewRouteArgs(
+            key: key,
+            service: service,
+          ),
+        );
+
+  static const String name = 'SingersViewRoute';
+}
+
+class SingersViewRouteArgs {
+  const SingersViewRouteArgs({
     this.key,
-    this.host,
+    required this.service,
   });
 
   final Key? key;
 
-  final String? host;
+  final KaraokeApiService service;
 
   @override
   String toString() {
-    return 'MainViewRouteArgs{key: $key, host: $host}';
+    return 'SingersViewRouteArgs{key: $key, service: $service}';
+  }
+}
+
+/// generated route for
+/// [YoutubeSearchView]
+class YoutubeSearchViewRoute extends PageRouteInfo<YoutubeSearchViewRouteArgs> {
+  YoutubeSearchViewRoute({
+    Key? key,
+    required KaraokeApiService service,
+  }) : super(
+          YoutubeSearchViewRoute.name,
+          path: '/youtube-search-view',
+          args: YoutubeSearchViewRouteArgs(
+            key: key,
+            service: service,
+          ),
+        );
+
+  static const String name = 'YoutubeSearchViewRoute';
+}
+
+class YoutubeSearchViewRouteArgs {
+  const YoutubeSearchViewRouteArgs({
+    this.key,
+    required this.service,
+  });
+
+  final Key? key;
+
+  final KaraokeApiService service;
+
+  @override
+  String toString() {
+    return 'YoutubeSearchViewRouteArgs{key: $key, service: $service}';
   }
 }
 
 /// generated route for
 /// [HomeView]
 class HomeViewRoute extends PageRouteInfo<void> {
-  const HomeViewRoute({List<PageRouteInfo>? children})
+  const HomeViewRoute()
       : super(
           HomeViewRoute.name,
           path: '',
-          initialChildren: children,
         );
 
   static const String name = 'HomeViewRoute';
@@ -330,7 +428,6 @@ class MenuViewRoute extends PageRouteInfo<MenuViewRouteArgs> {
   MenuViewRoute({
     Key? key,
     required KaraokeApiService service,
-    List<PageRouteInfo>? children,
   }) : super(
           MenuViewRoute.name,
           path: 'menu-view',
@@ -338,7 +435,6 @@ class MenuViewRoute extends PageRouteInfo<MenuViewRouteArgs> {
             key: key,
             service: service,
           ),
-          initialChildren: children,
         );
 
   static const String name = 'MenuViewRoute';
@@ -357,118 +453,5 @@ class MenuViewRouteArgs {
   @override
   String toString() {
     return 'MenuViewRouteArgs{key: $key, service: $service}';
-  }
-}
-
-/// generated route for
-/// [PlaylistView]
-class PlaylistViewRoute extends PageRouteInfo<PlaylistViewRouteArgs> {
-  PlaylistViewRoute({
-    Key? key,
-    required int id,
-    required KaraokeApiService service,
-    required GetDetailedPlaylistUseCase getDetailedPlaylistUseCase,
-  }) : super(
-          PlaylistViewRoute.name,
-          path: 'playlist/:id',
-          args: PlaylistViewRouteArgs(
-            key: key,
-            id: id,
-            service: service,
-            getDetailedPlaylistUseCase: getDetailedPlaylistUseCase,
-          ),
-          rawPathParams: {'id': id},
-        );
-
-  static const String name = 'PlaylistViewRoute';
-}
-
-class PlaylistViewRouteArgs {
-  const PlaylistViewRouteArgs({
-    this.key,
-    required this.id,
-    required this.service,
-    required this.getDetailedPlaylistUseCase,
-  });
-
-  final Key? key;
-
-  final int id;
-
-  final KaraokeApiService service;
-
-  final GetDetailedPlaylistUseCase getDetailedPlaylistUseCase;
-
-  @override
-  String toString() {
-    return 'PlaylistViewRouteArgs{key: $key, id: $id, service: $service, getDetailedPlaylistUseCase: $getDetailedPlaylistUseCase}';
-  }
-}
-
-/// generated route for
-/// [SingersView]
-class SingersViewRoute extends PageRouteInfo<SingersViewRouteArgs> {
-  SingersViewRoute({
-    Key? key,
-    required KaraokeApiService service,
-  }) : super(
-          SingersViewRoute.name,
-          path: 'singers-view',
-          args: SingersViewRouteArgs(
-            key: key,
-            service: service,
-          ),
-        );
-
-  static const String name = 'SingersViewRoute';
-}
-
-class SingersViewRouteArgs {
-  const SingersViewRouteArgs({
-    this.key,
-    required this.service,
-  });
-
-  final Key? key;
-
-  final KaraokeApiService service;
-
-  @override
-  String toString() {
-    return 'SingersViewRouteArgs{key: $key, service: $service}';
-  }
-}
-
-/// generated route for
-/// [YoutubeSearchView]
-class YoutubeSearchViewRoute extends PageRouteInfo<YoutubeSearchViewRouteArgs> {
-  YoutubeSearchViewRoute({
-    Key? key,
-    required KaraokeApiService service,
-  }) : super(
-          YoutubeSearchViewRoute.name,
-          path: 'youtube-search-view',
-          args: YoutubeSearchViewRouteArgs(
-            key: key,
-            service: service,
-          ),
-        );
-
-  static const String name = 'YoutubeSearchViewRoute';
-}
-
-class YoutubeSearchViewRouteArgs {
-  const YoutubeSearchViewRouteArgs({
-    this.key,
-    required this.service,
-  });
-
-  final Key? key;
-
-  final KaraokeApiService service;
-
-  @override
-  String toString() {
-    return 'YoutubeSearchViewRouteArgs{key: $key, service: $service}';
   }
 }

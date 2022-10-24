@@ -24,7 +24,17 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
       appBar: AppBar(title: Text(AppStrings.youtubeSearchTitle.tr)),
       body: Center(
         child: kIsWeb
-            ? Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr)
+            ? Column(children: [
+                Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr),
+                // Download app on playstore button
+                if (Theme.of(context).platform == TargetPlatform.android)
+                  ElevatedButton(
+                    onPressed: () {
+                      // TODO: Open playstore
+                    },
+                    child: Text(AppStrings.downloadApp.tr),
+                  ),
+              ])
             : Container(
                 padding: const EdgeInsets.all(16),
                 constraints: const BoxConstraints(maxWidth: 500),
@@ -65,7 +75,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
                               );
                             }
                           }
-                          return const Center(child: CircularProgressIndicator());
+                          return const SizedBox.shrink();
                         },
                       ),
                     ),

@@ -1,18 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:karaoke_request_client/app_imports.dart';
-import 'package:karaoke_request_client/database/database.dart';
-import 'package:karaoke_request_client/database/database_keys.dart';
 import 'package:karaoke_request_client/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:karaoke_request_client/router/app_router.dart';
-import 'package:karaoke_request_client/util/host_checker_util.dart';
 
 class MainView extends StatefulWidget {
-  const MainView({Key? key, @QueryParam() this.host}) : super(key: key);
-
-  final String? host;
+  const MainView({Key? key}) : super(key: key);
 
   @override
   State<MainView> createState() => _MainViewState();
@@ -20,6 +14,12 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,7 @@ class _MainViewState extends State<MainView> {
               if (!kIsWeb)
                 IconButton(
                   icon: const Icon(Icons.logout),
-                  onPressed: () {
-                    context.router.replaceAll([ServerSelectViewRoute()]);
-                  },
+                  onPressed: () => context.router.replace(ServerSelectViewRoute()),
                 )
             ],
           ),

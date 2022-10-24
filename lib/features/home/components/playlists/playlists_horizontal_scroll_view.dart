@@ -17,7 +17,6 @@ class PlaylistsHorizontalScrollView extends StatefulWidget {
 }
 
 class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrollView> {
-
   @override
   Widget build(BuildContext context) {
     return FocusDetector(
@@ -27,9 +26,17 @@ class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrol
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 12.0),
-            child: Text(widget.title, style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Theme.of(context).colorScheme.primary)),
+            child: Text(widget.title, style: Theme
+                .of(context)
+                .textTheme
+                .displaySmall
+                ?.copyWith(color: Theme
+                .of(context)
+                .colorScheme
+                .primary)),
           ),
           SizedBox(
+            height: PlaylistScrollItem.fullSize,
             width: double.infinity,
             child: StreamBuilder(
               stream: widget.playlistsController.playlistsStream,
@@ -86,5 +93,4 @@ class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrol
     widget.playlistsController.dispose();
     super.dispose();
   }
-
 }

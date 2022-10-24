@@ -30,6 +30,11 @@ class _SingersViewState extends State<SingersView> {
         builder: (context, snapshot) {
           final data = snapshot.data;
           if (data != null) {
+
+            if (data.isEmpty) {
+              return  Center(child: Text(AppStrings.noSingers.tr));
+            }
+
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {

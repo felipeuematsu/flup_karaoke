@@ -12,6 +12,7 @@ import 'package:karaoke_request_client/database/database.dart';
 import 'package:karaoke_request_client/database/database_keys.dart';
 import 'package:karaoke_request_client/dependency_injection/initial.dart';
 import 'package:karaoke_request_client/router/app_router.dart';
+import 'package:karaoke_request_client/router/guards/service_guard.dart';
 import 'package:karaoke_request_client/util/host_checker_util.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -43,8 +44,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-  final _appRouter = AppRouter();
+  final _appRouter = AppRouter(serviceGuard: ServiceGuard());
   StreamSubscription? _sub;
 
   @override
@@ -63,12 +63,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      builder: (context, child) => Scaffold(key: _scaffoldKey, body: child),
+      builder: (context, child) => Scaffold(body: child),
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      title: 'Flup Karaoke',
+      title: 'FLUP Karaoke',
       theme: themeDataFromFinnBlue.copyWith(
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -87,22 +87,24 @@ class _MyAppState extends State<MyApp> {
       _sub = uriLinkStream.listen((Uri? uri) async {
         if (!mounted) return;
 
-        final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
-        final host = testHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]);
+        if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
+          final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
+          final host = testHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]);
 
-        if (host == null) {
-          _appRouter.replaceAll([ServerSelectViewRoute()]);
-        } else {
-          final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
-          final service = KaraokeApiService(configuration: configuration);
+          if (host == null) {
+            _appRouter.replaceAll([ServerSelectViewRoute()]);
+          } else {
+            final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
+            final service = KaraokeApiService(configuration: configuration);
 
-          service.getQueue().then((_) {
-            GetIt.I.registerLazySingleton(() => service);
-            injectInitialDependencies();
-            _appRouter.replaceAll([MainViewRoute()]);
-          }).onError((error, stackTrace) {
-            context.replaceRoute(ServerSelectViewRoute());
-          });
+            service.getQueue().then((_) {
+              GetIt.I.registerLazySingleton(() => service);
+              injectInitialDependencies();
+              _appRouter.replaceAll([const MainViewRoute()]);
+            }).onError((error, stackTrace) {
+              _appRouter.replaceAll([ServerSelectViewRoute()]);
+            });
+          }
         }
       }, onError: (Object err) {
         if (!mounted) return;
@@ -123,7 +125,6 @@ class _MyAppState extends State<MyApp> {
     // was a weidget that will be disposed of (ex. a navigation route change).
     if (!_initialUriIsHandled) {
       _initialUriIsHandled = true;
-      _showSnackBar('_handleInitialUri called');
       try {
         final uri = await getInitialUri();
 
@@ -139,9 +140,9 @@ class _MyAppState extends State<MyApp> {
           service.getQueue().then((_) {
             GetIt.I.registerLazySingleton(() => service);
             injectInitialDependencies();
-            _appRouter.replaceAll([MainViewRoute()]);
+            _appRouter.replaceAll([const MainViewRoute()]);
           }).onError((error, stackTrace) {
-            context.replaceRoute(ServerSelectViewRoute());
+            _appRouter.replaceAll([ServerSelectViewRoute()]);
           });
         }
         if (!mounted) return;
@@ -153,11 +154,4 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _showSnackBar(String msg) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scaffoldKey.currentState?.showSnackBar(SnackBar(
-        content: Text(msg),
-      ));
-    });
-  }
 }
