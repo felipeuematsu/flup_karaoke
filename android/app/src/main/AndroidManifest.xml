@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.felipeuematsu.karaoke_request_client">
+    package="dev.felipeuematsu.flup_karaoke">
    <application
         android:label="karaoke_request_client"
         android:name="${applicationName}"
@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
-                <data android:scheme="felipeuematsukaraoke"/>
+                <data android:scheme="flupk"/>
             </intent-filter>
 
             <!-- Specifies an Android theme to apply to this Activity as soon as
