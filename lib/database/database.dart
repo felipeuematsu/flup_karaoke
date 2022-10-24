@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:karaoke_request_client/database/adapters.dart';
-import 'package:karaoke_request_client/database/exception/wl_database_encryption_key_exception.dart';
-import 'package:karaoke_request_client/database/util/abstract_flutter_secure_storage.dart';
-import 'package:karaoke_request_client/database/util/abstract_hive.dart';
-import 'package:karaoke_request_client/database/util_impl/flutter_secure_storage_impl.dart';
-import 'package:karaoke_request_client/database/util_impl/hive_impl.dart';
+import 'package:flup_karaoke/database/adapters.dart';
+import 'package:flup_karaoke/database/exception/wl_database_encryption_key_exception.dart';
+import 'package:flup_karaoke/database/util/abstract_flutter_secure_storage.dart';
+import 'package:flup_karaoke/database/util/abstract_hive.dart';
+import 'package:flup_karaoke/database/util_impl/flutter_secure_storage_impl.dart';
+import 'package:flup_karaoke/database/util_impl/hive_impl.dart';
 
 class Database {
   static const nonPersistentDatabase = 'non_persistent_database', persistentDatabase = 'persistent_database';

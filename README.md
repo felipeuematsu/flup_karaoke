@@ -1,4 +1,4 @@
-# karaoke_request_client
+# flup_karaoke
 
 A Karaoke Request Client to be used with the Karaoke Request Server
 

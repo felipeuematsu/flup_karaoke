@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:karaoke_request_client/features/home/components/playlists/scroll_item_type.dart';
+import 'package:flup_karaoke/features/home/components/playlists/scroll_item_type.dart';
 
 class PlaylistScrollItem extends StatelessWidget {
   const PlaylistScrollItem({Key? key, required this.name, required this.onPressed, this.scrollItemType = ScrollItemType.playlist, this.url}) : super(key: key);

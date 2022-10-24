@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
 
 
 class CustomBottomNavigationBar extends StatelessWidget {

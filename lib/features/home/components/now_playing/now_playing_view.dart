@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
-import 'package:karaoke_request_client/features/home/controller/now_playing_song_controller.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:flup_karaoke/features/home/controller/now_playing_song_controller.dart';
 
 class NowPlayingView extends StatefulWidget {
   const NowPlayingView({Key? key, required this.controller}) : super(key: key);

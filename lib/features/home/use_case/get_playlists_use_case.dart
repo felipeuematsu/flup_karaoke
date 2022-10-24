@@ -1,5 +1,5 @@
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/util/abstract_use_case.dart';
+import 'package:flup_karaoke/util/abstract_use_case.dart';
 
 class GetServerPlaylistsUseCase extends AbstractUseCase<void, List<SimplePlaylistModel>> {
   const GetServerPlaylistsUseCase(this.service);

@@ -1,4 +1,4 @@
-import 'package:karaoke_request_client/database/database.dart';
+import 'package:flup_karaoke/database/database.dart';
 
 final _database = Database();
 

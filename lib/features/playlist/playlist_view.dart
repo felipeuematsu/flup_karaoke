@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/home/use_case/get_complete_playlist.dart';
-import 'package:karaoke_request_client/features/playlist/components/song_tile.dart';
-import 'package:karaoke_request_client/features/widgets/add_to_queue_dialog/add_to_queue_dialog.dart';
+import 'package:flup_karaoke/features/home/use_case/get_complete_playlist.dart';
+import 'package:flup_karaoke/features/playlist/components/song_tile.dart';
+import 'package:flup_karaoke/features/widgets/add_to_queue_dialog/add_to_queue_dialog.dart';
 
 class PlaylistView extends StatefulWidget {
   const PlaylistView({Key? key, @PathParam() required this.id, required this.service, required this.getDetailedPlaylistUseCase}) : super(key: key);

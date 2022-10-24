@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/app_imports.dart';
-import 'package:karaoke_request_client/features/menu/components/menu_tile.dart';
-import 'package:karaoke_request_client/router/app_router.dart';
+import 'package:flup_karaoke/app_imports.dart';
+import 'package:flup_karaoke/features/menu/components/menu_tile.dart';
+import 'package:flup_karaoke/router/app_router.dart';
 
 class MenuView extends StatelessWidget {
   const MenuView({Key? key, required this.service}) : super(key: key);

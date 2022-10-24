@@ -1,9 +1,9 @@
+import 'package:flup_karaoke/features/home/controller/now_playing_song_controller.dart';
+import 'package:flup_karaoke/features/home/controller/playlists_controller.dart';
+import 'package:flup_karaoke/features/home/use_case/get_complete_playlist.dart';
+import 'package:flup_karaoke/features/home/use_case/get_now_playing_song_use_case.dart';
+import 'package:flup_karaoke/features/home/use_case/get_playlists_use_case.dart';
 import 'package:get_it/get_it.dart';
-import 'package:karaoke_request_client/features/home/controller/now_playing_song_controller.dart';
-import 'package:karaoke_request_client/features/home/controller/playlists_controller.dart';
-import 'package:karaoke_request_client/features/home/use_case/get_complete_playlist.dart';
-import 'package:karaoke_request_client/features/home/use_case/get_now_playing_song_use_case.dart';
-import 'package:karaoke_request_client/features/home/use_case/get_playlists_use_case.dart';
 
 GetIt get _ => GetIt.I;
 

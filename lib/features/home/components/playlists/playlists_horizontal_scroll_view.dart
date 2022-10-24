@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/home/components/playlists/playlists_scroll_item.dart';
-import 'package:karaoke_request_client/features/home/components/playlists/playlists_scroll_loading_item.dart';
-import 'package:karaoke_request_client/features/home/controller/playlists_controller.dart';
+import 'package:flup_karaoke/features/home/components/playlists/playlists_scroll_item.dart';
+import 'package:flup_karaoke/features/home/components/playlists/playlists_scroll_loading_item.dart';
+import 'package:flup_karaoke/features/home/controller/playlists_controller.dart';
 
 class PlaylistsHorizontalScrollView extends StatefulWidget {
   const PlaylistsHorizontalScrollView({Key? key, required this.playlistsController, required this.title}) : super(key: key);

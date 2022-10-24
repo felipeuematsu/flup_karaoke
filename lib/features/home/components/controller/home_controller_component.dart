@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
-import 'package:karaoke_request_client/features/home/components/controller/controller_button.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:flup_karaoke/features/home/components/controller/controller_button.dart';
 
 class HomeControllerComponent extends StatelessWidget {
   const HomeControllerComponent({Key? key, required this.service}) : super(key: key);

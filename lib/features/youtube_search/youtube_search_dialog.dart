@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YoutubeSearchDialog extends StatefulWidget {

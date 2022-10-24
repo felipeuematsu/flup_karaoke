@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flup_karaoke/features/home/use_case/get_now_playing_song_use_case.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/home/use_case/get_now_playing_song_use_case.dart';
 
 class NowPlayingSongController {
   NowPlayingSongController(this.getNowPlayingSongUseCase);
@@ -20,6 +20,7 @@ class NowPlayingSongController {
     final duration = nowPlayingSong?.song?.duration;
     return position == null || duration == null ? null : position / duration;
   }
+
   Future<void> _refresh() async {
     final nowPlayingSongModel = await getNowPlayingSongUseCase.execute(null);
     _nowPlayingSongStream.add(nowPlayingSongModel);

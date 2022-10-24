@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/features/app_strings.dart';
-import 'package:karaoke_request_client/features/youtube_search/youtube_search_dialog.dart';
-import 'package:karaoke_request_client/features/youtube_search/youtube_search_service.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:flup_karaoke/features/youtube_search/youtube_search_dialog.dart';
+import 'package:flup_karaoke/features/youtube_search/youtube_search_service.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YoutubeSearchView extends StatefulWidget {

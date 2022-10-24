@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_client/app_imports.dart';
-import 'package:karaoke_request_client/database/database.dart';
-import 'package:karaoke_request_client/database/database_keys.dart';
-import 'package:karaoke_request_client/router/app_router.dart';
+import 'package:flup_karaoke/app_imports.dart';
+import 'package:flup_karaoke/database/database.dart';
+import 'package:flup_karaoke/database/database_keys.dart';
+import 'package:flup_karaoke/router/app_router.dart';
 
 class ServerSelectView extends StatefulWidget {
   const ServerSelectView({Key? key, @QueryParam() this.host}) : super(key: key);
