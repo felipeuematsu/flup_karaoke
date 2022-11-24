@@ -155,7 +155,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: apk-release-${{ github.run_number }}
-          path: build/app/outputs/bundle/release/app-release.aab
+          path: build/app/outputs/flutter-apk/app-release.apk
       - name: Upload a Build Artifact - Mappings
         uses: actions/upload-artifact@v3.1.0
         with:
