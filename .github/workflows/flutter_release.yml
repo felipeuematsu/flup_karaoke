@@ -119,7 +119,7 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
       - name: Build Android App Bundle
-        run: flutter build appbundle --build-number ${{ github.run_number }}
+        run: flutter build appbundle --build-number ${{ github.run_number }} && flutter build apk --build-number ${{ github.run_number }}
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
@@ -149,7 +149,12 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: aar-release-${{ github.run_number }}
+          name: aab-release-${{ github.run_number }}
+          path: build/app/outputs/bundle/release/app-release.aab
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: apk-release-${{ github.run_number }}
           path: build/app/outputs/bundle/release/app-release.aab
       - name: Upload a Build Artifact - Mappings
         uses: actions/upload-artifact@v3.1.0

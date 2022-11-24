@@ -1,9 +1,10 @@
+import 'package:flup_karaoke/app_imports.dart';
+import 'package:flup_karaoke/dependency_injection/initial.dart';
+import 'package:flup_karaoke/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
+import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:flup_karaoke/app_imports.dart';
-import 'package:flup_karaoke/features/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
-import 'package:flup_karaoke/router/app_router.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class _MainViewState extends State<MainView> {
 
   @override
   void initState() {
+    injectInitialDependencies();
     super.initState();
-
   }
 
   @override

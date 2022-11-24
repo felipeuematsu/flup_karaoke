@@ -1,11 +1,11 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:flup_karaoke/app_imports.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/router/app_router.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class ServerSelectView extends StatefulWidget {
   const ServerSelectView({Key? key, @QueryParam() this.host}) : super(key: key);
@@ -23,10 +23,12 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   bool hasError = false;
 
-  VoidCallback get onPressed =>
-          () {
+  VoidCallback get onPressed => () {
         final input = hostController.text.trim();
         var uri = Uri.tryParse(input);
+        if (uri?.host == null) {
+          uri = Uri.tryParse('http://$input');
+        }
         if (uri?.host == null) {
           uri = Uri.tryParse('https://$input');
         }
@@ -35,8 +37,11 @@ class _ServerSelectViewState extends State<ServerSelectView> {
         service.getQueue().then((value) {
           database.writePersistent(DatabaseKeys.host.name, input);
           GetIt.I.registerLazySingleton(() => service);
-          return context.replaceRoute(const HomeViewRoute());
-        }).onError((error, stackTrace) => setState(() => hasError = true));
+          context.router.replaceAll([const MainViewRoute()]);
+        }).onError((error, stackTrace) {
+          print(error);
+          setState(() => hasError = true);
+        });
       };
 
   @override
@@ -48,10 +53,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(AppStrings.enterHost.tr, style: Theme
-                  .of(context)
-                  .textTheme
-                  .titleMedium),
+              Text(AppStrings.enterHost.tr, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 16),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
@@ -65,14 +67,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
                 ),
               ),
               if (hasError) const SizedBox(height: 16),
-              if (hasError) Text(AppStrings.invalidHost.tr, style: Theme
-                  .of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: Theme
-                  .of(context)
-                  .colorScheme
-                  .error)),
+              if (hasError) Text(AppStrings.invalidHost.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
               const SizedBox(height: 16),
               ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
             ],
