@@ -1,11 +1,6 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:flup_karaoke/app_imports.dart';
 import 'package:flup_karaoke/configurations/app_theme.dart';
 import 'package:flup_karaoke/database/database.dart';
@@ -14,6 +9,11 @@ import 'package:flup_karaoke/dependency_injection/initial.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flup_karaoke/router/guards/service_guard.dart';
 import 'package:flup_karaoke/util/host_checker_util.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -89,25 +89,28 @@ class _MyAppState extends State<MyApp> {
 
         if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
           final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
-          final host = testHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]);
-
-          if (host == null) {
-            _appRouter.replaceAll([ServerSelectViewRoute()]);
-          } else {
-            final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
-            final service = KaraokeApiService(configuration: configuration);
-
-            service.getQueue().then((_) {
-              GetIt.I.registerLazySingleton(() => service);
-              injectInitialDependencies();
-              _appRouter.replaceAll([const MainViewRoute()]);
-            }).onError((error, stackTrace) {
+          final hosts = [
+            testHttpsHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+            testHttpHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+          ];
+          for (final host in hosts) {
+            if (host == null) {
               _appRouter.replaceAll([ServerSelectViewRoute()]);
-            });
+            } else {
+              final configuration = KaraokeAPIConfiguration(baseUrl: '${host.scheme}${host.host}');
+              final service = KaraokeApiService(configuration: configuration);
+
+              service.getQueue().then((_) {
+                GetIt.I.registerLazySingleton(() => service);
+                injectInitialDependencies();
+                return _appRouter.replaceAll([const MainViewRoute()]);
+              });
+            }
           }
         }
       }, onError: (Object err) {
         if (!mounted) return;
+        _appRouter.replaceAll([ServerSelectViewRoute()]);
       });
     }
   }
@@ -129,21 +132,23 @@ class _MyAppState extends State<MyApp> {
         final uri = await getInitialUri();
 
         final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
-        final host = testHosts([uri?.queryParameters['host'], databaseHost, if (kIsWeb) Uri.base.host]);
-
-        if (host == null) {
-          _appRouter.replaceAll([ServerSelectViewRoute()]);
-        } else {
-          final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
-          final service = KaraokeApiService(configuration: configuration);
-
-          service.getQueue().then((_) {
-            GetIt.I.registerLazySingleton(() => service);
-            injectInitialDependencies();
-            _appRouter.replaceAll([const MainViewRoute()]);
-          }).onError((error, stackTrace) {
+        final hosts = [
+          testHttpsHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+          testHttpHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+        ];
+        for (final host in hosts) {
+          if (host == null) {
             _appRouter.replaceAll([ServerSelectViewRoute()]);
-          });
+          } else {
+            final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
+            final service = KaraokeApiService(configuration: configuration);
+
+            service.getQueue().then((_) {
+              GetIt.I.registerLazySingleton(() => service);
+              injectInitialDependencies();
+              _appRouter.replaceAll([const MainViewRoute()]);
+            });
+          }
         }
         if (!mounted) return;
       } on PlatformException {
@@ -151,7 +156,7 @@ class _MyAppState extends State<MyApp> {
       } on FormatException {
         if (!mounted) return;
       }
+      _appRouter.replaceAll([ServerSelectViewRoute()]);
     }
   }
-
 }
