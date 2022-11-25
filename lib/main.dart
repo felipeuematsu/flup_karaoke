@@ -90,8 +90,12 @@ class _MyAppState extends State<MyApp> {
         if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
           final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
           final hosts = [
-            testHttpsHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
-            testHttpHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+            testHttpsHost(uri?.queryParameters['host']),
+            testHttpHost(uri?.queryParameters['host']),
+            testHttpsHost(databaseHost),
+            testHttpHost(databaseHost),
+            if (kIsWeb) testHttpsHost(Uri.base.host),
+            if (kIsWeb) testHttpHost(Uri.base.host),
           ];
           for (final host in hosts) {
             if (host == null) {
@@ -104,7 +108,9 @@ class _MyAppState extends State<MyApp> {
                 GetIt.I.registerLazySingleton(() => service);
                 injectInitialDependencies();
                 return _appRouter.replaceAll([const MainViewRoute()]);
-              }).onError((error, stackTrace) => null);
+              }).onError((error, stackTrace) {
+                print(error);
+              });
             }
           }
         }
@@ -133,8 +139,12 @@ class _MyAppState extends State<MyApp> {
 
         final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
         final hosts = [
-          testHttpsHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
-          testHttpHosts([(uri?.queryParameters['host']), databaseHost, if (kIsWeb) Uri.base.host]),
+          testHttpsHost(uri?.queryParameters['host']),
+          testHttpHost(uri?.queryParameters['host']),
+          testHttpsHost(databaseHost),
+          testHttpHost(databaseHost),
+          if (kIsWeb) testHttpsHost(Uri.base.host),
+          if (kIsWeb) testHttpHost(Uri.base.host),
         ];
         for (final host in hosts) {
           if (host == null) {
@@ -147,7 +157,9 @@ class _MyAppState extends State<MyApp> {
               GetIt.I.registerLazySingleton(() => service);
               injectInitialDependencies();
               _appRouter.replaceAll([const MainViewRoute()]);
-            }).onError((error, stackTrace) => null);
+            }).onError((error, stackTrace) {
+              print(error);
+            });
           }
         }
         if (!mounted) return;

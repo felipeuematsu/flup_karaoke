@@ -26,10 +26,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   VoidCallback get onPressed => () {
         final input = hostController.text.trim();
-        final uris = [
-          testHttpsHosts([input]),
-          testHttpHosts([input])
-        ];
+        final uris = [testHttpsHost(input), testHttpHost(input)];
         for (final uri in uris) {
           final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: uri.toString()));
 
