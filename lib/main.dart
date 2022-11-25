@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
           ];
           for (final host in hosts) {
             if (host == null) continue;
-            final configuration = KaraokeAPIConfiguration(baseUrl: '${host.scheme}${host.host}');
+            final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
             final service = KaraokeApiService(configuration: configuration);
 
             service.getQueue().then((_) {
@@ -145,7 +145,7 @@ class _MyAppState extends State<MyApp> {
         ];
         for (final host in hosts) {
           if (host == null) continue;
-          final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
+          final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
           final service = KaraokeApiService(configuration: configuration);
 
           service.getQueue().then((_) {
