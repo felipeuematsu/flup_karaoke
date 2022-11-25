@@ -8,7 +8,7 @@ on:
     branches: [main]
     paths-ignore:
       - '**/README.md'
-      - '**/flutter-release.yml'
+      - '**/flutter_release.yml'
   pull_request:
     branches: [main]
 
