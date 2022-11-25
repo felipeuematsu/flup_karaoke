@@ -98,20 +98,17 @@ class _MyAppState extends State<MyApp> {
             if (kIsWeb) testHttpHost(Uri.base.host),
           ];
           for (final host in hosts) {
-            if (host == null) {
-              _appRouter.replaceAll([ServerSelectViewRoute()]);
-            } else {
-              final configuration = KaraokeAPIConfiguration(baseUrl: '${host.scheme}${host.host}');
-              final service = KaraokeApiService(configuration: configuration);
+            if (host == null) continue;
+            final configuration = KaraokeAPIConfiguration(baseUrl: '${host.scheme}${host.host}');
+            final service = KaraokeApiService(configuration: configuration);
 
-              service.getQueue().then((_) {
-                GetIt.I.registerLazySingleton(() => service);
-                injectInitialDependencies();
-                return _appRouter.replaceAll([const MainViewRoute()]);
-              }).onError((error, stackTrace) {
-                print(error);
-              });
-            }
+            service.getQueue().then((_) {
+              GetIt.I.registerLazySingleton(() => service);
+              injectInitialDependencies();
+              return _appRouter.replaceAll([const MainViewRoute()]);
+            }).onError((error, stackTrace) {
+              print(error);
+            });
           }
         }
       }, onError: (Object err) {
@@ -147,20 +144,17 @@ class _MyAppState extends State<MyApp> {
           if (kIsWeb) testHttpHost(Uri.base.host),
         ];
         for (final host in hosts) {
-          if (host == null) {
-            _appRouter.replaceAll([ServerSelectViewRoute()]);
-          } else {
-            final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
-            final service = KaraokeApiService(configuration: configuration);
+          if (host == null) continue;
+          final configuration = KaraokeAPIConfiguration(baseUrl: 'https://${host.host}');
+          final service = KaraokeApiService(configuration: configuration);
 
-            service.getQueue().then((_) {
-              GetIt.I.registerLazySingleton(() => service);
-              injectInitialDependencies();
-              _appRouter.replaceAll([const MainViewRoute()]);
-            }).onError((error, stackTrace) {
-              print(error);
-            });
-          }
+          service.getQueue().then((_) {
+            GetIt.I.registerLazySingleton(() => service);
+            injectInitialDependencies();
+            _appRouter.replaceAll([const MainViewRoute()]);
+          }).onError((error, stackTrace) {
+            print(error);
+          });
         }
         if (!mounted) return;
       } on PlatformException {
