@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                 GetIt.I.registerLazySingleton(() => service);
                 injectInitialDependencies();
                 return _appRouter.replaceAll([const MainViewRoute()]);
-              });
+              }).onError((error, stackTrace) => null);
             }
           }
         }
@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
               GetIt.I.registerLazySingleton(() => service);
               injectInitialDependencies();
               _appRouter.replaceAll([const MainViewRoute()]);
-            });
+            }).onError((error, stackTrace) => null);
           }
         }
         if (!mounted) return;
