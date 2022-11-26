@@ -1,6 +1,6 @@
+import 'package:flup_karaoke/features/home/components/playlists/scroll_item_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flup_karaoke/features/home/components/playlists/scroll_item_type.dart';
 
 class PlaylistScrollItem extends StatelessWidget {
   const PlaylistScrollItem({Key? key, required this.name, required this.onPressed, this.scrollItemType = ScrollItemType.playlist, this.url}) : super(key: key);
@@ -29,7 +29,7 @@ class PlaylistScrollItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           gradient: url == null ? LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [_primaryColor(context), _secondaryColor(context)]) : null,
-          image: url != null ? DecorationImage(image: NetworkImage(url), fit: BoxFit.cover) : null,
+          image: url != null ? DecorationImage(image: NetworkImage(url), fit: BoxFit.fitHeight) : null,
         ),
         child: MaterialButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),

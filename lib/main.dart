@@ -88,6 +88,7 @@ class _MyAppState extends State<MyApp> {
         if (!mounted) return;
 
         if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
+          if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
           final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
           final hosts = [
             testHttpsHost(uri?.queryParameters['host']),
@@ -102,13 +103,10 @@ class _MyAppState extends State<MyApp> {
             final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
             final service = KaraokeApiService(configuration: configuration);
 
-            service.getQueue().then((_) {
-              GetIt.I.registerLazySingleton(() => service);
-              injectInitialDependencies();
-              return _appRouter.replaceAll([const MainViewRoute()]);
-            }).onError((error, stackTrace) {
-              print(error);
-            });
+            if (!(await service.health())) continue;
+            GetIt.I.registerLazySingleton(() => service);
+            injectInitialDependencies();
+            return _appRouter.replaceAll([const MainViewRoute()]);
           }
         }
       }, onError: (Object err) {
@@ -148,21 +146,19 @@ class _MyAppState extends State<MyApp> {
           final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
           final service = KaraokeApiService(configuration: configuration);
 
-          service.getQueue().then((_) {
-            GetIt.I.registerLazySingleton(() => service);
-            injectInitialDependencies();
-            _appRouter.replaceAll([const MainViewRoute()]);
-          }).onError((error, stackTrace) {
-            print(error);
-          });
+          if (!(await service.health())) continue;
+          if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
+          GetIt.I.registerLazySingleton(() => service);
+          injectInitialDependencies();
+          return _appRouter.replaceAll([const MainViewRoute()]);
         }
+        _appRouter.replaceAll([ServerSelectViewRoute()]);
         if (!mounted) return;
       } on PlatformException {
         // Platform messages may fail but we ignore the exception
       } on FormatException {
         if (!mounted) return;
       }
-      _appRouter.replaceAll([ServerSelectViewRoute()]);
     }
   }
 }

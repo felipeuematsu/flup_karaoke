@@ -3,7 +3,6 @@ import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flup_karaoke/util/host_checker_util.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -24,21 +23,24 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   bool hasError = false;
 
-  VoidCallback get onPressed => () {
+  @override
+  void initState() {
+    super.initState();
+    if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
+  }
+
+  VoidCallback get onPressed => () async {
         final input = hostController.text.trim();
         final uris = [testHttpsHost(input), testHttpHost(input)];
         for (final uri in uris) {
           final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: uri.toString()));
+          if (!await service.health()) continue;
 
-          service.getQueue().then((value) {
-            database.writePersistent(DatabaseKeys.host.name, input);
-            GetIt.I.registerLazySingleton(() => service);
-            return context.router.replaceAll([const MainViewRoute()]);
-          }).onError((error, stackTrace) {
-            print(error);
-            setState(() => hasError = true);
-          });
+          database.writePersistent(DatabaseKeys.host.name, input);
+          GetIt.I.registerLazySingleton(() => service);
+          return context.router.replaceAll([const MainViewRoute()]);
         }
+        setState(() => hasError = true);
       };
 
   @override

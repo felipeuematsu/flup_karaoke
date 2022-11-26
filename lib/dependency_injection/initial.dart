@@ -10,9 +10,9 @@ GetIt get _ => GetIt.I;
 T g<T extends Object>() => _.get();
 
 void injectInitialDependencies() {
-  _.registerFactory<GetServerPlaylistsUseCase>(() => GetServerPlaylistsUseCase(g()));
-  _.registerFactory<GetDetailedPlaylistUseCase>(() => GetDetailedPlaylistUseCase(g()));
-  _.registerFactory<PlaylistsController>(() => PlaylistsController(g(), g()));
-  _.registerFactory<GetNowPlayingSongUseCase>(() => GetNowPlayingSongUseCase(g()));
-  _.registerFactory<NowPlayingSongController>(() => NowPlayingSongController(g()));
+  if (!_.isRegistered<GetServerPlaylistsUseCase>()) _.registerFactory<GetServerPlaylistsUseCase>(() => GetServerPlaylistsUseCase(g()));
+  if (!_.isRegistered<GetDetailedPlaylistUseCase>()) _.registerFactory<GetDetailedPlaylistUseCase>(() => GetDetailedPlaylistUseCase(g()));
+  if (!_.isRegistered<PlaylistsController>()) _.registerFactory<PlaylistsController>(() => PlaylistsController(g(), g()));
+  if (!_.isRegistered<GetNowPlayingSongUseCase>()) _.registerFactory<GetNowPlayingSongUseCase>(() => GetNowPlayingSongUseCase(g()));
+  if (!_.isRegistered<NowPlayingSongController>()) _.registerFactory<NowPlayingSongController>(() => NowPlayingSongController(g()));
 }

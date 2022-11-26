@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:flup_karaoke/features/home/controller/now_playing_song_controller.dart';
+import 'package:flutter/material.dart';
 
 class NowPlayingView extends StatefulWidget {
   const NowPlayingView({Key? key, required this.controller}) : super(key: key);
@@ -74,12 +74,6 @@ class _NowPlayingViewState extends State<NowPlayingView> {
         ],
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.init();
   }
 
   @override

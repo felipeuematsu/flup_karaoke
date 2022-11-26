@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:flup_karaoke/features/home/use_case/get_complete_playlist.dart';
 import 'package:flup_karaoke/features/playlist/components/song_tile.dart';
 import 'package:flup_karaoke/features/widgets/add_to_queue_dialog/add_to_queue_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class PlaylistView extends StatefulWidget {
   const PlaylistView({Key? key, @PathParam() required this.id, required this.service, required this.getDetailedPlaylistUseCase}) : super(key: key);
@@ -23,23 +23,24 @@ class _PlaylistViewState extends State<PlaylistView> {
       body: FutureBuilder<PlaylistModel?>(
         future: widget.getDetailedPlaylistUseCase.execute(widget.id),
         builder: (context, snapshot) {
-          final PlaylistModel? playlist = snapshot.data;
+          final playlist = snapshot.data;
           final songs = playlist?.songs ?? [];
+          final imageUrl = playlist?.imageUrl;
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                expandedHeight: playlist?.imageUrl == null ? null : 300.0,
+                expandedHeight: imageUrl == null ? null : 300.0,
                 pinned: true,
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: playlist?.imageUrl != null
-                      ? Container(
+                  background: imageUrl == null
+                      ? null
+                      : Container(
                           color: Colors.white38,
                           padding: const EdgeInsets.only(bottom: 64.0),
-                          child: Image.network(playlist?.imageUrl ?? '', fit: BoxFit.cover),
-                        )
-                      : null,
+                          child: Image.network(imageUrl, fit: BoxFit.cover),
+                        ),
                   title: Text(playlist?.name ?? '', style: const TextStyle(color: Colors.black)),
                   stretchModes: const [StretchMode.fadeTitle],
                   collapseMode: CollapseMode.pin,

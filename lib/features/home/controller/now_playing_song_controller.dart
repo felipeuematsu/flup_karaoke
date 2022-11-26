@@ -5,14 +5,16 @@ import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class NowPlayingSongController {
   NowPlayingSongController(this.getNowPlayingSongUseCase);
+
   final GetNowPlayingSongUseCase getNowPlayingSongUseCase;
 
-  late final Timer _refreshTimer;
+  late final Timer _refreshTimer = Timer.periodic(const Duration(seconds: 1), (_) => _refresh());
 
   final _nowPlayingSongStream = StreamController<NowPlayingSongModel?>.broadcast();
   final _remainingTimePercentage = StreamController<double?>.broadcast();
 
   Stream<NowPlayingSongModel?> get nowPlayingSongStream => _nowPlayingSongStream.stream;
+
   Stream<double?> get remainingTimePercentage => _remainingTimePercentage.stream;
 
   double? updateRemainingTimePercentage(NowPlayingSongModel? nowPlayingSong) {
@@ -28,10 +30,6 @@ class NowPlayingSongController {
     if (percentage != null) {
       _remainingTimePercentage.add(percentage);
     }
-  }
-
-  void init() {
-    _refreshTimer = Timer.periodic(const Duration(seconds: 1), (_) => _refresh());
   }
 
   void dispose() {

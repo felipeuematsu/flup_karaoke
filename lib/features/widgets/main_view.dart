@@ -5,6 +5,7 @@ import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -41,7 +42,10 @@ class _MainViewState extends State<MainView> {
               if (!kIsWeb)
                 IconButton(
                   icon: const Icon(Icons.logout),
-                  onPressed: () => context.router.replace(ServerSelectViewRoute()),
+                  onPressed: () {
+                    if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
+                    context.router.replace(ServerSelectViewRoute());
+                  },
                 )
             ],
           ),
