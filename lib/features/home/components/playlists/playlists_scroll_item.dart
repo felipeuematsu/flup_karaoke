@@ -29,7 +29,7 @@ class PlaylistScrollItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           gradient: url == null ? LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [_primaryColor(context), _secondaryColor(context)]) : null,
-          image: url != null ? DecorationImage(image: NetworkImage(url), fit: BoxFit.fitHeight) : null,
+          image: url != null ? DecorationImage(image: NetworkImage(url), fit: BoxFit.cover) : null,
         ),
         child: MaterialButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
