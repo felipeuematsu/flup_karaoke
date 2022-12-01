@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:flup_karaoke/features/playlist/components/song_tile.dart';
 import 'package:flup_karaoke/features/queue/components/queue_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class QueueView extends StatefulWidget {
   const QueueView({Key? key, required this.service}) : super(key: key);

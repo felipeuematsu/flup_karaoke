@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-Uri? testHttpsHost(String? host) {
+Uri? testHttpHost(String? host) {
   if (kIsWeb && Uri.base.scheme == 'https') {
     return null;
   }
@@ -19,7 +19,7 @@ Uri? testHttpsHost(String? host) {
   return null;
 }
 
-Uri? testHttpHost(String? host) {
+Uri? testHttpsHost(String? host) {
   if (host != null && host.isNotEmpty) {
     var uri = Uri.tryParse(host);
     if (uri != null && uri.host.isNotEmpty) {

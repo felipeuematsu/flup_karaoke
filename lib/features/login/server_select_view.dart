@@ -4,7 +4,6 @@ import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/features/widgets/open_store_widget.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flup_karaoke/util/host_checker_util.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -33,7 +32,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
 
   VoidCallback get onPressed => () async {
         final input = hostController.text.trim();
-        final uris = [testHttpsHost(input), testHttpHost(input)];
+        final uris = [testHttpHost(input), testHttpsHost(input)];
         for (final uri in uris) {
           final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: uri.toString()));
           if (!await service.health()) continue;
@@ -52,7 +51,6 @@ class _ServerSelectViewState extends State<ServerSelectView> {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flup_karaoke/features/playlist/components/song_tile.dart';
+import 'package:flutter/material.dart';
 
 class PlaylistSongLoadingTile extends StatelessWidget {
   const PlaylistSongLoadingTile({Key? key}) : super(key: key);

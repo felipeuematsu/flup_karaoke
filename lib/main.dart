@@ -91,12 +91,12 @@ class _MyAppState extends State<MyApp> {
           if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
           final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
           final hosts = [
-            testHttpsHost(uri?.queryParameters['host']),
             testHttpHost(uri?.queryParameters['host']),
-            testHttpsHost(databaseHost),
+            testHttpsHost(uri?.queryParameters['host']),
             testHttpHost(databaseHost),
-            if (kIsWeb) testHttpsHost(Uri.base.host),
+            testHttpsHost(databaseHost),
             if (kIsWeb) testHttpHost(Uri.base.host),
+            if (kIsWeb) testHttpsHost(Uri.base.host),
           ];
           for (final host in hosts) {
             if (host == null) continue;
@@ -134,12 +134,12 @@ class _MyAppState extends State<MyApp> {
 
         final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
         final hosts = [
-          testHttpsHost(uri?.queryParameters['host']),
           testHttpHost(uri?.queryParameters['host']),
-          testHttpsHost(databaseHost),
+          testHttpsHost(uri?.queryParameters['host']),
           testHttpHost(databaseHost),
-          if (kIsWeb) testHttpsHost(Uri.base.host),
+          testHttpsHost(databaseHost),
           if (kIsWeb) testHttpHost(Uri.base.host),
+          if (kIsWeb) testHttpsHost(Uri.base.host),
         ];
         for (final host in hosts) {
           if (host == null) continue;

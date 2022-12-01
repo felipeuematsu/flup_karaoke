@@ -1,5 +1,5 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flup_karaoke/database/util/abstract_hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveImpl extends AbstractHive {
   const HiveImpl();

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongSearchService {
   SongSearchService(this._service, {this.pageCount = 10}) {
