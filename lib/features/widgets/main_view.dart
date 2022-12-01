@@ -39,14 +39,13 @@ class _MainViewState extends State<MainView> {
           appBar: AppBar(
             title: Text(AppStrings.appName.tr),
             actions: [
-              if (!kIsWeb)
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  onPressed: () {
-                    if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
-                    context.router.replace(ServerSelectViewRoute());
-                  },
-                )
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
+                  context.router.replace(ServerSelectViewRoute());
+                },
+              )
             ],
           ),
           bottomNavigationBar: CustomBottomNavigationBar(

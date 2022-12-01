@@ -1,9 +1,10 @@
+import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:flup_karaoke/features/widgets/open_store_widget.dart';
+import 'package:flup_karaoke/features/youtube_search/youtube_search_dialog.dart';
+import 'package:flup_karaoke/features/youtube_search/youtube_search_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:flup_karaoke/features/app_strings.dart';
-import 'package:flup_karaoke/features/youtube_search/youtube_search_dialog.dart';
-import 'package:flup_karaoke/features/youtube_search/youtube_search_service.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YoutubeSearchView extends StatefulWidget {
@@ -23,18 +24,18 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.youtubeSearchTitle.tr)),
       body: Center(
-        child: kIsWeb
-            ? Column(children: [
-                Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr),
-                // Download app on playstore button
-                if (Theme.of(context).platform == TargetPlatform.android)
-                  ElevatedButton(
-                    onPressed: () {
-                      // TODO: Open playstore
-                    },
-                    child: Text(AppStrings.downloadApp.tr),
-                  ),
-              ])
+        child: !kIsWeb
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(AppStrings.ohNo.tr, style: Theme.of(context).textTheme.displaySmall),
+                  const SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
+                  const SizedBox(height: 32),
+                  if (Theme.of(context).platform == TargetPlatform.android) const OpenStoreWidget(),
+                ],
+              )
             : Container(
                 padding: const EdgeInsets.all(16),
                 constraints: const BoxConstraints(maxWidth: 500),
@@ -63,6 +64,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
                                     title: Text(video.title),
                                     subtitle: Text(video.author),
                                     onTap: () => showDialog(
+                                      barrierDismissible: false,
                                       context: context,
                                       builder: (context) => YoutubeSearchDialog(
                                         service: widget.service,

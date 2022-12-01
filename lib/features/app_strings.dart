@@ -44,7 +44,10 @@ enum AppStrings {
   searchError,
   downloadApp,
   expectingSearch,
-  noSingers;
+  noSingers,
+  settingsTitle,
+  ohNo,
+  ;
 
   String get tr => key.tr();
 
@@ -90,11 +93,13 @@ class AppTranslations {
           AppStrings.volumeDown.key: '- Volume',
           AppStrings.updatePlaylists.key: 'Atualizar playlists',
           AppStrings.invalidHost.key: 'Endereço inválido',
-          AppStrings.youtubeSearchNotSupportedOnWeb.key: 'Busca no Youtube não é suportada no navegador',
+          AppStrings.youtubeSearchNotSupportedOnWeb.key: 'Busca no Youtube não é suportada no navegador.\nBaixe o aplicativo:',
           AppStrings.searchError.key: 'Ocorreu um erro ao buscar músicas',
           AppStrings.downloadApp.key: 'Baixar app',
           AppStrings.expectingSearch.key: 'Esperando busca',
           AppStrings.noSingers.key: 'Nenhum cantor cadastrado',
+          AppStrings.settingsTitle.key: 'Configurações',
+          AppStrings.ohNo.key: 'Oh não!',
         },
         const Locale('en', 'US'): {
           AppStrings.appName.key: 'Felipe Karaoke',
@@ -133,11 +138,13 @@ class AppTranslations {
           AppStrings.volumeDown.key: '- Volume',
           AppStrings.updatePlaylists.key: 'Update playlists',
           AppStrings.invalidHost.key: 'Invalid host',
-          AppStrings.youtubeSearchNotSupportedOnWeb.key: 'Youtube search is not supported on web',
+          AppStrings.youtubeSearchNotSupportedOnWeb.key: 'Youtube search is not supported on web. Download the app:',
           AppStrings.searchError.key: 'An error occurred while searching for songs',
           AppStrings.downloadApp.key: 'Download App',
           AppStrings.expectingSearch.key: 'Expecting search',
           AppStrings.noSingers.key: 'No singers registered',
+          AppStrings.settingsTitle.key: 'Settings',
+          AppStrings.ohNo.key: 'Oh no!',
         },
       };
 }

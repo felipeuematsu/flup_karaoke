@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
+import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YoutubeSearchDialog extends StatefulWidget {
@@ -15,10 +16,18 @@ class YoutubeSearchDialog extends StatefulWidget {
 }
 
 class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
-  late final titleController = TextEditingController(text: video.title);
-  final artistController = TextEditingController();
-
   Video get video => widget.video;
+
+  String get videoTitle => video.title;
+
+  String? get possibleArtist => videoTitle.contains(' - ') ? videoTitle.split(' - ').first : null;
+
+  String? get possibleTitle => '${videoTitle.contains(' - ') ? videoTitle.split(' - ').last : videoTitle} [${video.author}]';
+
+  late final titleController = TextEditingController(text: possibleTitle);
+  late final artistController = TextEditingController(text: possibleArtist);
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +66,7 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
           child: Text(AppStrings.cancel.tr),
         ),
         FutureBuilder(
@@ -66,9 +75,9 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
               final manifest = snapshot.data;
               final stream = manifest?.muxed.bestQuality;
               return TextButton(
-                onPressed: manifest == null
+                onPressed: manifest == null || isLoading
                     ? null
-                    : () {
+                    : () async {
                         final song = YoutubeSongDto(
                           title: titleController.text,
                           artist: artistController.text,
@@ -76,7 +85,13 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
                           duration: video.duration?.inSeconds ?? 0,
                           url: stream?.url.toString(),
                         );
-                        widget.service.sendYoutubeSong(song).then((value) => Navigator.of(context).pop());
+                        try {
+                          setState(() => isLoading = true);
+                          await widget.service.sendYoutubeSong(song);
+                          Navigator.of(context).pop();
+                        } on DioError {
+                          setState(() => isLoading = false);
+                        }
                       },
                 child: Text(AppStrings.save.tr),
               );
