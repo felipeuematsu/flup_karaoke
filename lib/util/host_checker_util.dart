@@ -1,4 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 Uri? testHttpsHost(String? host) {
+  if (kIsWeb && Uri.base.scheme == 'https') {
+    return null;
+  }
+
   if (host != null && host.isNotEmpty) {
     var uri = Uri.tryParse(host);
     if (uri != null && uri.host.isNotEmpty) {
