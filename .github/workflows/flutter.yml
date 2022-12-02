@@ -34,7 +34,7 @@ jobs:
         uses: jbutcher5/read-yaml@1.6
         id: version
         with:
-          file: pubspec.yaml
+          file: './pubspec.yaml'
           key-path: '["version"]'
 
       - run: echo ${{ steps.version.outputs.value }}
