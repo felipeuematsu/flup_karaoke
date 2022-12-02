@@ -36,7 +36,8 @@ class _ServerSelectViewState extends State<ServerSelectView> {
         final uris = [testHttpHost(input), testHttpsHost(input)];
         for (final uri in uris) {
           final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: uri.toString()));
-          if (!await service.health()) continue;
+          final foundServer = await service.health();
+          if (!foundServer) continue;
 
           database.writePersistent(DatabaseKeys.host.name, input);
           GetIt.I.registerLazySingleton(() => service);
