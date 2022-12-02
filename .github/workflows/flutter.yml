@@ -42,7 +42,7 @@ jobs:
         uses: jbutcher5/read-yaml@1.6
         id: version
         with:
-          path: pubspec.yaml
+          file: pubspec.yaml
           key-path: '["version"]'
 
       - uses: mukunku/tag-exists-action@v1.2.0
