@@ -27,6 +27,16 @@ jobs:
       FLUTTER_VERSION: "3.3.9"
     steps:
       - uses: actions/checkout@v2
+
+
+      - name: Read pubspec.yaml
+        uses: jbutcher5/read-yaml@1.6
+        id: version
+        with:
+          file: pubspec.yaml
+          key-path: '["version"]'
+
+      - run: echo ${{ steps.version.outputs.value }}
       - uses: actions/setup-java@v1
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -37,13 +47,6 @@ jobs:
       - run: flutter analyze --no-fatal-warnings --no-fatal-infos
       - run: flutter build web
       - run: flutter build appbundle --debug
-
-      - name: Read pubspec.yaml
-        uses: jbutcher5/read-yaml@1.6
-        id: version
-        with:
-          file: pubspec.yaml
-          key-path: '["version"]'
 
       - uses: mukunku/tag-exists-action@v1.2.0
         id: checkTag
