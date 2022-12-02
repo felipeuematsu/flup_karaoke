@@ -24,7 +24,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.youtubeSearchTitle.tr)),
       body: Center(
-        child: !kIsWeb
+        child: kIsWeb
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
