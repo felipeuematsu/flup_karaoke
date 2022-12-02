@@ -14,7 +14,7 @@ class OpenStoreWidget extends StatelessWidget {
         if (TargetPlatform.iOS != defaultTargetPlatform)
           InkWell(
             onTap: () => launchUrlString(googlePlayStoreUrl, mode: LaunchMode.externalApplication),
-            child: SvgPicture.asset(TargetPlatform.android == defaultTargetPlatform ? androidPng : iOSSvg, height: 60, fit: BoxFit.fitHeight),
+            child: SvgPicture.asset(androidPng, height: 60, fit: BoxFit.fitHeight),
           ),
         // TODO: Add iOS store link
         // if (TargetPlatform.android != defaultTargetPlatform)

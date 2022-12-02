@@ -33,7 +33,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
                   const SizedBox(height: 12),
                   Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
                   const SizedBox(height: 32),
-                  if (Theme.of(context).platform == TargetPlatform.android) const OpenStoreWidget(),
+                  const OpenStoreWidget(),
                 ],
               )
             : Container(

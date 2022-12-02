@@ -73,7 +73,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
               const SizedBox(height: 16),
               ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
               const SizedBox(height: 16),
-              if (kIsWeb && [TargetPlatform.android].contains(defaultTargetPlatform)) ...[
+              if (kIsWeb) ...[
                 const Spacer(),
                 const OpenStoreWidget(),
               ],
