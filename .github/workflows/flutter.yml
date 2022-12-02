@@ -28,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - run: ls -la
 
       - name: Read pubspec.yaml
         uses: jbutcher5/read-yaml@1.6
