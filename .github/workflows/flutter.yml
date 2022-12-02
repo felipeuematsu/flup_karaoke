@@ -59,3 +59,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create Release Artifacts
+        if: steps.checkTag.outputs.exists == 'false'
+        uses: ./.github/workflows/flutter_release
