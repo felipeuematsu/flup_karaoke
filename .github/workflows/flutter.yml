@@ -27,9 +27,6 @@ jobs:
       FLUTTER_VERSION: "3.3.9"
     steps:
       - uses: actions/checkout@v2
-
-      - run: ls -la
-
       - name: Read pubspec.yaml
         uses: jbutcher5/read-yaml@1.6
         id: version
@@ -37,7 +34,7 @@ jobs:
           file: './pubspec.yaml'
           key-path: '["version"]'
 
-      - run: echo ${{ steps.version.outputs.value }}
+      - run: "echo 'Current Version: ${{ steps.version.outputs.data }}'"
       - uses: actions/setup-java@v1
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -52,13 +49,13 @@ jobs:
       - uses: mukunku/tag-exists-action@v1.2.0
         id: checkTag
         with:
-          tag: "${{ steps.version.outputs.value }}"
+          tag: "${{ steps.version.outputs.data }}"
 
       - name: Create Release
         if: steps.checkTag.outputs.exists == 'false'
         uses: avakar/tag-and-release@v1
         with:
-          tag_name: "${{ steps.version.outputs.value }}"
+          tag_name: "${{ steps.version.outputs.data }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
