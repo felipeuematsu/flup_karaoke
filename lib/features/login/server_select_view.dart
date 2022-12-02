@@ -4,6 +4,7 @@ import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/features/widgets/open_store_widget.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flup_karaoke/util/host_checker_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -72,11 +73,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
               const SizedBox(height: 16),
               ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
               const SizedBox(height: 16),
-              // if (kIsWeb &&
-              //     [
-              //       TargetPlatform.android, /*TargetPlatform.iOS*/
-              //     ].contains(defaultTargetPlatform))
-              ...[
+              if (kIsWeb && [TargetPlatform.android].contains(defaultTargetPlatform)) ...[
                 const Spacer(),
                 const OpenStoreWidget(),
               ],

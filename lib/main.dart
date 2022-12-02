@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:universal_html/html.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 bool _initialUriIsHandled = false;
@@ -103,7 +104,13 @@ class _MyAppState extends State<MyApp> {
             final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
             final service = KaraokeApiService(configuration: configuration);
 
-            if (!(await service.health())) continue;
+            final serverFound = await service.health();
+            if (!serverFound) continue;
+            if (kIsWeb && Uri.base.host != host.host) {
+              // ignore: unsafe_html
+              window.open(host.toString(), '_self');
+              return;
+            }
             GetIt.I.registerLazySingleton(() => service);
             injectInitialDependencies();
             return _appRouter.replaceAll([const MainViewRoute()]);
@@ -146,7 +153,13 @@ class _MyAppState extends State<MyApp> {
           final configuration = KaraokeAPIConfiguration(baseUrl: host.toString());
           final service = KaraokeApiService(configuration: configuration);
 
-          if (!(await service.health())) continue;
+          final serverFound = await service.health();
+          if (!serverFound) continue;
+          if (kIsWeb && Uri.base.host != host.host) {
+            // ignore: unsafe_html
+            window.open(host.toString(), '_self');
+            return;
+          }
           if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
           GetIt.I.registerLazySingleton(() => service);
           injectInitialDependencies();
