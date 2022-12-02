@@ -61,4 +61,5 @@ jobs:
 
       - name: Create Release Artifacts
         if: steps.checkTag.outputs.exists == 'false'
-        uses: ./.github/workflows/flutter_release
+
+        uses: ./.github/workflows/flutter_release.yml
