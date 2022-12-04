@@ -9,6 +9,9 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/flutter_release.yml'
+    outputs:
+      version: ${{ jobs.build.outputs.version }}
+      exists: ${{ jobs.build.outputs.exists }}
   pull_request:
     branches: [ main ]
 
@@ -19,6 +22,9 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    outputs:
+      version: ${{ steps.version.outputs.data }}
+      exists: ${{ steps.checkTag.outputs.exists }}
     name: flutter build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -43,8 +49,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
       - run: flutter pub get
       - run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
       - name: Build Android App Bundle
         run: flutter build web --release --web-renderer html --base-href /
+
       - run: flutter build appbundle --debug
 
       - uses: mukunku/tag-exists-action@v1.2.0
@@ -60,6 +68,196 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release Artifacts
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
         if: steps.checkTag.outputs.exists == 'true'
-        uses: ./.github/workflows/flutter_release.yml
+        with:
+          name: web-release-${{ github.run_number }}
+          path: build/web/
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r web.zip build/web/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: steps.checkTag.outputs.exists == 'true'
+        with:
+          tag_name: ${{ steps.version.outputs.data }}
+          files: web.zip
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+
+  release-web:
+    if: {{ jobs.build.outputs.exists == 'false' }}
+    name: Test, build and Release on Web
+    runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: "11.0"
+      FLUTTER_VERSION: "3.3.9"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Download pub dependencies
+        run: flutter pub get
+
+      - name: Run analyzer
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Build Android App Bundle
+        run: flutter build web --release --web-renderer html --base-href /
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: web-release-${{ github.run_number }}
+          path: build/web/
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r web.zip build/web/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: web.zip
+
+  release-android:
+    name: Test, build and release on Android
+    if: {{ jobs.build.outputs.exists == 'false' }}
+    runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: "11.0"
+      FLUTTER_VERSION: "3.3.9"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Download pub dependencies
+        run: flutter pub get
+
+      - name: Run analyzer
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Download Android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: key.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: Create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+      - name: Build Android App Bundle
+        run: flutter build appbundle --build-number ${{ github.run_number }}
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Download bundle dependencies
+        run: |
+          gem install bundler:2.0.2
+          bundle config path vendor/bundle
+          bundle install
+      - name: Release to Google Play (internal)
+        env:
+          SUPPLY_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        run: |
+          bundle exec fastlane supply \
+          --aab build/app/outputs/bundle/release/app-release.aab \
+          --track internal || echo "Could not upload" &&
+          bundle exec fastlane supply \
+          --aab build/app/outputs/bundle/release/app-release.aab \
+          --track open || echo "Could not upload"
+
+      - name: Build Android Apk
+        run: flutter build apk --build-number ${{ github.run_number }}
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: aab-release-${{ github.run_number }}
+          path: build/app/outputs/bundle/release/app-release.aab
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: apk-release-${{ github.run_number }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Upload a Build Artifact - Mappings
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: mappings-${{ github.run_number }}.zip
+          path: build/app/outputs/mapping/release/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            - build/app/outputs/flutter-apk/app-release.apk
+            - build/app/outputs/flutter-apk/app-release.aab
