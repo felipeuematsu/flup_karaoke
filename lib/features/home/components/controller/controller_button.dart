@@ -19,7 +19,7 @@ class ControllerButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               icon,
-              Text(text),
+              FittedBox(child: Text(text)),
             ],
           ),
         ),
