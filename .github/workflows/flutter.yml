@@ -147,8 +147,8 @@ jobs:
           args: zip -qq -r web.zip build/web/
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ needs.build.outputs.version }}
           files: web.zip
 
   release-android:
@@ -255,8 +255,8 @@ jobs:
           path: build/app/outputs/mapping/release/
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ needs.build.outputs.version }}
           files: |
             - build/app/outputs/flutter-apk/app-release.apk
             - build/app/outputs/flutter-apk/app-release.aab
