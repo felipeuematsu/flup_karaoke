@@ -9,13 +9,6 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/flutter_release.yml'
-    outputs:
-      version:
-        description: 'Version'
-        value: ${{ jobs.build.outputs.version }}
-      exists:
-        description: 'Tag exists'
-        value: ${{ jobs.build.outputs.exists }}
   pull_request:
     branches: [ main ]
 
@@ -97,7 +90,8 @@ jobs:
 
 
   release-web:
-    if: {{ jobs.build.outputs.exists == 'false' }}
+    needs: build
+    if: {{ needs.build.outputs.exists == 'false' }}
     name: Test, build and Release on Web
     runs-on: ubuntu-latest
     env:
@@ -158,8 +152,9 @@ jobs:
           files: web.zip
 
   release-android:
+    needs: build
     name: Test, build and release on Android
-    if: {{ jobs.build.outputs.exists == 'false' }}
+    if: {{ needs.build.outputs.exists == 'false' }}
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
