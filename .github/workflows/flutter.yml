@@ -10,8 +10,12 @@ on:
       - '**/README.md'
       - '**/flutter_release.yml'
     outputs:
-      version: ${{ jobs.build.outputs.version }}
-      exists: ${{ jobs.build.outputs.exists }}
+      version:
+        description: 'Version'
+        value: ${{ jobs.build.outputs.version }}
+      exists:
+        description: 'Tag exists'
+        value: ${{ jobs.build.outputs.exists }}
   pull_request:
     branches: [ main ]
 
