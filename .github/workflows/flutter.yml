@@ -43,7 +43,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
       - run: flutter pub get
       - run: flutter analyze --no-fatal-warnings --no-fatal-infos
-      - run: flutter build web
+      - name: Build Android App Bundle
+        run: flutter build web --release --web-renderer html --base-href /
       - run: flutter build appbundle --debug
 
       - uses: mukunku/tag-exists-action@v1.2.0
@@ -60,6 +61,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release Artifacts
-        if: steps.checkTag.outputs.exists == 'false'
-
+        if: steps.checkTag.outputs.exists == 'true'
         uses: ./.github/workflows/flutter_release.yml
