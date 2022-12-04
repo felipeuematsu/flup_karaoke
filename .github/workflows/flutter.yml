@@ -91,7 +91,7 @@ jobs:
 
   release-web:
     needs: build
-    if: {{ needs.build.outputs.exists == 'false' }}
+    if: ${{ needs.build.outputs.exists == 'false' }}
     name: Test, build and Release on Web
     runs-on: ubuntu-latest
     env:
@@ -154,7 +154,7 @@ jobs:
   release-android:
     needs: build
     name: Test, build and release on Android
-    if: {{ needs.build.outputs.exists == 'false' }}
+    if: ${{ needs.build.outputs.exists == 'false' }}
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
