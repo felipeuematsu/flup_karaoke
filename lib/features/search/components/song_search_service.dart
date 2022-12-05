@@ -26,7 +26,7 @@ class SongSearchService {
 
   Stream<List<SongModel>?> get songStream => _songStreamController.stream;
 
-  void search() {
+  Future<void> search() async {
     try {
       if (validation() == false) return;
       if ((title.length < 3) && (artist.length < 3)) {
@@ -35,7 +35,7 @@ class SongSearchService {
 
       final filteredTitle = lastSearchTitle = title;
       final filteredArtist = lastSearchArtist = artist;
-      _service.search(filteredTitle, filteredArtist, 1, pageCount).then((value) {
+      await _service.search(filteredTitle, filteredArtist, 1, pageCount).then((value) {
         _songs = value.data ?? [];
         _songStreamController.add(_songs);
         final totalPages = value.totalPages ?? 0;

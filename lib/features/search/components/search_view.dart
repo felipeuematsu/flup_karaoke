@@ -23,6 +23,7 @@ class _SearchViewState extends State<SearchView> {
   final _artistController = TextEditingController();
   final _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
+  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   bool _isLoading = false;
 
@@ -40,6 +41,12 @@ class _SearchViewState extends State<SearchView> {
     }
   }
 
+  void executeSearch() {
+    if (_formKey.currentState?.validate() == true) {
+      _refreshIndicatorKey.currentState?.show();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _titleTextField = TextFormField(
@@ -48,9 +55,7 @@ class _SearchViewState extends State<SearchView> {
       controller: _titleController,
       decoration: InputDecoration(hintText: AppStrings.songTitleHint.tr),
       onChanged: (value) => _songSearchService.titleStreamController.sink.add(value),
-      onFieldSubmitted: (_) {
-        if (_formKey.currentState?.validate() == true) _songSearchService.search();
-      },
+      onFieldSubmitted: (_) => executeSearch(),
     );
 
     final _artistTextField = TextFormField(
@@ -59,9 +64,7 @@ class _SearchViewState extends State<SearchView> {
       controller: _artistController,
       decoration: InputDecoration(hintText: AppStrings.artistNameHint.tr),
       onChanged: (value) => _songSearchService.artistStreamController.sink.add(value),
-      onFieldSubmitted: (_) {
-        if (_formKey.currentState?.validate() == true) _songSearchService.search();
-      },
+      onFieldSubmitted: (_) => executeSearch(),
     );
 
     final searchComponent = Container(
@@ -70,33 +73,35 @@ class _SearchViewState extends State<SearchView> {
       margin: const EdgeInsets.all(16.0),
       child: Row(children: [
         Expanded(child: Form(key: _formKey, child: Column(children: [_artistTextField, _titleTextField, const SizedBox(height: 8.0)]))),
-        IconButton(iconSize: 32, onPressed: _songSearchService.search, icon: Icon(Icons.search, color: Theme.of(context).primaryColor))
+        IconButton(iconSize: 32, onPressed: executeSearch, icon: Icon(Icons.search, color: Theme.of(context).primaryColor))
       ]),
     );
     return StreamBuilder(
       stream: _songSearchService.songStream,
       builder: (context, snapshot) {
         final data = snapshot.data;
-        // if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
-        // if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: (data?.length ?? 0) + (_isLoading ? 2 : 1),
-            itemBuilder: (context, index) {
-              if (index == 0) return searchComponent;
-              if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
-              if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
-              if (index == data.length + 1) return const SizedBox(height: 60.0, child: Center(child: CircularProgressIndicator()));
-              return SongTile(
-                song: data[index - 1],
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => AddToQueueDialog(service: service, song: data[index - 1]),
-                ),
-              );
-            },
+          child: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: _songSearchService.search,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: (data?.length ?? 0) + (_isLoading ? 2 : 1),
+              itemBuilder: (context, index) {
+                if (index == 0) return searchComponent;
+                if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
+                if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
+                if (index == data.length + 1) return const SizedBox(height: 60.0, child: Center(child: CircularProgressIndicator()));
+                return SongTile(
+                  song: data[index - 1],
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AddToQueueDialog(service: service, song: data[index - 1]),
+                  ),
+                );
+              },
+            ),
           ),
         );
       },

@@ -424,11 +424,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1.1.0"
-      resolved-ref: "22aace708242d9d872e7297c701f6faa1bf31724"
+      ref: "1.1.1"
+      resolved-ref: "87d35ad67f1e2fa25e011abe43618fffa1edc670"
       url: "https://github.com/felipeuematsu/karaoke_request_api"
     source: git
-    version: "1.1.0"
+    version: "1.1.1"
   lints:
     dependency: transitive
     description:

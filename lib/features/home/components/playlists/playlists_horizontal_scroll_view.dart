@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flup_karaoke/app_imports.dart';
 import 'package:flup_karaoke/features/home/components/playlists/playlists_scroll_item.dart';
 import 'package:flup_karaoke/features/home/components/playlists/playlists_scroll_loading_item.dart';
 import 'package:flup_karaoke/features/home/controller/playlists_controller.dart';
@@ -26,14 +29,7 @@ class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrol
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 12.0),
-            child: Text(widget.title, style: Theme
-                .of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(color: Theme
-                .of(context)
-                .colorScheme
-                .primary)),
+            child: Text(widget.title, style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Theme.of(context).colorScheme.primary)),
           ),
           SizedBox(
             height: PlaylistScrollItem.fullSize,
@@ -42,38 +38,22 @@ class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrol
               stream: widget.playlistsController.playlistsStream,
               builder: (context, AsyncSnapshot<List<SimplePlaylistModel>?> snapshot) {
                 final data = snapshot.data;
-                if (data == null) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: const [
-                        PlaylistScrollLoadingItem(),
-                        PlaylistScrollLoadingItem(),
-                        PlaylistScrollLoadingItem(),
-                        PlaylistScrollLoadingItem(),
-                        PlaylistScrollLoadingItem(),
-                      ],
-                    ),
-                  );
-                } else {
-                  if (data.isEmpty) {
-                    return const Center(child: Text('No playlists found'));
-                  }
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final playlist = data[index];
-                      final id = playlist.id;
-                      if (id == null) return const SizedBox.shrink();
-                      return PlaylistScrollItem(
-                        url: playlist.imageUrl,
-                        name: playlist.name ?? '',
-                        onPressed: (context) => widget.playlistsController.onPlaylistTapped(context, playlistId: id),
-                      );
-                    },
-                  );
-                }
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: max(data?.length ?? 5, 1),
+                  itemBuilder: (context, index) {
+                    if (data == null) return const PlaylistScrollLoadingItem();
+                    if (data.isEmpty) return Center(child: Text(AppStrings.noPlaylistsFound.tr));
+                    final playlist = data[index];
+                    final id = playlist.id;
+                    if (id == null) return const SizedBox.shrink();
+                    return PlaylistScrollItem(
+                      url: playlist.imageUrl,
+                      name: playlist.name ?? '',
+                      onPressed: (context) => widget.playlistsController.onPlaylistTapped(context, playlistId: id),
+                    );
+                  },
+                );
               },
             ),
           ),

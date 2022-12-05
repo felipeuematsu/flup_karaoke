@@ -22,10 +22,8 @@ class _QueueViewState extends State<QueueView> {
   final indicator = GlobalKey<RefreshIndicatorState>();
 
   Future<void> Function() get reload => () async {
-        _queueItemsStream.add(null);
+        // _queueItemsStream.add(null);
         indicator.currentState?.show();
-        await Future.delayed(const Duration(seconds: 1));
-        return service.getQueue().then((value) => _queueItemsStream.add(value));
       };
 
   @override
@@ -45,7 +43,7 @@ class _QueueViewState extends State<QueueView> {
       child: RefreshIndicator(
         key: indicator,
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: reload,
+        onRefresh: () => service.getQueue().then((value) => _queueItemsStream.add(value)),
         child: StreamBuilder(
           stream: _queueItemsStream.stream,
           builder: (context, snapshot) {
@@ -63,7 +61,33 @@ class _QueueViewState extends State<QueueView> {
                   key: ValueKey(data[index].id),
                   song: data[index].song,
                   singerModel: data[index].singer,
-                  onTap: () => showDialog(context: context, builder: (_) => QueueDialog(item: data[index], service: service)).then((_) => reload()),
+                  onTap: () {
+                    showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+                      context: context,
+                      builder: (context) {
+                        return ListView(
+                          padding: const EdgeInsets.all(20.0),
+                          shrinkWrap: true,
+                          children: [
+                            ListTile(
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              leading: const Icon(Icons.playlist_remove_sharp),
+                              onTap: () => showDialog(context: context, builder: (_) => QueueDialog(item: data[index], service: service)).then((_) => reload()),
+                              title: Text(AppStrings.removeFromQueue.tr),
+                            ),
+                            const Divider(color: Colors.black),
+                            ListTile(
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              leading: const Icon(Icons.cancel),
+                              onTap: () => Navigator.pop(context),
+                              title: Text(AppStrings.cancel.tr),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 );
               },
             );

@@ -47,6 +47,7 @@ enum AppStrings {
   noSingers,
   settingsTitle,
   ohNo,
+  noPlaylistsFound,
   ;
 
   String get tr => key.tr();
@@ -57,7 +58,7 @@ enum AppStrings {
 class AppTranslations {
   Map<Locale, Map<String, dynamic>> get keys => {
         const Locale('pt', 'BR'): {
-          AppStrings.appName.key: 'Felipe Karaoke',
+          AppStrings.appName.key: 'FLUP Karaoke',
           AppStrings.singerName.key: 'Seu nome',
           AppStrings.searchHint.key: 'Insira o nome de uma música ou artista...',
           AppStrings.navButtonHome.key: 'Início',
@@ -67,7 +68,7 @@ class AppTranslations {
           AppStrings.playlistsTitle.key: 'Playlists',
           AppStrings.nowPlayingTitle.key: 'Tocando agora',
           AppStrings.nowPlayingEmpty.key: 'Nenhuma música tocando agora',
-          AppStrings.timesPlayed.key: ' vezes tocada',
+          AppStrings.timesPlayed.key: 'tocada {} vezes',
           AppStrings.genericErrorMessage.key: 'Ocorreu um erro ):',
           AppStrings.artistsTitle.key: 'Artistas',
           AppStrings.singersTitle.key: 'Cantores',
@@ -100,9 +101,10 @@ class AppTranslations {
           AppStrings.noSingers.key: 'Nenhum cantor cadastrado',
           AppStrings.settingsTitle.key: 'Configurações',
           AppStrings.ohNo.key: 'Oh não!',
+          AppStrings.noPlaylistsFound.key: 'Nenhuma playlist encontrada',
         },
         const Locale('en', 'US'): {
-          AppStrings.appName.key: 'Felipe Karaoke',
+          AppStrings.appName.key: 'FLUP Karaoke',
           AppStrings.singerName.key: 'Your Name',
           AppStrings.searchHint.key: 'Enter a song or artist...',
           AppStrings.navButtonHome.key: 'Home',
@@ -112,7 +114,7 @@ class AppTranslations {
           AppStrings.playlistsTitle.key: 'Playlists',
           AppStrings.nowPlayingTitle.key: 'Now Playing',
           AppStrings.nowPlayingEmpty.key: 'No song playing now',
-          AppStrings.timesPlayed.key: ' times played',
+          AppStrings.timesPlayed.key: 'played {} times',
           AppStrings.genericErrorMessage.key: 'An error occurred ):',
           AppStrings.artistsTitle.key: 'Artists',
           AppStrings.singersTitle.key: 'Singers',
@@ -145,6 +147,7 @@ class AppTranslations {
           AppStrings.noSingers.key: 'No singers registered',
           AppStrings.settingsTitle.key: 'Settings',
           AppStrings.ohNo.key: 'Oh no!',
+          AppStrings.noPlaylistsFound.key: 'No playlists found',
         },
       };
 }

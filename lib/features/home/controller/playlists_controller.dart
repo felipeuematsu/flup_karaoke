@@ -19,14 +19,15 @@ class PlaylistsController {
   Stream<List<SimplePlaylistModel>?> get playlistsStream => _playlists.stream;
 
   VoidCallback onPlaylistTapped(BuildContext context, {required int playlistId}) => () {
-    context.pushRoute(PlaylistViewRoute(id: playlistId, service: GetIt.I.get(), getDetailedPlaylistUseCase: getDetailedPlaylistUseCase));
-  };
+        context.pushRoute(PlaylistViewRoute(id: playlistId, service: GetIt.I.get(), getDetailedPlaylistUseCase: getDetailedPlaylistUseCase));
+      };
 
   void init() {
     _playlists.add(null);
   }
 
   Future<void> execute() async {
+    _playlists.add(null);
     final playlists = await getServerPlaylistsUseCase.execute(null);
     _playlists.add(playlists);
   }
@@ -34,5 +35,4 @@ class PlaylistsController {
   void dispose() {
     _playlists.close();
   }
-
 }
