@@ -4,6 +4,7 @@ import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:flup_karaoke/features/playlist/components/song_tile.dart';
 import 'package:flup_karaoke/features/queue/components/queue_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class QueueView extends StatefulWidget {
@@ -17,12 +18,20 @@ class QueueView extends StatefulWidget {
 class _QueueViewState extends State<QueueView> {
   KaraokeApiService get service => widget.service;
 
-  final _queueItemsStream = StreamController<List<SongQueueItem>>();
+  final _queueItemsStream = StreamController<List<SongQueueItem>?>();
+  final indicator = GlobalKey<RefreshIndicatorState>();
+
+  Future<void> Function() get reload => () async {
+        _queueItemsStream.add(null);
+        indicator.currentState?.show();
+        await Future.delayed(const Duration(seconds: 1));
+        return service.getQueue().then((value) => _queueItemsStream.add(value));
+      };
 
   @override
   void initState() {
     super.initState();
-    service.getQueue().then((value) => _queueItemsStream.add(value));
+    reload();
   }
 
   Widget _singleChildScroll(Widget item) {
@@ -31,30 +40,35 @@ class _QueueViewState extends State<QueueView> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () => service.getQueue().then((value) => _queueItemsStream.add(value)),
-      child: StreamBuilder(
-        stream: _queueItemsStream.stream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) return _singleChildScroll(const CircularProgressIndicator());
-          final data = snapshot.data;
-          if (data == null) return _singleChildScroll(const CircularProgressIndicator());
-          if (data.isEmpty) return _singleChildScroll(Padding(padding: const EdgeInsets.all(80.0), child: Text(AppStrings.emptyQueueMessage.tr)));
+    return FocusDetector(
+      onVisibilityGained: reload,
+      child: RefreshIndicator(
+        key: indicator,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: reload,
+        child: StreamBuilder(
+          stream: _queueItemsStream.stream,
+          builder: (context, snapshot) {
+            final data = snapshot.data;
+            if (snapshot.connectionState == ConnectionState.waiting || data == null) return _singleChildScroll(const SizedBox());
+            if (data.isEmpty) return _singleChildScroll(Padding(padding: const EdgeInsets.all(80.0), child: Text(AppStrings.emptyQueueMessage.tr)));
 
-          return ReorderableListView.builder(
-            onReorder: (oldIndex, newIndex) => service.reorderQueue(data[oldIndex].id ?? 0, newIndex).then((_) => service.getQueue().then((value) => _queueItemsStream.add(value))),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return SongTile(
-                key: ValueKey(data[index].id),
-                song: data[index].song,
-                singerModel: data[index].singer,
-                onTap: () => showDialog(context: context, builder: (context) => QueueDialog(item: data[index], service: service))
-                    .then((value) => service.getQueue().then((value) => _queueItemsStream.add(value))),
-              );
-            },
-          );
-        },
+            data.sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+
+            return ReorderableListView.builder(
+              onReorder: (oldIndex, newIndex) => service.reorderQueue(data[oldIndex].id ?? 0, newIndex).then((_) => reload()),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return SongTile(
+                  key: ValueKey(data[index].id),
+                  song: data[index].song,
+                  singerModel: data[index].singer,
+                  onTap: () => showDialog(context: context, builder: (_) => QueueDialog(item: data[index], service: service)).then((_) => reload()),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
