@@ -230,10 +230,7 @@ jobs:
         run: |
           bundle exec fastlane supply \
           --aab build/app/outputs/bundle/release/app-release.aab \
-          --track internal || echo "Could not upload" &&
-          bundle exec fastlane supply \
-          --aab build/app/outputs/bundle/release/app-release.aab \
-          --track open || echo "Could not upload"
+          --track internal --track open || echo "Could not upload"
 
       - name: Build Android Apk
         run: flutter build apk --build-number ${{ github.run_number }}
