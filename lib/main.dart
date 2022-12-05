@@ -64,7 +64,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      builder: (context, child) => Scaffold(body: child),
+      builder: (context, child) {
+        FocusScope.of(context).unfocus();
+        return Scaffold(body: child);
+      },
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       localizationsDelegates: context.localizationDelegates,

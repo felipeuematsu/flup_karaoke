@@ -1,5 +1,6 @@
 import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:flup_karaoke/features/home/components/controller/controller_button.dart';
+import 'package:flup_karaoke/features/home/components/playlists/playlists_scroll_item.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
@@ -24,7 +25,7 @@ class HomeControllerComponent extends StatelessWidget {
         ControllerButton(onPressed: () => service.pause(), text: AppStrings.pauseButton.tr, icon: const Icon(Icons.pause)),
         const SizedBox(),
         ControllerButton(onPressed: () => service.skip(), text: AppStrings.skipButton.tr, icon: const Icon(Icons.skip_next)),
-      ],
+      ].map((e) => ConstrainedBox(constraints: BoxConstraints(maxHeight: PlaylistScrollItem.size / 2), child: e)).toList(growable: false),
     );
   }
 }

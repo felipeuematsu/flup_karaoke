@@ -49,7 +49,10 @@ class _MainViewState extends State<MainView> {
           ),
           bottomNavigationBar: CustomBottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
-            onTap: (index) => setState(() => tabsRouter.setActiveIndex(index)),
+            onTap: (index) {
+              if (index != tabsRouter.activeIndex) FocusScope.of(context).unfocus();
+              setState(() => tabsRouter.setActiveIndex(index));
+            },
           ),
           body: child,
         );

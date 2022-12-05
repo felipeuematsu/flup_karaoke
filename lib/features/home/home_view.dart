@@ -5,18 +5,33 @@ import 'package:flup_karaoke/features/home/components/playlists/playlists_horizo
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        PlaylistsHorizontalScrollView(title: AppStrings.playlistsTitle.tr, playlistsController: GetIt.I.get()),
-        HomeControllerComponent(service: GetIt.I.get()),
-        const Spacer(),
-        NowPlayingView(controller: GetIt.I.get()),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async => reassemble(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                PlaylistsHorizontalScrollView(title: AppStrings.playlistsTitle.tr, playlistsController: GetIt.I.get()),
+                HomeControllerComponent(service: GetIt.I.get()),
+              ],
+            ),
+          ),
+          NowPlayingView(controller: GetIt.I.get()),
+        ],
+      ),
     );
   }
 }

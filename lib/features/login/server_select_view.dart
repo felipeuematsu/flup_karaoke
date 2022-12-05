@@ -61,6 +61,8 @@ class _ServerSelectViewState extends State<ServerSelectView> {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: TextField(
+                  autofillHints: const [AutofillHints.url],
+                  autofocus: true,
                   controller: hostController,
                   keyboardType: TextInputType.url,
                   textInputAction: TextInputAction.send,

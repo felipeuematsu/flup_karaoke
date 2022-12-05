@@ -15,44 +15,45 @@ class QueueView extends StatefulWidget {
 }
 
 class _QueueViewState extends State<QueueView> {
-  final queueItemsStream = StreamController<List<SongQueueItem>>();
+  KaraokeApiService get service => widget.service;
+
+  final _queueItemsStream = StreamController<List<SongQueueItem>>();
 
   @override
   void initState() {
     super.initState();
-    widget.service.getQueue().then((value) => queueItemsStream.add(value));
+    service.getQueue().then((value) => _queueItemsStream.add(value));
+  }
+
+  Widget _singleChildScroll(Widget item) {
+    return SizedBox.expand(child: ListView(children: [Center(child: item)]));
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => widget.service.getQueue().then((value) => queueItemsStream.add(value)),
-      child: StreamBuilder<List<SongQueueItem>?>(
-        stream: queueItemsStream.stream,
+      onRefresh: () => service.getQueue().then((value) => _queueItemsStream.add(value)),
+      child: StreamBuilder(
+        stream: _queueItemsStream.stream,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          if (snapshot.connectionState == ConnectionState.waiting) return _singleChildScroll(const CircularProgressIndicator());
           final data = snapshot.data;
-          if (data != null) {
-            if (data.isEmpty) {
-              return Center(child: Text(AppStrings.emptyQueueMessage.tr));
-            }
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final item = data[index];
-                return SongTile(
-                  song: item.song,
-                  singerModel: item.singer,
-                  onTap: () => showDialog(context: context, builder: (context) => QueueDialog(item: item, service: widget.service))
-                      .then((value) => widget.service.getQueue().then((value) => queueItemsStream.add(value))),
-                );
-              },
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
+          if (data == null) return _singleChildScroll(const CircularProgressIndicator());
+          if (data.isEmpty) return _singleChildScroll(Padding(padding: const EdgeInsets.all(80.0), child: Text(AppStrings.emptyQueueMessage.tr)));
+
+          return ReorderableListView.builder(
+            onReorder: (oldIndex, newIndex) => service.reorderQueue(data[oldIndex].id ?? 0, newIndex).then((_) => service.getQueue().then((value) => _queueItemsStream.add(value))),
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return SongTile(
+                key: ValueKey(data[index].id),
+                song: data[index].song,
+                singerModel: data[index].singer,
+                onTap: () => showDialog(context: context, builder: (context) => QueueDialog(item: data[index], service: service))
+                    .then((value) => service.getQueue().then((value) => _queueItemsStream.add(value))),
+              );
+            },
+          );
         },
       ),
     );
@@ -60,7 +61,7 @@ class _QueueViewState extends State<QueueView> {
 
   @override
   void dispose() {
-    queueItemsStream.close();
+    _queueItemsStream.close();
     super.dispose();
   }
 }

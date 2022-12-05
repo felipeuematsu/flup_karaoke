@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongTile extends StatelessWidget {
-  SongTile({Key? key, required this.song, this.onTap, this.singerModel}) : super(key: key);
+  const SongTile({Key? key, required this.song, this.onTap, this.singerModel}) : super(key: key);
 
   static const height = 64.0;
 
   final SongModel song;
   final SingerModel? singerModel;
-
-  late final duration = Duration(milliseconds: song.duration ?? 0);
 
   final VoidCallback? onTap;
 
@@ -18,6 +16,7 @@ class SongTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final duration = Duration(milliseconds: song.duration ?? 0);
     final imageUrl = song.imageUrl;
     return ListTile(
       leading: imageUrl != null ? AspectRatio(aspectRatio: 1, child: Image.network(imageUrl, fit: BoxFit.fitHeight)) : const Icon(Icons.music_note),

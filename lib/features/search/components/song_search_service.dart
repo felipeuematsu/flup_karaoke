@@ -4,15 +4,18 @@ import 'package:flup_karaoke/features/app_strings.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongSearchService {
-  SongSearchService(this._service, {this.pageCount = 10}) {
+  SongSearchService(this._service, this.validation, {this.pageCount = 10}) {
     titleStreamController.stream.listen((value) => title = value);
     artistStreamController.stream.listen((value) => artist = value);
   }
 
+  final KaraokeApiService _service;
+  final bool Function() validation;
+  final int pageCount;
+
   final StreamController<String> titleStreamController = StreamController<String>.broadcast();
   final StreamController<String> artistStreamController = StreamController<String>.broadcast();
 
-  final int pageCount;
   String title = '', artist = '';
   String? lastSearchTitle = '', lastSearchArtist = '';
   int? page;
@@ -23,17 +26,15 @@ class SongSearchService {
 
   Stream<List<SongModel>?> get songStream => _songStreamController.stream;
 
-  final KaraokeApiService _service;
-
-  String? search() {
+  void search() {
     try {
+      if (validation() == false) return;
       if ((title.length < 3) && (artist.length < 3)) {
         _songStreamController.add(null);
-        return AppStrings.searchTooShort.tr;
       }
 
-      final filteredTitle = lastSearchTitle = title.length > 3 ? title : null;
-      final filteredArtist = lastSearchArtist = artist.length > 3 ? artist : null;
+      final filteredTitle = lastSearchTitle = title;
+      final filteredArtist = lastSearchArtist = artist;
       _service.search(filteredTitle, filteredArtist, 1, pageCount).then((value) {
         _songs = value.data ?? [];
         _songStreamController.add(_songs);
@@ -41,9 +42,8 @@ class SongSearchService {
         final currentPage = value.page ?? 0;
         page = totalPages == currentPage ? null : currentPage + 1;
       });
-      return null;
     } catch (e) {
-      return AppStrings.searchError.tr;
+      _songStreamController.add(null);
     }
   }
 
@@ -62,4 +62,18 @@ class SongSearchService {
       page = totalPages == currentPage ? null : currentPage + 1;
     });
   }
+
+  String? Function(String?) get artistValidator => (String? value) {
+        if (title.length < 3 && (value == null || value.length < 3)) {
+          return AppStrings.searchTooShort.tr;
+        }
+        return null;
+      };
+
+  String? Function(String?) get titleValidator => (String? value) {
+        if (artist.length < 3 && (value == null || value.length < 3)) {
+          return AppStrings.searchTooShort.tr;
+        }
+        return null;
+      };
 }

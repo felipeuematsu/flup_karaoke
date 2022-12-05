@@ -15,76 +15,91 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  late final SongSearchService _songSearchService = SongSearchService(widget.service);
+  KaraokeApiService get service => widget.service;
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _artistController = TextEditingController();
+  late final SongSearchService _songSearchService = SongSearchService(service, () => _formKey.currentState?.validate() == true);
 
-  late final titleTextField = TextField(
-    controller: _titleController,
-    decoration: InputDecoration(hintText: AppStrings.songTitleHint.tr),
-    onChanged: (value) => _songSearchService.titleStreamController.sink.add(value),
-    onSubmitted: (value) => _songSearchService.search(),
-  );
-  late final artistTextField = TextField(
-    controller: _artistController,
-    decoration: InputDecoration(hintText: AppStrings.artistNameHint.tr),
-    onChanged: (value) => _songSearchService.artistStreamController.sink.add(value),
-    onSubmitted: (value) => _songSearchService.search(),
-  );
+  final _titleController = TextEditingController();
+  final _artistController = TextEditingController();
+  final _scrollController = ScrollController();
+  final _formKey = GlobalKey<FormState>();
+
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
+      setState(() => _isLoading = true);
+      await _songSearchService.searchMore();
+      setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final searchComponent = Row(
-      children: [
-        const SizedBox(width: 16.0),
-        Expanded(child: titleTextField),
-        const SizedBox(width: 16.0),
-        Expanded(child: artistTextField),
-        IconButton(onPressed: () => _songSearchService.search(), icon: const Icon(Icons.search)),
-        const SizedBox(width: 16.0),
-      ],
+    final _titleTextField = TextFormField(
+      validator: _songSearchService.titleValidator,
+      textInputAction: TextInputAction.search,
+      controller: _titleController,
+      decoration: InputDecoration(hintText: AppStrings.songTitleHint.tr),
+      onChanged: (value) => _songSearchService.titleStreamController.sink.add(value),
+      onFieldSubmitted: (_) {
+        if (_formKey.currentState?.validate() == true) _songSearchService.search();
+      },
     );
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500),
-        child: StreamBuilder<List<SongModel>?>(
-          stream: _songSearchService.songStream,
-          builder: (context, snapshot) {
-            final List<SongModel>? data = snapshot.data;
-            if (data != null) {
-              if (data.isEmpty) {
-                return Column(
-                  children: [
-                    searchComponent,
-                    Text(AppStrings.noResults.tr),
-                  ],
-                );
-              }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: data.length + 2,
-                itemBuilder: (context, index) {
-                  if (index == 0) return searchComponent;
-                  if (index == data.length + 1) {
-                    return _songSearchService.page != null ? IconButton(onPressed: () => _songSearchService.searchMore(), icon: const Icon(Icons.add), iconSize: 48.0) : const SizedBox();
-                  }
-                  final songModel = data[index - 1];
-                  return SongTile(song: songModel, onTap: () => showDialog(context: context, builder: (context) => AddToQueueDialog(service: widget.service, song: songModel)));
-                },
+
+    final _artistTextField = TextFormField(
+      validator: _songSearchService.artistValidator,
+      textInputAction: TextInputAction.search,
+      controller: _artistController,
+      decoration: InputDecoration(hintText: AppStrings.artistNameHint.tr),
+      onChanged: (value) => _songSearchService.artistStreamController.sink.add(value),
+      onFieldSubmitted: (_) {
+        if (_formKey.currentState?.validate() == true) _songSearchService.search();
+      },
+    );
+
+    final searchComponent = Container(
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      margin: const EdgeInsets.all(16.0),
+      child: Row(children: [
+        Expanded(child: Form(key: _formKey, child: Column(children: [_artistTextField, _titleTextField, const SizedBox(height: 8.0)]))),
+        IconButton(iconSize: 32, onPressed: _songSearchService.search, icon: Icon(Icons.search, color: Theme.of(context).primaryColor))
+      ]),
+    );
+    return StreamBuilder(
+      stream: _songSearchService.songStream,
+      builder: (context, snapshot) {
+        final data = snapshot.data;
+        // if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
+        // if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: (data?.length ?? 0) + (_isLoading ? 2 : 1),
+            itemBuilder: (context, index) {
+              if (index == 0) return searchComponent;
+              if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
+              if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
+              if (index == data.length + 1) return const SizedBox(height: 60.0, child: Center(child: CircularProgressIndicator()));
+              return SongTile(
+                song: data[index - 1],
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AddToQueueDialog(service: service, song: data[index - 1]),
+                ),
               );
-            } else {
-              return Column(
-                children: [
-                  const Spacer(),
-                  searchComponent,
-                  const Spacer(flex: 3),
-                ],
-              );
-            }
-          },
-        ),
-      ),
+            },
+          ),
+        );
+      },
     );
   }
 }

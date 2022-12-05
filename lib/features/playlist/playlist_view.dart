@@ -49,7 +49,10 @@ class _PlaylistViewState extends State<PlaylistView> {
               if (playlist != null)
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => SongTile(song: songs[index], onTap: () => showDialog(context: context, builder: (_) => AddToQueueDialog(service: widget.service, song: songs[index]))),
+                    (context, index) => SongTile(
+                      song: songs[index],
+                      onTap: () => showDialog(context: context, builder: (_) => AddToQueueDialog(service: widget.service, song: songs[index])),
+                    ),
                     childCount: songs.length,
                   ),
                 )
