@@ -1,5 +1,4 @@
 import 'package:flup_karaoke/app_imports.dart';
-import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/features/widgets/open_store_widget.dart';
 import 'package:flup_karaoke/router/app_router.dart';
@@ -19,31 +18,36 @@ class ServerSelectView extends StatefulWidget {
 }
 
 class _ServerSelectViewState extends State<ServerSelectView> {
-  final hostController = TextEditingController();
+  final _hostController = TextEditingController();
 
-  final database = Database();
-
-  bool hasError = false;
+  bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
+    DatabaseKeys.host.readPersistent<String?>().then((lastHost) {
+      if (widget.host != null) {
+        _hostController.text = widget.host!;
+      } else if (lastHost != null) {
+        _hostController.text = lastHost;
+      }
+    });
     if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
   }
 
   VoidCallback get onPressed => () async {
-        final input = hostController.text.trim();
+        final input = _hostController.text.trim();
         final uris = [testHttpHost(input), testHttpsHost(input)];
         for (final uri in uris) {
           final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: uri.toString()));
           final foundServer = await service.health();
           if (!foundServer) continue;
 
-          database.writePersistent(DatabaseKeys.host.name, input);
+          DatabaseKeys.host.writePersistent(input);
           GetIt.I.registerLazySingleton(() => service);
           return context.router.replaceAll([const MainViewRoute()]);
         }
-        setState(() => hasError = true);
+        setState(() => _hasError = true);
       };
 
   @override
@@ -63,16 +67,16 @@ class _ServerSelectViewState extends State<ServerSelectView> {
                 child: TextField(
                   autofillHints: const [AutofillHints.url],
                   autofocus: true,
-                  controller: hostController,
+                  controller: _hostController,
                   keyboardType: TextInputType.url,
                   textInputAction: TextInputAction.send,
                   textAlign: TextAlign.center,
-                  onChanged: (_) => setState(() => hasError = false),
+                  onChanged: (_) => setState(() => _hasError = false),
                   onSubmitted: (_) => onPressed(),
                 ),
               ),
-              if (hasError) const SizedBox(height: 16),
-              if (hasError) Text(AppStrings.invalidHost.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
+              if (_hasError) const SizedBox(height: 16),
+              if (_hasError) Text(AppStrings.invalidHost.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
               const SizedBox(height: 16),
               ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
               const SizedBox(height: 16),

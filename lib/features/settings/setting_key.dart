@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 enum SettingKey {
@@ -22,4 +23,6 @@ enum Languages {
   }
 
   Locale get locale => Locale(name);
+
+  static Locale get(BuildContext context) => context.locale;
 }

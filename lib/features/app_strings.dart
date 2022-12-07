@@ -48,6 +48,7 @@ enum AppStrings {
   settingsTitle,
   ohNo,
   noPlaylistsFound,
+  language,
   ;
 
   String get tr => key.tr();
@@ -102,6 +103,7 @@ class AppTranslations {
           AppStrings.settingsTitle.key: 'Configurações',
           AppStrings.ohNo.key: 'Oh não!',
           AppStrings.noPlaylistsFound.key: 'Nenhuma playlist encontrada',
+          AppStrings.language.key: 'Idioma',
         },
         const Locale('en', 'US'): {
           AppStrings.appName.key: 'FLUP Karaoke',
@@ -148,6 +150,7 @@ class AppTranslations {
           AppStrings.settingsTitle.key: 'Settings',
           AppStrings.ohNo.key: 'Oh no!',
           AppStrings.noPlaylistsFound.key: 'No playlists found',
+          AppStrings.language.key: 'Language',
         },
       };
 }

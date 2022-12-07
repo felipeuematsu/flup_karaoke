@@ -76,6 +76,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SettingsViewRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SettingsView(),
+      );
+    },
     HomeViewRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -117,12 +123,6 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          '/#redirect',
-          path: '/',
-          redirectTo: '',
-          fullMatch: true,
-        ),
-        RouteConfig(
           ServerSelectViewRoute.name,
           path: '/server-select-view',
         ),
@@ -133,7 +133,7 @@ class _$AppRouter extends RootStackRouter {
         ),
         RouteConfig(
           MainViewRoute.name,
-          path: '',
+          path: '/',
           guards: [serviceGuard],
           children: [
             RouteConfig(
@@ -173,10 +173,9 @@ class _$AppRouter extends RootStackRouter {
           guards: [serviceGuard],
         ),
         RouteConfig(
-          '*#redirect',
-          path: '*',
-          redirectTo: '/',
-          fullMatch: true,
+          SettingsViewRoute.name,
+          path: '/settings-view',
+          guards: [serviceGuard],
         ),
       ];
 }
@@ -267,7 +266,7 @@ class MainViewRoute extends PageRouteInfo<void> {
   const MainViewRoute({List<PageRouteInfo>? children})
       : super(
           MainViewRoute.name,
-          path: '',
+          path: '/',
           initialChildren: children,
         );
 
@@ -340,6 +339,18 @@ class YoutubeSearchViewRouteArgs {
   String toString() {
     return 'YoutubeSearchViewRouteArgs{key: $key, service: $service}';
   }
+}
+
+/// generated route for
+/// [SettingsView]
+class SettingsViewRoute extends PageRouteInfo<void> {
+  const SettingsViewRoute()
+      : super(
+          SettingsViewRoute.name,
+          path: '/settings-view',
+        );
+
+  static const String name = 'SettingsViewRoute';
 }
 
 /// generated route for

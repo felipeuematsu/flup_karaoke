@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:get_it/get_it.dart';
@@ -11,7 +10,7 @@ class ServiceGuard extends AutoRouteGuard {
     if (GetIt.I.isRegistered<KaraokeApiService>()) {
       resolver.next();
     } else {
-      final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
+      final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
       if (databaseHost != null) {
         final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: databaseHost));
         GetIt.I.registerLazySingleton(() => service);

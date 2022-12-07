@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
-class MenuView extends StatelessWidget {
+class MenuView extends StatefulWidget {
   const MenuView({Key? key, required this.service}) : super(key: key);
   final KaraokeApiService service;
 
+  @override
+  State<MenuView> createState() => _MenuViewState();
+}
+
+class _MenuViewState extends State<MenuView> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -26,7 +31,12 @@ class MenuView extends StatelessWidget {
         MenuTile(
           icon: const Icon(Icons.playlist_add_circle),
           text: AppStrings.updatePlaylists.tr,
-          onTap: () => service.updatePlaylists(),
+          onTap: () => widget.service.updatePlaylists(),
+        ),
+        MenuTile(
+          icon: const Icon(Icons.settings),
+          text: AppStrings.settingsTitle.tr,
+          onTap: () => context.pushRoute(const SettingsViewRoute()),
         ),
       ],
     );

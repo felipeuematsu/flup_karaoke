@@ -34,25 +34,25 @@ class _NowPlayingViewState extends State<NowPlayingView> {
                 final song = songModel?.song;
                 final singer = songModel?.singer;
 
-                if (song == null || songModel?.position == null || singer == null) {
-                  return Center(child: Text(AppStrings.nowPlayingEmpty.tr));
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
+                if (song == null || songModel?.position == null || singer == null) return Center(child: Text(AppStrings.nowPlayingEmpty.tr));
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(song.artist ?? '', style: Theme.of(context).textTheme.titleSmall),
                             Text(song.title ?? '', style: Theme.of(context).textTheme.titleSmall),
+                            Text(song.artist ?? '', style: Theme.of(context).textTheme.titleSmall),
                           ],
                         ),
-                        Text(singer, style: Theme.of(context).textTheme.titleSmall),
-                      ],
-                    ),
-                  );
-                }
+                      ),
+                      Text(singer, style: Theme.of(context).textTheme.titleSmall),
+                    ],
+                  ),
+                );
               },
             ),
           ),

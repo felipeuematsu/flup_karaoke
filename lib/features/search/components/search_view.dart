@@ -24,8 +24,7 @@ class _SearchViewState extends State<SearchView> {
   final _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
   final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-
-  bool _isLoading = false;
+  final _searchMoreRefreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -35,9 +34,7 @@ class _SearchViewState extends State<SearchView> {
 
   Future<void> _scrollListener() async {
     if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
-      setState(() => _isLoading = true);
-      await _songSearchService.searchMore();
-      setState(() => _isLoading = false);
+      _searchMoreRefreshKey.currentState?.show();
     }
   }
 
@@ -80,19 +77,19 @@ class _SearchViewState extends State<SearchView> {
       stream: _songSearchService.songStream,
       builder: (context, snapshot) {
         final data = snapshot.data;
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+        return RefreshIndicator(
+          key: _searchMoreRefreshKey,
+          onRefresh: _songSearchService.searchMore,
           child: RefreshIndicator(
             key: _refreshIndicatorKey,
             onRefresh: _songSearchService.search,
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: (data?.length ?? 0) + (_isLoading ? 2 : 1),
+              itemCount: (data?.length ?? 0) + 1,
               itemBuilder: (context, index) {
                 if (index == 0) return searchComponent;
                 if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
                 if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
-                if (index == data.length + 1) return const SizedBox(height: 60.0, child: Center(child: CircularProgressIndicator()));
                 return SongTile(
                   song: data[index - 1],
                   onTap: () => showDialog(

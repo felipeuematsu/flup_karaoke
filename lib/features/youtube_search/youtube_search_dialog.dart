@@ -87,8 +87,7 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
                         );
                         try {
                           setState(() => isLoading = true);
-                          await widget.service.sendYoutubeSong(song);
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(await widget.service.sendYoutubeSong(song));
                         } on DioError {
                           setState(() => isLoading = false);
                         }

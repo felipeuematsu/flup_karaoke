@@ -6,6 +6,7 @@ import 'package:flup_karaoke/features/menu/menu_view.dart';
 import 'package:flup_karaoke/features/playlist/playlist_view.dart';
 import 'package:flup_karaoke/features/queue/queue_view.dart';
 import 'package:flup_karaoke/features/search/components/search_view.dart';
+import 'package:flup_karaoke/features/settings/settings_view.dart';
 import 'package:flup_karaoke/features/singers/singers_view.dart';
 import 'package:flup_karaoke/features/widgets/main_view.dart';
 import 'package:flup_karaoke/features/youtube_search/youtube_search_view.dart';
@@ -30,6 +31,7 @@ const serviceGuard = [ServiceGuard];
     ]),
     AutoRoute(page: SingersView, guards: serviceGuard),
     AutoRoute(page: YoutubeSearchView, guards: serviceGuard),
+    AutoRoute(page: SettingsView, guards: serviceGuard),
   ],
 )
 class AppRouter extends _$AppRouter {

@@ -24,6 +24,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
+  Database().init();
 
   runApp(
     EasyLocalization(
@@ -31,7 +32,7 @@ void main() async {
       path: 'none',
       fallbackLocale: const Locale('en', 'US'),
       assetLoader: AppCustomLoader(),
-      startLocale: const Locale('en', 'US'),
+      // startLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
   );
@@ -47,10 +48,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _appRouter = AppRouter(serviceGuard: ServiceGuard());
   StreamSubscription? _sub;
+  String? host;
 
   @override
   void initState() {
     super.initState();
+    DatabaseKeys.host.readPersistent<String?>().then((value) => host = value);
+    if (host == null) {
+      DatabaseKeys.host.writePersistent(' testeeeee');
+      DatabaseKeys.host.readPersistent<String?>().then((value) => print(value));
+    }
     _handleIncomingLinks();
     _handleInitialUri();
   }
@@ -64,10 +71,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      builder: (context, child) {
-        FocusScope.of(context).unfocus();
-        return Scaffold(body: child);
-      },
+      locale: context.locale,
+      builder: (context, child) => Scaffold(body: child),
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       localizationsDelegates: context.localizationDelegates,
@@ -93,7 +98,7 @@ class _MyAppState extends State<MyApp> {
 
         if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
           if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
-          final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
+          final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
           final hosts = [
             testHttpHost(uri?.queryParameters['host']),
             testHttpsHost(uri?.queryParameters['host']),
@@ -115,6 +120,7 @@ class _MyAppState extends State<MyApp> {
               return;
             }
             GetIt.I.registerLazySingleton(() => service);
+            DatabaseKeys.host.writePersistent(host.toString());
             injectInitialDependencies();
             return _appRouter.replaceAll([const MainViewRoute()]);
           }
@@ -142,7 +148,7 @@ class _MyAppState extends State<MyApp> {
       try {
         final uri = await getInitialUri();
 
-        final databaseHost = await Database().readPersistent<String?>(DatabaseKeys.host.name);
+        final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
         final hosts = [
           testHttpHost(uri?.queryParameters['host']),
           testHttpsHost(uri?.queryParameters['host']),
@@ -165,6 +171,7 @@ class _MyAppState extends State<MyApp> {
           }
           if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
           GetIt.I.registerLazySingleton(() => service);
+          DatabaseKeys.host.writePersistent(host.toString());
           injectInitialDependencies();
           return _appRouter.replaceAll([const MainViewRoute()]);
         }

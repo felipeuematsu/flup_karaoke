@@ -12,7 +12,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class Database {
   static const nonPersistentDatabase = 'non_persistent_database', persistentDatabase = 'persistent_database';
   static const cryptoKeyName = 'crypto_key';
-  static const cryptoKey = '';
+  static const cryptoKey = 'z%C*F-J@NcRfUjXn2r5u8x/A?D(G+KbP';
   factory Database({AbstractFlutterSecureStorage? secureStorage, AbstractHive? hive}) => _shared
     .._hive = _shared._hive ?? hive ?? const HiveImpl()
     .._secureStorage = _shared._secureStorage ?? secureStorage ?? const FlutterSecureStorageImpl();
