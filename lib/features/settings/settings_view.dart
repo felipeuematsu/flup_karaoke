@@ -29,9 +29,6 @@ class _SettingsViewState extends State<SettingsView> {
               onChanged: (Locale? locale) {
                 if (locale != null) {
                   context.setLocale(locale);
-                  context.deleteSaveLocale().then((value) => context.saveLocale(locale));
-                  print('new locale: ${context.locale}');
-                  print('supported locales: ${context.supportedLocales}');
                 }
               },
             ),
