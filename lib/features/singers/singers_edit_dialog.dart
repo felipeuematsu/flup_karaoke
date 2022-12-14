@@ -20,15 +20,15 @@ class _SingersEditDialogState extends State<SingersEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppStrings.editSinger.tr),
+      title: Text(AppStrings.editSinger.tr(context)),
       content: TextField(
         controller: nameController,
-        decoration: InputDecoration(labelText: AppStrings.name.tr),
+        decoration: InputDecoration(labelText: AppStrings.name.tr(context)),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(AppStrings.cancel.tr),
+          child: Text(AppStrings.cancel.tr(context)),
         ),
         TextButton(
           onPressed: isMakingRequest
@@ -41,7 +41,7 @@ class _SingersEditDialogState extends State<SingersEditDialog> {
                     widget.service.editSinger(widget.singer.copyWith(name: nameController.text)).then((_) => Navigator.of(context).pop());
                   }
                 },
-          child: Text(AppStrings.save.tr),
+          child: Text(AppStrings.save.tr(context)),
         ),
       ],
     );

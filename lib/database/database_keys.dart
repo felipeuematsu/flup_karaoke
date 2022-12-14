@@ -6,13 +6,14 @@ enum DatabaseKeys {
   accessToken,
   userId,
   host,
+  language,
   ;
 
-  Future<T?> read<T>({bool persistent = false}) async => _database.read<T>(name, persistent: persistent);
+  T? read<T>({bool persistent = false}) => _database.read<T>(name, persistent: persistent);
 
   Future<void> write<T>(T value, {bool persistent = false}) async => _database.write(name, value, persistent: persistent);
 
-  Future<T?> readPersistent<T>() async => _database.readPersistent<T>(name);
+  T? readPersistent<T>() => _database.readPersistent<T>(name);
 
   Future<void> writePersistent<T>(T value) async => _database.writePersistent(name, value);
 }

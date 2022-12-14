@@ -47,19 +47,19 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     final _titleTextField = TextFormField(
-      validator: _songSearchService.titleValidator,
+      validator: _songSearchService.titleValidator(context),
       textInputAction: TextInputAction.search,
       controller: _titleController,
-      decoration: InputDecoration(hintText: AppStrings.songTitleHint.tr),
+      decoration: InputDecoration(hintText: AppStrings.songTitleHint.tr(context)),
       onChanged: (value) => _songSearchService.titleStreamController.sink.add(value),
       onFieldSubmitted: (_) => executeSearch(),
     );
 
     final _artistTextField = TextFormField(
-      validator: _songSearchService.artistValidator,
+      validator: _songSearchService.artistValidator(context),
       textInputAction: TextInputAction.search,
       controller: _artistController,
-      decoration: InputDecoration(hintText: AppStrings.artistNameHint.tr),
+      decoration: InputDecoration(hintText: AppStrings.artistNameHint.tr(context)),
       onChanged: (value) => _songSearchService.artistStreamController.sink.add(value),
       onFieldSubmitted: (_) => executeSearch(),
     );
@@ -89,7 +89,7 @@ class _SearchViewState extends State<SearchView> {
               itemBuilder: (context, index) {
                 if (index == 0) return searchComponent;
                 if (data == null) return Column(children: [const Spacer(), searchComponent, const Spacer(flex: 3)]);
-                if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr), const Spacer(flex: 3)]);
+                if (data.isEmpty) return Column(children: [const Spacer(), searchComponent, const Spacer(), Text(AppStrings.noResults.tr(context)), const Spacer(flex: 3)]);
                 return SongTile(
                   song: data[index - 1],
                   onTap: () => showDialog(

@@ -18,8 +18,6 @@ class SongTile extends StatelessWidget {
 
   String get subtitle => singerModel == null ? '${song.artist}' : '${singerModel?.name}';
 
-  String get songInfo => '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')} - ${song.plays ?? 0}${AppStrings.timesPlayed.tr}';
-
   @override
   Widget build(BuildContext context) {
     final imageUrl = song.imageUrl;
@@ -32,12 +30,13 @@ class SongTile extends StatelessWidget {
       isThreeLine: true,
       tileColor: Colors.grey[200],
       subtitle: RichText(
+        overflow: TextOverflow.ellipsis,
         maxLines: 2,
         text: TextSpan(
           style: Theme.of(context).textTheme.bodyText2,
           children: [
             TextSpan(text: '$subtitle\n'),
-            TextSpan(text: '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')} - ${AppStrings.timesPlayed.tr.replaceAll('{}', '${song.plays ?? 0}')}'),
+            TextSpan(text: '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')} - ${AppStrings.timesPlayed.tr(context).replaceAll('{}', '${song.plays ?? 0}')}'),
           ],
         ),
       ),

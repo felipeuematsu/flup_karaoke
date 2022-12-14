@@ -25,13 +25,13 @@ class _ServerSelectViewState extends State<ServerSelectView> {
   @override
   void initState() {
     super.initState();
-    DatabaseKeys.host.readPersistent<String?>().then((lastHost) {
-      if (widget.host != null) {
-        _hostController.text = widget.host!;
-      } else if (lastHost != null) {
-        _hostController.text = lastHost;
-      }
-    });
+    final lastHost = DatabaseKeys.host.readPersistent<String?>();
+    if (widget.host != null) {
+      _hostController.text = widget.host!;
+    } else if (lastHost != null) {
+      _hostController.text = lastHost;
+    }
+
     if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
   }
 
@@ -60,7 +60,7 @@ class _ServerSelectViewState extends State<ServerSelectView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Text(AppStrings.enterHost.tr, style: Theme.of(context).textTheme.titleMedium),
+              Text(AppStrings.enterHost.tr(context), style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 16),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
@@ -76,9 +76,9 @@ class _ServerSelectViewState extends State<ServerSelectView> {
                 ),
               ),
               if (_hasError) const SizedBox(height: 16),
-              if (_hasError) Text(AppStrings.invalidHost.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
+              if (_hasError) Text(AppStrings.invalidHost.tr(context), style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
               const SizedBox(height: 16),
-              ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr)),
+              ElevatedButton(onPressed: onPressed, child: Text(AppStrings.connect.tr(context))),
               const SizedBox(height: 16),
               if (kIsWeb) ...[
                 const Spacer(),

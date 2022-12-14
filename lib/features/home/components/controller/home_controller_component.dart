@@ -19,15 +19,15 @@ class HomeControllerComponent extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 2),
       children: [
-        ControllerButton(onPressed: () => service.volumeUp(), text: AppStrings.volumeUp.tr, icon: const Icon(Icons.volume_up)),
+        ControllerButton(onPressed: () => service.volumeUp(), text: AppStrings.volumeUp.tr(context), icon: const Icon(Icons.volume_up)),
         const SizedBox(),
-        ControllerButton(onPressed: () => service.volumeDown(), text: AppStrings.volumeDown.tr, icon: const Icon(Icons.volume_down)),
+        ControllerButton(onPressed: () => service.volumeDown(), text: AppStrings.volumeDown.tr(context), icon: const Icon(Icons.volume_down)),
         const SizedBox(),
-        ControllerButton(onPressed: () => service.play(), text: AppStrings.playButton.tr, icon: const Icon(Icons.play_arrow)),
+        ControllerButton(onPressed: () => service.play(), text: AppStrings.playButton.tr(context), icon: const Icon(Icons.play_arrow)),
         const SizedBox(),
-        ControllerButton(onPressed: () => service.pause(), text: AppStrings.pauseButton.tr, icon: const Icon(Icons.pause)),
+        ControllerButton(onPressed: () => service.pause(), text: AppStrings.pauseButton.tr(context), icon: const Icon(Icons.pause)),
         const SizedBox(),
-        ControllerButton(onPressed: () => service.skip(), text: AppStrings.skipButton.tr, icon: const Icon(Icons.skip_next)),
+        ControllerButton(onPressed: () => service.skip(), text: AppStrings.skipButton.tr(context), icon: const Icon(Icons.skip_next)),
       ],
     );
   }

@@ -20,22 +20,22 @@ class _MenuViewState extends State<MenuView> {
       children: [
         MenuTile(
           icon: const Icon(Icons.people),
-          text: AppStrings.singersTitle.tr,
+          text: AppStrings.singersTitle.tr(context),
           onTap: () => context.pushRoute(SingersViewRoute(service: GetIt.I.get())),
         ),
         MenuTile(
           icon: const Icon(Icons.youtube_searched_for),
-          text: AppStrings.youtubeSearchTitle.tr,
+          text: AppStrings.youtubeSearchTitle.tr(context),
           onTap: () => context.pushRoute(YoutubeSearchViewRoute(service: GetIt.I.get())),
         ),
         MenuTile(
           icon: const Icon(Icons.playlist_add_circle),
-          text: AppStrings.updatePlaylists.tr,
+          text: AppStrings.updatePlaylists.tr(context),
           onTap: () => widget.service.updatePlaylists(),
         ),
         MenuTile(
           icon: const Icon(Icons.settings),
-          text: AppStrings.settingsTitle.tr,
+          text: AppStrings.settingsTitle.tr(context),
           onTap: () => context.pushRoute(const SettingsViewRoute()),
         ),
       ],

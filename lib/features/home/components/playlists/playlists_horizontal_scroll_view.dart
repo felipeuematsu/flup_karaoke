@@ -43,7 +43,7 @@ class _PlaylistsHorizontalScrollViewState extends State<PlaylistsHorizontalScrol
                   itemCount: max(data?.length ?? 5, 1),
                   itemBuilder: (context, index) {
                     if (data == null) return const PlaylistScrollLoadingItem();
-                    if (data.isEmpty) return Center(child: Text(AppStrings.noPlaylistsFound.tr));
+                    if (data.isEmpty) return Center(child: Text(AppStrings.noPlaylistsFound.tr(context)));
                     final playlist = data[index];
                     final id = playlist.id;
                     if (id == null) return const SizedBox.shrink();

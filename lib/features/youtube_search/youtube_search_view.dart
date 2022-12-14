@@ -41,7 +41,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.youtubeSearchTitle.tr)),
+      appBar: AppBar(title: Text(AppStrings.youtubeSearchTitle.tr(context))),
       body: RefreshIndicator(
         onRefresh: () => _searchService.search(searchController.text),
         key: _searchRefreshKey,
@@ -50,9 +50,9 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppStrings.ohNo.tr, style: Theme.of(context).textTheme.displaySmall),
+                    Text(AppStrings.ohNo.tr(context), style: Theme.of(context).textTheme.displaySmall),
                     const SizedBox(height: 12),
-                    Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
+                    Text(AppStrings.youtubeSearchNotSupportedOnWeb.tr(context), style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center),
                     const SizedBox(height: 32),
                     const OpenStoreWidget(),
                   ],
@@ -65,7 +65,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
                         onSubmitted: (_) => _searchRefreshKey.currentState?.show(),
                         controller: searchController,
                         decoration: InputDecoration(
-                          hintText: AppStrings.youtubeSearchHint.tr,
+                          hintText: AppStrings.youtubeSearchHint.tr(context),
                           suffixIcon: IconButton(onPressed: () => _searchRefreshKey.currentState?.show(), icon: const Icon(Icons.search)),
                         ),
                       ),
@@ -75,7 +75,7 @@ class _YoutubeSearchViewState extends State<YoutubeSearchView> {
                           builder: (context, snapshot) {
                             final data = snapshot.data;
                             if (data == null) return const SizedBox.shrink();
-                            if (data.isEmpty) return Text(AppStrings.noResults.tr);
+                            if (data.isEmpty) return Text(AppStrings.noResults.tr(context));
                             return RefreshIndicator(
                               key: _searchMoreRefreshKey,
                               onRefresh: () => _searchService.searchMore(),

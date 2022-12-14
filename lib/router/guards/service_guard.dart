@@ -10,7 +10,7 @@ class ServiceGuard extends AutoRouteGuard {
     if (GetIt.I.isRegistered<KaraokeApiService>()) {
       resolver.next();
     } else {
-      final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
+      final databaseHost = DatabaseKeys.host.readPersistent<String?>();
       if (databaseHost != null) {
         final service = KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: databaseHost));
         GetIt.I.registerLazySingleton(() => service);

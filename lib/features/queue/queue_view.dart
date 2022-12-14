@@ -49,7 +49,7 @@ class _QueueViewState extends State<QueueView> {
           builder: (context, snapshot) {
             final data = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting || data == null) return _singleChildScroll(const SizedBox());
-            if (data.isEmpty) return _singleChildScroll(Padding(padding: const EdgeInsets.all(80.0), child: Text(AppStrings.emptyQueueMessage.tr)));
+            if (data.isEmpty) return _singleChildScroll(Padding(padding: const EdgeInsets.all(80.0), child: Text(AppStrings.emptyQueueMessage.tr(context))));
 
             data.sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
 
@@ -74,14 +74,14 @@ class _QueueViewState extends State<QueueView> {
                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
                               leading: const Icon(Icons.playlist_remove_sharp),
                               onTap: () => showDialog(context: context, builder: (_) => QueueDialog(item: data[index], service: service)).then((_) => reload()),
-                              title: Text(AppStrings.removeFromQueue.tr),
+                              title: Text(AppStrings.removeFromQueue.tr(context)),
                             ),
                             const Divider(color: Colors.black),
                             ListTile(
                               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
                               leading: const Icon(Icons.cancel),
                               onTap: () => Navigator.pop(context),
-                              title: Text(AppStrings.cancel.tr),
+                              title: Text(AppStrings.cancel.tr(context)),
                             ),
                           ],
                         );

@@ -36,7 +36,7 @@ class _MainViewState extends State<MainView> {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           appBar: AppBar(
-            title: Text(AppStrings.appName.tr),
+            title: Text(AppStrings.appName.tr(context)),
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),

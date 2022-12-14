@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flup_karaoke/app_imports.dart';
 import 'package:flup_karaoke/configurations/app_theme.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/database_keys.dart';
 import 'package:flup_karaoke/dependency_injection/initial.dart';
+import 'package:flup_karaoke/localizations/flup_localizations.dart';
 import 'package:flup_karaoke/router/app_router.dart';
 import 'package:flup_karaoke/router/guards/service_guard.dart';
 import 'package:flup_karaoke/util/host_checker_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:uni_links/uni_links.dart';
@@ -22,20 +22,10 @@ bool _initialUriIsHandled = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
   Database().init();
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('pt', 'BR')],
-      path: 'none',
-      fallbackLocale: const Locale('en', 'US'),
-      assetLoader: AppCustomLoader(),
-      // startLocale: const Locale('en', 'US'),
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -43,21 +33,27 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
+  late Locale? _locale = _database.readPersistent(DatabaseKeys.language.name) ?? const Locale('en', 'US');
+
+  final _database = Database();
   final _appRouter = AppRouter(serviceGuard: ServiceGuard());
   StreamSubscription? _sub;
   String? host;
 
+  Locale? get locale => _locale;
+
+  set locale(Locale? locale) => setState(() => _locale = locale);
+
   @override
   void initState() {
     super.initState();
-    DatabaseKeys.host.readPersistent<String?>().then((value) => host = value);
-    if (host == null) {
-      DatabaseKeys.host.writePersistent(' testeeeee');
-      DatabaseKeys.host.readPersistent<String?>().then((value) => print(value));
-    }
+    host ??= DatabaseKeys.host.readPersistent<String?>();
+
     _handleIncomingLinks();
     _handleInitialUri();
   }
@@ -71,12 +67,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      locale: context.locale,
+      locale: locale ??= _database.readPersistent(DatabaseKeys.language.name),
       builder: (context, child) => Scaffold(body: child),
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
+      localizationsDelegates: const [
+        FlupLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en', 'US'), Locale('pt', 'BR')],
       title: 'FLUP Karaoke',
       theme: themeDataFromFinnBlue.copyWith(
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
@@ -98,7 +99,7 @@ class _MyAppState extends State<MyApp> {
 
         if (_appRouter.current.route.name == ServerSelectViewRoute.name) {
           if (GetIt.I.isRegistered<KaraokeApiService>()) GetIt.I.unregister<KaraokeApiService>();
-          final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
+          final databaseHost = DatabaseKeys.host.readPersistent<String?>();
           final hosts = [
             testHttpHost(uri?.queryParameters['host']),
             testHttpsHost(uri?.queryParameters['host']),
@@ -148,7 +149,7 @@ class _MyAppState extends State<MyApp> {
       try {
         final uri = await getInitialUri();
 
-        final databaseHost = await DatabaseKeys.host.readPersistent<String?>();
+        final databaseHost = DatabaseKeys.host.readPersistent<String?>();
         final hosts = [
           testHttpHost(uri?.queryParameters['host']),
           testHttpsHost(uri?.queryParameters['host']),

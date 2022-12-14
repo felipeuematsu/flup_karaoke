@@ -24,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                PlaylistsHorizontalScrollView(title: AppStrings.playlistsTitle.tr, playlistsController: GetIt.I.get()),
+                PlaylistsHorizontalScrollView(title: AppStrings.playlistsTitle.tr(context), playlistsController: GetIt.I.get()),
                 HomeControllerComponent(service: GetIt.I.get()),
               ],
             ),

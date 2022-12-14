@@ -23,7 +23,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-            child: Text(AppStrings.nowPlayingTitle.tr, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.secondary)),
+            child: Text(AppStrings.nowPlayingTitle.tr(context), style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.secondary)),
           ),
           Expanded(
             child: StreamBuilder(
@@ -34,7 +34,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
                 final song = songModel?.song;
                 final singer = songModel?.singer;
 
-                if (song == null || songModel?.position == null || singer == null) return Center(child: Text(AppStrings.nowPlayingEmpty.tr));
+                if (song == null || songModel?.position == null || singer == null) return Center(child: Text(AppStrings.nowPlayingEmpty.tr(context)));
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(

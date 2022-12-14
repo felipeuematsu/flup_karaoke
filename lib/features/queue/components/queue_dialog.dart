@@ -33,17 +33,19 @@ class _QueueDialogState extends State<QueueDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppStrings.cancel.tr),
+          child: Text(AppStrings.cancel.tr(context)),
         ),
         TextButton(
-          onPressed: isMidRequest ? null : () {
-            setState(() => isMidRequest = true);
-            widget.service.removeFromQueue(widget.item.id ?? 0).then((_) {
-              setState(() => isMidRequest = false);
-              Navigator.pop(context);
-            });
-          },
-          child: Text(AppStrings.removeFromQueue.tr),
+          onPressed: isMidRequest
+              ? null
+              : () {
+                  setState(() => isMidRequest = true);
+                  widget.service.removeFromQueue(widget.item.id ?? 0).then((_) {
+                    setState(() => isMidRequest = false);
+                    Navigator.pop(context);
+                  });
+                },
+          child: Text(AppStrings.removeFromQueue.tr(context)),
         ),
       ],
     );

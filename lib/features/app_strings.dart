@@ -1,7 +1,5 @@
-import 'dart:ui';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flup_karaoke/localizations/flup_localizations.dart';
+import 'package:flutter/material.dart';
 
 enum AppStrings {
   appName,
@@ -51,13 +49,19 @@ enum AppStrings {
   language,
   ;
 
-  String get tr => key.tr();
+  String tr(BuildContext context) {
+    return _.keys[FlupLocalizations.of(context)!.locale]?[key] ?? toString();
+  }
 
   String get key => toString();
 }
 
+const _ = AppTranslations();
+
 class AppTranslations {
-  Map<Locale, Map<String, dynamic>> get keys => {
+  const AppTranslations();
+
+  Map<Locale, Map<String, String>> get keys => {
         const Locale('pt', 'BR'): {
           AppStrings.appName.key: 'FLUP Karaoke',
           AppStrings.singerName.key: 'Seu nome',
@@ -154,13 +158,13 @@ class AppTranslations {
         },
       };
 }
-
-class AppCustomLoader extends AssetLoader {
-  @override
-  Future<Map<String, dynamic>?> load(String path, Locale locale) {
-    EasyLocalization.logger.debug('Loading translations for locale: $locale');
-    final translations = AppTranslations();
-    final key = translations.keys[locale];
-    return SynchronousFuture(key);
-  }
-}
+//
+// class AppCustomLoader extends AssetLoader {
+//   @override
+//   Future<Map<String, dynamic>?> load(String path, Locale locale) {
+//     EasyLocalization.logger.debug('Loading translations for locale: $locale');
+//     final translations = AppTranslations();
+//     final key = translations.keys[locale];
+//     return SynchronousFuture(key);
+//   }
+// }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flup_karaoke/features/app_strings.dart';
+import 'package:flutter/widgets.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongSearchService {
@@ -63,16 +64,16 @@ class SongSearchService {
     });
   }
 
-  String? Function(String?) get artistValidator => (String? value) {
+  String? Function(String?) artistValidator(BuildContext context) => (String? value) {
         if (title.length < 3 && (value == null || value.length < 3)) {
-          return AppStrings.searchTooShort.tr;
+          return AppStrings.searchTooShort.tr(context);
         }
         return null;
       };
 
-  String? Function(String?) get titleValidator => (String? value) {
+  String? Function(String?) titleValidator(BuildContext context) => (String? value) {
         if (artist.length < 3 && (value == null || value.length < 3)) {
-          return AppStrings.searchTooShort.tr;
+          return AppStrings.searchTooShort.tr(context);
         }
         return null;
       };

@@ -13,6 +13,7 @@ class Database {
   static const nonPersistentDatabase = 'non_persistent_database', persistentDatabase = 'persistent_database';
   static const cryptoKeyName = 'crypto_key';
   static const cryptoKey = 'z%C*F-J@NcRfUjXn2r5u8x/A?D(G+KbP';
+
   factory Database({AbstractFlutterSecureStorage? secureStorage, AbstractHive? hive}) => _shared
     .._hive = _shared._hive ?? hive ?? const HiveImpl()
     .._secureStorage = _shared._secureStorage ?? secureStorage ?? const FlutterSecureStorageImpl();
@@ -48,13 +49,13 @@ class Database {
     }
   }
 
-  Future<T?> read<T>(String key, {bool persistent = false}) => persistent ? readPersistent(key) : readNonPersistent(key);
+  T? read<T>(String key, {bool persistent = false}) => persistent ? readPersistent(key) : readNonPersistent(key);
 
   Future<void> write(String key, dynamic value, {bool persistent = false}) => persistent ? writePersistent(key, value) : writeNonPersistent(key, value);
 
-  Future<T?> readNonPersistent<T>(String key) async => await _box?.get(key) as T?;
+  T? readNonPersistent<T>(String key) => _box?.get(key) as T?;
 
-  Future<T?> readPersistent<T>(String key) async => await _persistentBox?.get(key) as T?;
+  T? readPersistent<T>(String key) => _persistentBox?.get(key) as T?;
 
   Future<void> writeNonPersistent(String key, dynamic value) async => await _box?.put(key, value);
 
@@ -62,9 +63,7 @@ class Database {
 
   Future<void> clearNonPersistent() async => await _box?.clear();
 
-  Future<void> deleteByKeyNonPersistent(String key) async {
-    return await _box?.delete(key);
-  }
+  Future<void> deleteByKeyNonPersistent(String key) async => await _box?.delete(key);
 
   Future<void> close() async {
     await _box?.close();

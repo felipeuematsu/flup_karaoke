@@ -17,7 +17,7 @@ class _SingersViewState extends State<SingersView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.singersTitle.tr),
+        title: Text(AppStrings.singersTitle.tr(context)),
         actions: [
           IconButton(
             onPressed: () => showDialog(context: context, builder: (context) => SingersEditDialog(service: widget.service, singer: const SingerModel())).then((_) => setState(() {})),
@@ -30,9 +30,8 @@ class _SingersViewState extends State<SingersView> {
         builder: (context, snapshot) {
           final data = snapshot.data;
           if (data != null) {
-
             if (data.isEmpty) {
-              return  Center(child: Text(AppStrings.noSingers.tr));
+              return Center(child: Text(AppStrings.noSingers.tr(context)));
             }
 
             return ListView.builder(

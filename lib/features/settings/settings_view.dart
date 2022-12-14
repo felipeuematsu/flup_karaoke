@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flup_karaoke/app_imports.dart';
 import 'package:flup_karaoke/features/settings/setting_key.dart';
+import 'package:flup_karaoke/main.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatefulWidget {
@@ -14,13 +14,13 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.settingsTitle.tr)),
+      appBar: AppBar(title: Text(AppStrings.settingsTitle.tr(context))),
       body: ListView(
         children: [
           ListTile(
-            title: Text(AppStrings.language.tr),
+            title: Text(AppStrings.language.tr(context)),
             trailing: DropdownButton(
-              hint: Text(AppStrings.language.tr),
+              hint: Text(AppStrings.language.tr(context)),
               value: Languages.get(context),
               items: const [
                 DropdownMenuItem(value: Locale('pt', 'BR'), child: Text('Português (Brasil)')),
@@ -28,19 +28,19 @@ class _SettingsViewState extends State<SettingsView> {
               ],
               onChanged: (Locale? locale) {
                 if (locale != null) {
-                  context.setLocale(locale);
+                  MyApp.of(context)?.locale = locale;
                 }
               },
             ),
           ),
           // ListTile(
-          //   title: Text(AppStrings.theme.tr),
+          //   title: Text(AppStrings.theme.tr(context)),
           //   trailing: DropdownButton(
           //     value: context.themeMode,
           //     items: [
-          //       DropdownMenuItem(value: ThemeMode.system, child: Text(AppStrings.system.tr)),
-          //       DropdownMenuItem(value: ThemeMode.light, child: Text(AppStrings.light.tr)),
-          //       DropdownMenuItem(value: ThemeMode.dark, child: Text(AppStrings.dark.tr)),
+          //       DropdownMenuItem(value: ThemeMode.system, child: Text(AppStrings.system.tr(context))),
+          //       DropdownMenuItem(value: ThemeMode.light, child: Text(AppStrings.light.tr(context))),
+          //       DropdownMenuItem(value: ThemeMode.dark, child: Text(AppStrings.dark.tr(context))),
           //     ],
           //     onChanged: (ThemeMode? themeMode) {
           //       if (themeMode != null) context.setThemeMode(themeMode);

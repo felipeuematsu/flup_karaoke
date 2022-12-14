@@ -32,7 +32,7 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppStrings.addYoutubeSong.tr),
+      title: Text(AppStrings.addYoutubeSong.tr(context)),
       content: FutureBuilder(
         future: widget.futureManifest,
         builder: (context, snapshot) {
@@ -50,11 +50,11 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
                   Text('Bitrate: ${stream.bitrate}'),
                   TextField(
                     controller: titleController,
-                    decoration: InputDecoration(labelText: AppStrings.songTitleHint.tr),
+                    decoration: InputDecoration(labelText: AppStrings.songTitleHint.tr(context)),
                   ),
                   TextField(
                     controller: artistController,
-                    decoration: InputDecoration(labelText: AppStrings.artistNameHint.tr),
+                    decoration: InputDecoration(labelText: AppStrings.artistNameHint.tr(context)),
                   ),
                 ],
               ),
@@ -67,7 +67,7 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
       actions: [
         TextButton(
           onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          child: Text(AppStrings.cancel.tr),
+          child: Text(AppStrings.cancel.tr(context)),
         ),
         FutureBuilder(
             future: widget.futureManifest,
@@ -92,7 +92,7 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
                           setState(() => isLoading = false);
                         }
                       },
-                child: Text(AppStrings.save.tr),
+                child: Text(AppStrings.save.tr(context)),
               );
             }),
       ],
