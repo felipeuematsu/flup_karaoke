@@ -1,0 +1,10 @@
+{
+  "@@locale": "pt",
+  "appName": "FLUP Karaoke",
+  "manualConnection": "Conexão manual",
+  "manualConnectionDescription": "Digite o endereço IP do servidor",
+  "manualConnectionPlaceholder": "Endereço",
+  "manualConnectionButton": "Conectar",
+  "manualConnectionError": "Não foi possível conectar ao servidor",
+  "cancel": "Cancelar"
+}

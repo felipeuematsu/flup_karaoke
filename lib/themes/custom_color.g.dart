@@ -5,8 +5,7 @@ const lightpink = Color(0xFF96439D);
 const purple = Color(0xFF390164);
 const lightgreen = Color(0xFFCDF5DB);
 
-
-CustomColors lightCustomColors = const CustomColors(
+CustomColors lightCustomColors = const CustomColors._(
   sourceLightpink: Color(0xFF96439D),
   lightpink: Color(0xFF8F3C96),
   onLightpink: Color(0xFFFFFFFF),
@@ -24,7 +23,7 @@ CustomColors lightCustomColors = const CustomColors(
   onLightgreenContainer: Color(0xFF002112),
 );
 
-CustomColors darkCustomColors = const CustomColors(
+CustomColors darkCustomColors = const CustomColors._(
   sourceLightpink: Color(0xFF96439D),
   lightpink: Color(0xFFFEA9FF),
   onLightpink: Color(0xFF580063),
@@ -42,15 +41,15 @@ CustomColors darkCustomColors = const CustomColors(
   onLightgreenContainer: Color(0xFF8FF7C0),
 );
 
-
-
 /// Defines a set of custom colors, each comprised of 4 complementary tones.
 ///
 /// See also:
 ///   * <https://m3.material.io/styles/color/the-color-system/custom-colors>
 @immutable
 class CustomColors extends ThemeExtension<CustomColors> {
-  const CustomColors({
+  static CustomColors of(BuildContext context) => Theme.of(context).extension<CustomColors>()!;
+
+  const CustomColors._({
     required this.sourceLightpink,
     required this.lightpink,
     required this.onLightpink,
@@ -102,7 +101,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? lightgreenContainer,
     Color? onLightgreenContainer,
   }) {
-    return CustomColors(
+    return CustomColors._(
       sourceLightpink: sourceLightpink ?? this.sourceLightpink,
       lightpink: lightpink ?? this.lightpink,
       onLightpink: onLightpink ?? this.onLightpink,
@@ -126,7 +125,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     if (other is! CustomColors) {
       return this;
     }
-    return CustomColors(
+    return CustomColors._(
       sourceLightpink: Color.lerp(sourceLightpink, other.sourceLightpink, t),
       lightpink: Color.lerp(lightpink, other.lightpink, t),
       onLightpink: Color.lerp(onLightpink, other.onLightpink, t),

@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "appName": "FLUP Karaoke",
+  "manualConnection": "Manual connection",
+  "manualConnectionDescription": "Enter the address of the you want to connect to.",
+  "manualConnectionPlaceholder": "Address",
+  "manualConnectionButton": "Connect",
+  "cancel": "Cancel"
+}
