@@ -21,5 +21,16 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "manualConnection":
+            MessageLookupByLibrary.simpleMessage("Manual connection"),
+        "manualConnectionButton":
+            MessageLookupByLibrary.simpleMessage("Connect"),
+        "manualConnectionDescription": MessageLookupByLibrary.simpleMessage(
+            "Enter the address of the you want to connect to."),
+        "manualConnectionPlaceholder":
+            MessageLookupByLibrary.simpleMessage("Address")
+      };
 }
