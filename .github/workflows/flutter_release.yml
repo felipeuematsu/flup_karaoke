@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.3.9"
+      FLUTTER_VERSION: "3.10.3"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
