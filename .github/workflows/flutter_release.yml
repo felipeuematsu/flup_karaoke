@@ -120,7 +120,7 @@ jobs:
         run: flutter build appbundle --build-number ${{ github.run_number }}
 
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
 
