@@ -109,6 +109,26 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Art by `
+  String get artBy {
+    return Intl.message(
+      'Art by ',
+      name: 'artBy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insert new server`
+  String get insertNewServer {
+    return Intl.message(
+      'Insert new server',
+      name: 'insertNewServer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

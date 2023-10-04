@@ -1,9 +1,7 @@
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class LoginController {
-  LoginController(this._karaokeApiService);
-
-  final KaraokeApiService _karaokeApiService;
+  LoginController();
 
   Future<bool> testHost(String host) {
     final uri = Uri.http(host);

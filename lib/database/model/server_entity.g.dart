@@ -22,8 +22,13 @@ const ServerRecordSchema = CollectionSchema(
       name: r'ip',
       type: IsarType.string,
     ),
-    r'name': PropertySchema(
+    r'lastConnected': PropertySchema(
       id: 1,
+      name: r'lastConnected',
+      type: IsarType.dateTime,
+    ),
+    r'name': PropertySchema(
+      id: 2,
       name: r'name',
       type: IsarType.string,
     )
@@ -84,7 +89,8 @@ void _serverRecordSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.ip);
-  writer.writeString(offsets[1], object.name);
+  writer.writeDateTime(offsets[1], object.lastConnected);
+  writer.writeString(offsets[2], object.name);
 }
 
 ServerRecord _serverRecordDeserialize(
@@ -96,7 +102,8 @@ ServerRecord _serverRecordDeserialize(
   final object = ServerRecord();
   object.id = id;
   object.ip = reader.readStringOrNull(offsets[0]);
-  object.name = reader.readStringOrNull(offsets[1]);
+  object.lastConnected = reader.readDateTime(offsets[1]);
+  object.name = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -110,6 +117,8 @@ P _serverRecordDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
+      return (reader.readDateTime(offset)) as P;
+    case 2:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -575,6 +584,62 @@ extension ServerRecordQueryFilter
     });
   }
 
+  QueryBuilder<ServerRecord, ServerRecord, QAfterFilterCondition>
+      lastConnectedEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastConnected',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ServerRecord, ServerRecord, QAfterFilterCondition>
+      lastConnectedGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastConnected',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ServerRecord, ServerRecord, QAfterFilterCondition>
+      lastConnectedLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastConnected',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ServerRecord, ServerRecord, QAfterFilterCondition>
+      lastConnectedBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastConnected',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<ServerRecord, ServerRecord, QAfterFilterCondition> nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -747,6 +812,19 @@ extension ServerRecordQuerySortBy
     });
   }
 
+  QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy> sortByLastConnected() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastConnected', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy>
+      sortByLastConnectedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastConnected', Sort.desc);
+    });
+  }
+
   QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -786,6 +864,19 @@ extension ServerRecordQuerySortThenBy
     });
   }
 
+  QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy> thenByLastConnected() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastConnected', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy>
+      thenByLastConnectedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastConnected', Sort.desc);
+    });
+  }
+
   QueryBuilder<ServerRecord, ServerRecord, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -808,6 +899,13 @@ extension ServerRecordQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ServerRecord, ServerRecord, QDistinct>
+      distinctByLastConnected() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastConnected');
+    });
+  }
+
   QueryBuilder<ServerRecord, ServerRecord, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -827,6 +925,13 @@ extension ServerRecordQueryProperty
   QueryBuilder<ServerRecord, String?, QQueryOperations> ipProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'ip');
+    });
+  }
+
+  QueryBuilder<ServerRecord, DateTime, QQueryOperations>
+      lastConnectedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastConnected');
     });
   }
 

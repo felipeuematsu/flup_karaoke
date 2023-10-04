@@ -5,5 +5,7 @@
   "manualConnectionDescription": "Enter the address of the you want to connect to.",
   "manualConnectionPlaceholder": "Address",
   "manualConnectionButton": "Connect",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "artBy": "Art by ",
+  "insertNewServer": "Insert new server"
 }

@@ -10,4 +10,6 @@ class ServerRecord {
   String? ip;
 
   String? name;
+
+  DateTime lastConnected = DateTime.now();
 }

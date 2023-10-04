@@ -23,7 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
+        "artBy": MessageLookupByLibrary.simpleMessage("Art by "),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "insertNewServer":
+            MessageLookupByLibrary.simpleMessage("Insert new server"),
         "manualConnection":
             MessageLookupByLibrary.simpleMessage("Manual connection"),
         "manualConnectionButton":

@@ -16,7 +16,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   dio: any
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.2.1
   karaoke_request_api:
     git:
       url: https://github.com/felipeuematsu/karaoke_request_api
@@ -38,15 +38,16 @@ dependencies:
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   intl: ^0.18.0
+  path_provider: ^2.1.1
 
 dev_dependencies:
   isar_generator: ^3.1.0+1
   freezed: ^2.4.1
   auto_route_generator: ^7.3.1
   build_runner: ^2.1.6
+  flutter_gen_runner:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
   json_serializable: ^6.7.1
 
@@ -58,6 +59,46 @@ flutter:
 
   assets:
     - assets/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-Black.ttf
+          weight: 900
+        #        italic
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+          weight: 900
+          style: italic
+        #          thin
+        - asset: assets/fonts/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins-ThinItalic.ttf
+          weight: 100
+          style: italic
+
 
 flutter_intl:
   enabled: true

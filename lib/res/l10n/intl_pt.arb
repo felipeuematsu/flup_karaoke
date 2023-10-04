@@ -6,5 +6,7 @@
   "manualConnectionPlaceholder": "Endereço",
   "manualConnectionButton": "Conectar",
   "manualConnectionError": "Não foi possível conectar ao servidor",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "artBy": "Arte por ",
+  "insertNewServer": "Inserir novo servidor"
 }
