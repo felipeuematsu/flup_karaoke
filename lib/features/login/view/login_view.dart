@@ -28,7 +28,18 @@ class _LoginViewState extends State<LoginView> {
 
   final db = AppDB.get();
 
-  final randomFish = (FishAssetsMapper.values.toList()..shuffle()).first;
+  final List<FishAssetsMapper> randomFishes = (FishAssetsMapper.values.toList()..shuffle());
+  FishAssetsMapper randomFish = FishAssetsMapper.values.first;
+
+  void _setNextFish() {
+    final index = randomFishes.indexOf(randomFish);
+    if (index == randomFishes.length - 1) {
+      randomFish = randomFishes.first;
+    } else {
+      randomFish = randomFishes[index + 1];
+    }
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -49,6 +60,10 @@ class _LoginViewState extends State<LoginView> {
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0.8),
           appBar: AppBar(backgroundColor: Colors.transparent, actions: [
+            IconButton(
+              onPressed: _setNextFish,
+              icon: const Icon(Icons.refresh),
+            ),
             IconButton(
               onPressed: () => db.toggleDarkMode(context),
               icon: ValueListenableBuilder(
