@@ -8,5 +8,7 @@
   "manualConnectionError": "Não foi possível conectar ao servidor",
   "cancel": "Cancelar",
   "artBy": "Arte por ",
-  "insertNewServer": "Inserir novo servidor"
+  "insertNewServer": "Inserir novo servidor",
+  "insertANameForThisServer": "Insira um nome para este servidor",
+  "name": "Nome"
 }

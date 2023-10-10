@@ -99,11 +99,12 @@ ServerRecord _serverRecordDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = ServerRecord();
+  final object = ServerRecord(
+    ip: reader.readStringOrNull(offsets[0]),
+    name: reader.readStringOrNull(offsets[2]),
+  );
   object.id = id;
-  object.ip = reader.readStringOrNull(offsets[0]);
   object.lastConnected = reader.readDateTime(offsets[1]);
-  object.name = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -941,3 +942,22 @@ extension ServerRecordQueryProperty
     });
   }
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ServerRecord _$ServerRecordFromJson(Map<String, dynamic> json) => ServerRecord(
+      ip: json['ip'] as String?,
+      name: json['name'] as String?,
+    )
+      ..id = json['id'] as int
+      ..lastConnected = DateTime.parse(json['lastConnected'] as String);
+
+Map<String, dynamic> _$ServerRecordToJson(ServerRecord instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'ip': instance.ip,
+      'name': instance.name,
+      'lastConnected': instance.lastConnected.toIso8601String(),
+    };

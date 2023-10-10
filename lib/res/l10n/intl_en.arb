@@ -7,5 +7,7 @@
   "manualConnectionButton": "Connect",
   "cancel": "Cancel",
   "artBy": "Art by ",
-  "insertNewServer": "Insert new server"
+  "insertNewServer": "Insert new server",
+  "insertANameForThisServer": "Insert a name for this server",
+  "name": "Name"
 }

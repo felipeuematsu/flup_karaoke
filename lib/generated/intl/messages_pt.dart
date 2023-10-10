@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
         "artBy": MessageLookupByLibrary.simpleMessage("Arte por "),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
+            "Insira um nome para este servidor"),
         "insertNewServer":
             MessageLookupByLibrary.simpleMessage("Inserir novo servidor"),
         "manualConnection":
@@ -34,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "manualConnectionDescription": MessageLookupByLibrary.simpleMessage(
             "Digite o endereço IP do servidor"),
         "manualConnectionPlaceholder":
-            MessageLookupByLibrary.simpleMessage("Endereço")
+            MessageLookupByLibrary.simpleMessage("Endereço"),
+        "name": MessageLookupByLibrary.simpleMessage("Nome")
       };
 }

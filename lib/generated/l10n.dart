@@ -129,6 +129,26 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Insert a name for this server`
+  String get insertANameForThisServer {
+    return Intl.message(
+      'Insert a name for this server',
+      name: 'insertANameForThisServer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

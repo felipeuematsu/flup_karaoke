@@ -1,44 +1,87 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
-const lightpink = Color(0xFF96439D);
-const purple = Color(0xFF390164);
-const lightgreen = Color(0xFFCDF5DB);
+const iconbackground = Color(0xFF72DBF8);
+const happyfish = Color(0xFFE97939);
+const sadfishdark = Color(0xFF843EBB);
+const sadfishlight = Color(0xFFC895F1);
+const singingfishlight = Color(0xFFFFE497);
+const singingfishdark = Color(0xFFF6CC56);
+const twofishdetail = Color(0xFFC76598);
 
-CustomColors lightCustomColors = const CustomColors._(
-  sourceLightpink: Color(0xFF96439D),
-  lightpink: Color(0xFF8F3C96),
-  onLightpink: Color(0xFFFFFFFF),
-  lightpinkContainer: Color(0xFFFFD6FB),
-  onLightpinkContainer: Color(0xFF36003D),
-  sourcePurple: Color(0xFF390164),
-  purple: Color(0xFF7749A2),
-  onPurple: Color(0xFFFFFFFF),
-  purpleContainer: Color(0xFFF0DBFF),
-  onPurpleContainer: Color(0xFF2C0050),
-  sourceLightgreen: Color(0xFFCDF5DB),
-  lightgreen: Color(0xFF006C46),
-  onLightgreen: Color(0xFFFFFFFF),
-  lightgreenContainer: Color(0xFF8FF7C0),
-  onLightgreenContainer: Color(0xFF002112),
+CustomColors lightCustomColors = const CustomColors(
+  sourceIconbackground: Color(0xFF72DBF8),
+  iconbackground: Color(0xFF00687B),
+  onIconbackground: Color(0xFFFFFFFF),
+  iconbackgroundContainer: Color(0xFFAFECFF),
+  onIconbackgroundContainer: Color(0xFF001F27),
+  sourceHappyfish: Color(0xFFE97939),
+  happyfish: Color(0xFF9E4200),
+  onHappyfish: Color(0xFFFFFFFF),
+  happyfishContainer: Color(0xFFFFDBCB),
+  onHappyfishContainer: Color(0xFF341100),
+  sourceSadfishdark: Color(0xFF843EBB),
+  sadfishdark: Color(0xFF813BB8),
+  onSadfishdark: Color(0xFFFFFFFF),
+  sadfishdarkContainer: Color(0xFFF2DAFF),
+  onSadfishdarkContainer: Color(0xFF2E004E),
+  sourceSadfishlight: Color(0xFFC895F1),
+  sadfishlight: Color(0xFF78499F),
+  onSadfishlight: Color(0xFFFFFFFF),
+  sadfishlightContainer: Color(0xFFF2DAFF),
+  onSadfishlightContainer: Color(0xFF2D004F),
+  sourceSingingfishlight: Color(0xFFFFE497),
+  singingfishlight: Color(0xFF735C00),
+  onSingingfishlight: Color(0xFFFFFFFF),
+  singingfishlightContainer: Color(0xFFFFE085),
+  onSingingfishlightContainer: Color(0xFF231B00),
+  sourceSingingfishdark: Color(0xFFF6CC56),
+  singingfishdark: Color(0xFF755B00),
+  onSingingfishdark: Color(0xFFFFFFFF),
+  singingfishdarkContainer: Color(0xFFFFDF90),
+  onSingingfishdarkContainer: Color(0xFF241A00),
+  sourceTwofishdetail: Color(0xFFC76598),
+  twofishdetail: Color(0xFF983E6F),
+  onTwofishdetail: Color(0xFFFFFFFF),
+  twofishdetailContainer: Color(0xFFFFD8E7),
+  onTwofishdetailContainer: Color(0xFF3D0027),
 );
 
-CustomColors darkCustomColors = const CustomColors._(
-  sourceLightpink: Color(0xFF96439D),
-  lightpink: Color(0xFFFEA9FF),
-  onLightpink: Color(0xFF580063),
-  lightpinkContainer: Color(0xFF73227C),
-  onLightpinkContainer: Color(0xFFFFD6FB),
-  sourcePurple: Color(0xFF390164),
-  purple: Color(0xFFDEB7FF),
-  onPurple: Color(0xFF461570),
-  purpleContainer: Color(0xFF5E3089),
-  onPurpleContainer: Color(0xFFF0DBFF),
-  sourceLightgreen: Color(0xFFCDF5DB),
-  lightgreen: Color(0xFF72DAA5),
-  onLightgreen: Color(0xFF003822),
-  lightgreenContainer: Color(0xFF005234),
-  onLightgreenContainer: Color(0xFF8FF7C0),
+CustomColors darkCustomColors = const CustomColors(
+  sourceIconbackground: Color(0xFF72DBF8),
+  iconbackground: Color(0xFF57D6F6),
+  onIconbackground: Color(0xFF003641),
+  iconbackgroundContainer: Color(0xFF004E5D),
+  onIconbackgroundContainer: Color(0xFFAFECFF),
+  sourceHappyfish: Color(0xFFE97939),
+  happyfish: Color(0xFFFFB691),
+  onHappyfish: Color(0xFF552000),
+  happyfishContainer: Color(0xFF793100),
+  onHappyfishContainer: Color(0xFFFFDBCB),
+  sourceSadfishdark: Color(0xFF843EBB),
+  sadfishdark: Color(0xFFE1B6FF),
+  onSadfishdark: Color(0xFF4C007C),
+  sadfishdarkContainer: Color(0xFF671D9E),
+  onSadfishdarkContainer: Color(0xFFF2DAFF),
+  sourceSadfishlight: Color(0xFFC895F1),
+  sadfishlight: Color(0xFFE0B6FF),
+  onSadfishlight: Color(0xFF46166D),
+  sadfishlightContainer: Color(0xFF5F3085),
+  onSadfishlightContainer: Color(0xFFF2DAFF),
+  sourceSingingfishlight: Color(0xFFFFE497),
+  singingfishlight: Color(0xFFE8C349),
+  onSingingfishlight: Color(0xFF3C2F00),
+  singingfishlightContainer: Color(0xFF574500),
+  onSingingfishlightContainer: Color(0xFFFFE085),
+  sourceSingingfishdark: Color(0xFFF6CC56),
+  singingfishdark: Color(0xFFECC248),
+  onSingingfishdark: Color(0xFF3D2E00),
+  singingfishdarkContainer: Color(0xFF584400),
+  onSingingfishdarkContainer: Color(0xFFFFDF90),
+  sourceTwofishdetail: Color(0xFFC76598),
+  twofishdetail: Color(0xFFFFAFD4),
+  onTwofishdetail: Color(0xFF5E0C3F),
+  twofishdetailContainer: Color(0xFF7A2657),
+  onTwofishdetailContainer: Color(0xFFFFD8E7),
 );
 
 /// Defines a set of custom colors, each comprised of 4 complementary tones.
@@ -47,76 +90,158 @@ CustomColors darkCustomColors = const CustomColors._(
 ///   * <https://m3.material.io/styles/color/the-color-system/custom-colors>
 @immutable
 class CustomColors extends ThemeExtension<CustomColors> {
-  static CustomColors of(BuildContext context) => Theme.of(context).extension<CustomColors>()!;
+  static CustomColors of(BuildContext context) {
+    return Theme.of(context).extension<CustomColors>()!;
+  }
 
-  const CustomColors._({
-    required this.sourceLightpink,
-    required this.lightpink,
-    required this.onLightpink,
-    required this.lightpinkContainer,
-    required this.onLightpinkContainer,
-    required this.sourcePurple,
-    required this.purple,
-    required this.onPurple,
-    required this.purpleContainer,
-    required this.onPurpleContainer,
-    required this.sourceLightgreen,
-    required this.lightgreen,
-    required this.onLightgreen,
-    required this.lightgreenContainer,
-    required this.onLightgreenContainer,
+  const CustomColors({
+    required this.sourceIconbackground,
+    required this.iconbackground,
+    required this.onIconbackground,
+    required this.iconbackgroundContainer,
+    required this.onIconbackgroundContainer,
+    required this.sourceHappyfish,
+    required this.happyfish,
+    required this.onHappyfish,
+    required this.happyfishContainer,
+    required this.onHappyfishContainer,
+    required this.sourceSadfishdark,
+    required this.sadfishdark,
+    required this.onSadfishdark,
+    required this.sadfishdarkContainer,
+    required this.onSadfishdarkContainer,
+    required this.sourceSadfishlight,
+    required this.sadfishlight,
+    required this.onSadfishlight,
+    required this.sadfishlightContainer,
+    required this.onSadfishlightContainer,
+    required this.sourceSingingfishlight,
+    required this.singingfishlight,
+    required this.onSingingfishlight,
+    required this.singingfishlightContainer,
+    required this.onSingingfishlightContainer,
+    required this.sourceSingingfishdark,
+    required this.singingfishdark,
+    required this.onSingingfishdark,
+    required this.singingfishdarkContainer,
+    required this.onSingingfishdarkContainer,
+    required this.sourceTwofishdetail,
+    required this.twofishdetail,
+    required this.onTwofishdetail,
+    required this.twofishdetailContainer,
+    required this.onTwofishdetailContainer,
   });
 
-  final Color? sourceLightpink;
-  final Color? lightpink;
-  final Color? onLightpink;
-  final Color? lightpinkContainer;
-  final Color? onLightpinkContainer;
-  final Color? sourcePurple;
-  final Color? purple;
-  final Color? onPurple;
-  final Color? purpleContainer;
-  final Color? onPurpleContainer;
-  final Color? sourceLightgreen;
-  final Color? lightgreen;
-  final Color? onLightgreen;
-  final Color? lightgreenContainer;
-  final Color? onLightgreenContainer;
+  final Color? sourceIconbackground;
+  final Color? iconbackground;
+  final Color? onIconbackground;
+  final Color? iconbackgroundContainer;
+  final Color? onIconbackgroundContainer;
+  final Color? sourceHappyfish;
+  final Color? happyfish;
+  final Color? onHappyfish;
+  final Color? happyfishContainer;
+  final Color? onHappyfishContainer;
+  final Color? sourceSadfishdark;
+  final Color? sadfishdark;
+  final Color? onSadfishdark;
+  final Color? sadfishdarkContainer;
+  final Color? onSadfishdarkContainer;
+  final Color? sourceSadfishlight;
+  final Color? sadfishlight;
+  final Color? onSadfishlight;
+  final Color? sadfishlightContainer;
+  final Color? onSadfishlightContainer;
+  final Color? sourceSingingfishlight;
+  final Color? singingfishlight;
+  final Color? onSingingfishlight;
+  final Color? singingfishlightContainer;
+  final Color? onSingingfishlightContainer;
+  final Color? sourceSingingfishdark;
+  final Color? singingfishdark;
+  final Color? onSingingfishdark;
+  final Color? singingfishdarkContainer;
+  final Color? onSingingfishdarkContainer;
+  final Color? sourceTwofishdetail;
+  final Color? twofishdetail;
+  final Color? onTwofishdetail;
+  final Color? twofishdetailContainer;
+  final Color? onTwofishdetailContainer;
 
   @override
   CustomColors copyWith({
-    Color? sourceLightpink,
-    Color? lightpink,
-    Color? onLightpink,
-    Color? lightpinkContainer,
-    Color? onLightpinkContainer,
-    Color? sourcePurple,
-    Color? purple,
-    Color? onPurple,
-    Color? purpleContainer,
-    Color? onPurpleContainer,
-    Color? sourceLightgreen,
-    Color? lightgreen,
-    Color? onLightgreen,
-    Color? lightgreenContainer,
-    Color? onLightgreenContainer,
+    Color? sourceIconbackground,
+    Color? iconbackground,
+    Color? onIconbackground,
+    Color? iconbackgroundContainer,
+    Color? onIconbackgroundContainer,
+    Color? sourceHappyfish,
+    Color? happyfish,
+    Color? onHappyfish,
+    Color? happyfishContainer,
+    Color? onHappyfishContainer,
+    Color? sourceSadfishdark,
+    Color? sadfishdark,
+    Color? onSadfishdark,
+    Color? sadfishdarkContainer,
+    Color? onSadfishdarkContainer,
+    Color? sourceSadfishlight,
+    Color? sadfishlight,
+    Color? onSadfishlight,
+    Color? sadfishlightContainer,
+    Color? onSadfishlightContainer,
+    Color? sourceSingingfishlight,
+    Color? singingfishlight,
+    Color? onSingingfishlight,
+    Color? singingfishlightContainer,
+    Color? onSingingfishlightContainer,
+    Color? sourceSingingfishdark,
+    Color? singingfishdark,
+    Color? onSingingfishdark,
+    Color? singingfishdarkContainer,
+    Color? onSingingfishdarkContainer,
+    Color? sourceTwofishdetail,
+    Color? twofishdetail,
+    Color? onTwofishdetail,
+    Color? twofishdetailContainer,
+    Color? onTwofishdetailContainer,
   }) {
-    return CustomColors._(
-      sourceLightpink: sourceLightpink ?? this.sourceLightpink,
-      lightpink: lightpink ?? this.lightpink,
-      onLightpink: onLightpink ?? this.onLightpink,
-      lightpinkContainer: lightpinkContainer ?? this.lightpinkContainer,
-      onLightpinkContainer: onLightpinkContainer ?? this.onLightpinkContainer,
-      sourcePurple: sourcePurple ?? this.sourcePurple,
-      purple: purple ?? this.purple,
-      onPurple: onPurple ?? this.onPurple,
-      purpleContainer: purpleContainer ?? this.purpleContainer,
-      onPurpleContainer: onPurpleContainer ?? this.onPurpleContainer,
-      sourceLightgreen: sourceLightgreen ?? this.sourceLightgreen,
-      lightgreen: lightgreen ?? this.lightgreen,
-      onLightgreen: onLightgreen ?? this.onLightgreen,
-      lightgreenContainer: lightgreenContainer ?? this.lightgreenContainer,
-      onLightgreenContainer: onLightgreenContainer ?? this.onLightgreenContainer,
+    return CustomColors(
+      sourceIconbackground: sourceIconbackground ?? this.sourceIconbackground,
+      iconbackground: iconbackground ?? this.iconbackground,
+      onIconbackground: onIconbackground ?? this.onIconbackground,
+      iconbackgroundContainer: iconbackgroundContainer ?? this.iconbackgroundContainer,
+      onIconbackgroundContainer: onIconbackgroundContainer ?? this.onIconbackgroundContainer,
+      sourceHappyfish: sourceHappyfish ?? this.sourceHappyfish,
+      happyfish: happyfish ?? this.happyfish,
+      onHappyfish: onHappyfish ?? this.onHappyfish,
+      happyfishContainer: happyfishContainer ?? this.happyfishContainer,
+      onHappyfishContainer: onHappyfishContainer ?? this.onHappyfishContainer,
+      sourceSadfishdark: sourceSadfishdark ?? this.sourceSadfishdark,
+      sadfishdark: sadfishdark ?? this.sadfishdark,
+      onSadfishdark: onSadfishdark ?? this.onSadfishdark,
+      sadfishdarkContainer: sadfishdarkContainer ?? this.sadfishdarkContainer,
+      onSadfishdarkContainer: onSadfishdarkContainer ?? this.onSadfishdarkContainer,
+      sourceSadfishlight: sourceSadfishlight ?? this.sourceSadfishlight,
+      sadfishlight: sadfishlight ?? this.sadfishlight,
+      onSadfishlight: onSadfishlight ?? this.onSadfishlight,
+      sadfishlightContainer: sadfishlightContainer ?? this.sadfishlightContainer,
+      onSadfishlightContainer: onSadfishlightContainer ?? this.onSadfishlightContainer,
+      sourceSingingfishlight: sourceSingingfishlight ?? this.sourceSingingfishlight,
+      singingfishlight: singingfishlight ?? this.singingfishlight,
+      onSingingfishlight: onSingingfishlight ?? this.onSingingfishlight,
+      singingfishlightContainer: singingfishlightContainer ?? this.singingfishlightContainer,
+      onSingingfishlightContainer: onSingingfishlightContainer ?? this.onSingingfishlightContainer,
+      sourceSingingfishdark: sourceSingingfishdark ?? this.sourceSingingfishdark,
+      singingfishdark: singingfishdark ?? this.singingfishdark,
+      onSingingfishdark: onSingingfishdark ?? this.onSingingfishdark,
+      singingfishdarkContainer: singingfishdarkContainer ?? this.singingfishdarkContainer,
+      onSingingfishdarkContainer: onSingingfishdarkContainer ?? this.onSingingfishdarkContainer,
+      sourceTwofishdetail: sourceTwofishdetail ?? this.sourceTwofishdetail,
+      twofishdetail: twofishdetail ?? this.twofishdetail,
+      onTwofishdetail: onTwofishdetail ?? this.onTwofishdetail,
+      twofishdetailContainer: twofishdetailContainer ?? this.twofishdetailContainer,
+      onTwofishdetailContainer: onTwofishdetailContainer ?? this.onTwofishdetailContainer,
     );
   }
 
@@ -125,62 +250,51 @@ class CustomColors extends ThemeExtension<CustomColors> {
     if (other is! CustomColors) {
       return this;
     }
-    return CustomColors._(
-      sourceLightpink: Color.lerp(sourceLightpink, other.sourceLightpink, t),
-      lightpink: Color.lerp(lightpink, other.lightpink, t),
-      onLightpink: Color.lerp(onLightpink, other.onLightpink, t),
-      lightpinkContainer: Color.lerp(lightpinkContainer, other.lightpinkContainer, t),
-      onLightpinkContainer: Color.lerp(onLightpinkContainer, other.onLightpinkContainer, t),
-      sourcePurple: Color.lerp(sourcePurple, other.sourcePurple, t),
-      purple: Color.lerp(purple, other.purple, t),
-      onPurple: Color.lerp(onPurple, other.onPurple, t),
-      purpleContainer: Color.lerp(purpleContainer, other.purpleContainer, t),
-      onPurpleContainer: Color.lerp(onPurpleContainer, other.onPurpleContainer, t),
-      sourceLightgreen: Color.lerp(sourceLightgreen, other.sourceLightgreen, t),
-      lightgreen: Color.lerp(lightgreen, other.lightgreen, t),
-      onLightgreen: Color.lerp(onLightgreen, other.onLightgreen, t),
-      lightgreenContainer: Color.lerp(lightgreenContainer, other.lightgreenContainer, t),
-      onLightgreenContainer: Color.lerp(onLightgreenContainer, other.onLightgreenContainer, t),
+    return CustomColors(
+      sourceIconbackground: Color.lerp(sourceIconbackground, other.sourceIconbackground, t),
+      iconbackground: Color.lerp(iconbackground, other.iconbackground, t),
+      onIconbackground: Color.lerp(onIconbackground, other.onIconbackground, t),
+      iconbackgroundContainer: Color.lerp(iconbackgroundContainer, other.iconbackgroundContainer, t),
+      onIconbackgroundContainer: Color.lerp(onIconbackgroundContainer, other.onIconbackgroundContainer, t),
+      sourceHappyfish: Color.lerp(sourceHappyfish, other.sourceHappyfish, t),
+      happyfish: Color.lerp(happyfish, other.happyfish, t),
+      onHappyfish: Color.lerp(onHappyfish, other.onHappyfish, t),
+      happyfishContainer: Color.lerp(happyfishContainer, other.happyfishContainer, t),
+      onHappyfishContainer: Color.lerp(onHappyfishContainer, other.onHappyfishContainer, t),
+      sourceSadfishdark: Color.lerp(sourceSadfishdark, other.sourceSadfishdark, t),
+      sadfishdark: Color.lerp(sadfishdark, other.sadfishdark, t),
+      onSadfishdark: Color.lerp(onSadfishdark, other.onSadfishdark, t),
+      sadfishdarkContainer: Color.lerp(sadfishdarkContainer, other.sadfishdarkContainer, t),
+      onSadfishdarkContainer: Color.lerp(onSadfishdarkContainer, other.onSadfishdarkContainer, t),
+      sourceSadfishlight: Color.lerp(sourceSadfishlight, other.sourceSadfishlight, t),
+      sadfishlight: Color.lerp(sadfishlight, other.sadfishlight, t),
+      onSadfishlight: Color.lerp(onSadfishlight, other.onSadfishlight, t),
+      sadfishlightContainer: Color.lerp(sadfishlightContainer, other.sadfishlightContainer, t),
+      onSadfishlightContainer: Color.lerp(onSadfishlightContainer, other.onSadfishlightContainer, t),
+      sourceSingingfishlight: Color.lerp(sourceSingingfishlight, other.sourceSingingfishlight, t),
+      singingfishlight: Color.lerp(singingfishlight, other.singingfishlight, t),
+      onSingingfishlight: Color.lerp(onSingingfishlight, other.onSingingfishlight, t),
+      singingfishlightContainer: Color.lerp(singingfishlightContainer, other.singingfishlightContainer, t),
+      onSingingfishlightContainer: Color.lerp(onSingingfishlightContainer, other.onSingingfishlightContainer, t),
+      sourceSingingfishdark: Color.lerp(sourceSingingfishdark, other.sourceSingingfishdark, t),
+      singingfishdark: Color.lerp(singingfishdark, other.singingfishdark, t),
+      onSingingfishdark: Color.lerp(onSingingfishdark, other.onSingingfishdark, t),
+      singingfishdarkContainer: Color.lerp(singingfishdarkContainer, other.singingfishdarkContainer, t),
+      onSingingfishdarkContainer: Color.lerp(onSingingfishdarkContainer, other.onSingingfishdarkContainer, t),
+      sourceTwofishdetail: Color.lerp(sourceTwofishdetail, other.sourceTwofishdetail, t),
+      twofishdetail: Color.lerp(twofishdetail, other.twofishdetail, t),
+      onTwofishdetail: Color.lerp(onTwofishdetail, other.onTwofishdetail, t),
+      twofishdetailContainer: Color.lerp(twofishdetailContainer, other.twofishdetailContainer, t),
+      onTwofishdetailContainer: Color.lerp(onTwofishdetailContainer, other.onTwofishdetailContainer, t),
     );
   }
 
   /// Returns an instance of [CustomColors] in which the following custom
   /// colors are harmonized with [dynamic]'s [ColorScheme.primary].
-  ///   * [CustomColors.sourceLightpink]
-  ///   * [CustomColors.lightpink]
-  ///   * [CustomColors.onLightpink]
-  ///   * [CustomColors.lightpinkContainer]
-  ///   * [CustomColors.onLightpinkContainer]
-  ///   * [CustomColors.sourcePurple]
-  ///   * [CustomColors.purple]
-  ///   * [CustomColors.onPurple]
-  ///   * [CustomColors.purpleContainer]
-  ///   * [CustomColors.onPurpleContainer]
-  ///   * [CustomColors.sourceLightgreen]
-  ///   * [CustomColors.lightgreen]
-  ///   * [CustomColors.onLightgreen]
-  ///   * [CustomColors.lightgreenContainer]
-  ///   * [CustomColors.onLightgreenContainer]
   ///
   /// See also:
   ///   * <https://m3.material.io/styles/color/the-color-system/custom-colors#harmonization>
   CustomColors harmonized(ColorScheme dynamic) {
-    return copyWith(
-      sourceLightpink: sourceLightpink!.harmonizeWith(dynamic.primary),
-      lightpink: lightpink!.harmonizeWith(dynamic.primary),
-      onLightpink: onLightpink!.harmonizeWith(dynamic.primary),
-      lightpinkContainer: lightpinkContainer!.harmonizeWith(dynamic.primary),
-      onLightpinkContainer: onLightpinkContainer!.harmonizeWith(dynamic.primary),
-      sourcePurple: sourcePurple!.harmonizeWith(dynamic.primary),
-      purple: purple!.harmonizeWith(dynamic.primary),
-      onPurple: onPurple!.harmonizeWith(dynamic.primary),
-      purpleContainer: purpleContainer!.harmonizeWith(dynamic.primary),
-      onPurpleContainer: onPurpleContainer!.harmonizeWith(dynamic.primary),
-      sourceLightgreen: sourceLightgreen!.harmonizeWith(dynamic.primary),
-      lightgreen: lightgreen!.harmonizeWith(dynamic.primary),
-      onLightgreen: onLightgreen!.harmonizeWith(dynamic.primary),
-      lightgreenContainer: lightgreenContainer!.harmonizeWith(dynamic.primary),
-      onLightgreenContainer: onLightgreenContainer!.harmonizeWith(dynamic.primary),
-    );
+    return copyWith();
   }
 }
