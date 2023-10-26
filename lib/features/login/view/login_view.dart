@@ -6,13 +6,12 @@ import 'package:flup_karaoke/database/model/server_entity.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/features/login/view/components/manual_connect_dialog.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
-import 'package:flup_karaoke/helper/assets_mapper.dart';
 import 'package:flup_karaoke/main.dart';
+import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
-import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -28,19 +27,6 @@ class _LoginViewState extends State<LoginView> {
 
   final db = AppDB.get();
 
-  final List<FishAssetsMapper> randomFishes = (FishAssetsMapper.values.toList()..shuffle());
-  FishAssetsMapper randomFish = FishAssetsMapper.values.first;
-
-  void _setNextFish() {
-    final index = randomFishes.indexOf(randomFish);
-    if (index == randomFishes.length - 1) {
-      randomFish = randomFishes.first;
-    } else {
-      randomFish = randomFishes[index + 1];
-    }
-    setState(() {});
-  }
-
   @override
   void initState() {
     Future.microtask(getLastServer);
@@ -54,64 +40,68 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(colorScheme: randomFish.colorScheme(context)),
-      child: Builder(builder: (context) {
-        return Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0.8),
-          appBar: AppBar(backgroundColor: Colors.transparent, actions: [
-            IconButton(
-              onPressed: _setNextFish,
-              icon: const Icon(Icons.refresh),
-            ),
-            IconButton(
-              onPressed: () => db.toggleDarkMode(context),
-              icon: ValueListenableBuilder(
-                valueListenable: FlupKApp.of(context).darkMode,
-                builder: (context, value, child) => value == true ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode),
-              ),
-            ),
-          ]),
-          extendBodyBehindAppBar: true,
-          body: SafeArea(
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: FittedBox(
-                  child: Text(
-                    FlupS.of(context).appName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge
-                        ?.copyWith(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onPrimaryContainer),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: randomFish.icon.image(fit: BoxFit.contain),
-                ),
-              ),
-              Expanded(flex: 4, child: _body(context)),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(style: Theme.of(context).textTheme.labelSmall, children: [
-                  TextSpan(text: FlupS.of(context).artBy),
-                  TextSpan(
-                    text: mamiirandaName,
-                    style: const TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(linktreeUrl),
-                  ),
-                ]),
-              ),
-              const SizedBox(height: 16),
-            ]),
+    return Builder(builder: (context) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0.8),
+        appBar: AppBar(backgroundColor: Colors.transparent, actions: [
+          IconButton(
+            onPressed: () {
+              AutoRouter.of(context).replace(const HomeRoute());
+              print('HomeRoute');
+            },
+            icon: const Icon(Icons.home),
           ),
-        );
-      }),
-    );
+          IconButton(
+            onPressed: FlupKApp.of(context).setNextFish,
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            onPressed: () => db.toggleDarkMode(context),
+            icon: ValueListenableBuilder(
+              valueListenable: FlupKApp.of(context).darkMode,
+              builder: (context, value, child) => value == true ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode),
+            ),
+          ),
+        ]),
+        extendBodyBehindAppBar: true,
+        body: SafeArea(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: FittedBox(
+                child: Text(
+                  FlupS.of(context).appName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge
+                      ?.copyWith(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: FlupKApp.of(context).currentFish.icon.image(fit: BoxFit.contain),
+              ),
+            ),
+            _body(context),
+            const SizedBox(height: 16),
+            RichText(
+              text: TextSpan(style: Theme.of(context).textTheme.labelSmall, children: [
+                TextSpan(text: FlupS.of(context).artBy),
+                TextSpan(
+                  text: mamiirandaName,
+                  style: const TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(linktreeUrl),
+                ),
+              ]),
+            ),
+            const SizedBox(height: 16),
+          ]),
+        ),
+      );
+    });
   }
 
   Widget _body(BuildContext context) {
@@ -187,7 +177,8 @@ class _LoginViewState extends State<LoginView> {
     db.setCurrentServer(server);
     final ip = server.ip;
     if (ip != null) {
-      GetIt.I.registerSingleton(KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip)));
+      GetIt.I.registerSingleton(KaraokeApiServiceMock());
+      // GetIt.I.registerSingleton(KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip)));
       AutoRouter.of(context).replaceAll([const HomeRoute()]);
     }
   }

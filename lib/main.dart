@@ -3,6 +3,7 @@ import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/dependencies.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
+import 'package:flup_karaoke/helper/fish_assets.dart';
 import 'package:flup_karaoke/themes/color_schemes.g.dart';
 import 'package:flup_karaoke/themes/custom_color.g.dart';
 import 'package:flup_karaoke/themes/text_themes.dart';
@@ -31,6 +32,19 @@ class FlupKApp extends StatefulWidget {
 
 class _FlupKAppState extends State<FlupKApp> {
   late final darkMode = ValueNotifier(widget.initialDarkModeState);
+  final List<FishAssets> randomFishes = (FishAssets.values.toList()..shuffle());
+  late final _randomFish = ValueNotifier(FishAssets.values.first);
+
+  void setNextFish() {
+    final index = randomFishes.indexOf(currentFish);
+    if (index == randomFishes.length - 1) {
+      _randomFish.value = randomFishes.first;
+    } else {
+      _randomFish.value = randomFishes[index + 1];
+    }
+  }
+
+  FishAssets get currentFish => _randomFish.value;
 
   final router = AppRouter();
 
@@ -53,40 +67,43 @@ class _FlupKAppState extends State<FlupKApp> {
         }
 
         return ValueListenableBuilder(
-          valueListenable: darkMode,
-          builder: (context, isDarkMode, child) => MaterialApp.router(
-            routerConfig: router.config(),
-            localizationsDelegates: const [
-              GlobalWidgetsLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              FlupS.delegate,
-            ],
-            theme: ThemeData(
-              textTheme: lightTextTheme,
-              cardTheme: cardTheme,
-              dialogTheme: dialogTheme,
-              elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
-              filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
-              outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
-              textButtonTheme: const TextButtonThemeData(style: buttonStyle),
-              useMaterial3: true,
-              colorScheme: lightScheme,
-              extensions: [lightCustomColors],
+          valueListenable: _randomFish,
+          builder: (context, fish, child) => ValueListenableBuilder(
+            valueListenable: darkMode,
+            builder: (context, isDarkMode, child) => MaterialApp.router(
+              routerConfig: router.config(),
+              localizationsDelegates: const [
+                GlobalWidgetsLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                FlupS.delegate,
+              ],
+              theme: ThemeData(
+                textTheme: lightTextTheme,
+                cardTheme: cardTheme,
+                dialogTheme: dialogTheme,
+                elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
+                filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
+                outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
+                textButtonTheme: const TextButtonThemeData(style: buttonStyle),
+                useMaterial3: true,
+                colorScheme: fish.colorScheme(context, lightScheme, lightCustomColors),
+                extensions: [lightCustomColors],
+              ),
+              darkTheme: ThemeData(
+                textTheme: darkTextTheme,
+                cardTheme: cardTheme,
+                dialogTheme: dialogTheme,
+                elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
+                filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
+                outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
+                textButtonTheme: const TextButtonThemeData(style: buttonStyle),
+                useMaterial3: true,
+                colorScheme: fish.colorScheme(context, darkScheme, darkCustomColors),
+                extensions: [darkCustomColors],
+              ),
+              themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
             ),
-            darkTheme: ThemeData(
-              textTheme: darkTextTheme,
-              cardTheme: cardTheme,
-              dialogTheme: dialogTheme,
-              elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
-              filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
-              outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
-              textButtonTheme: const TextButtonThemeData(style: buttonStyle),
-              useMaterial3: true,
-              colorScheme: darkScheme,
-              extensions: [darkCustomColors],
-            ),
-            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           ),
         );
       },

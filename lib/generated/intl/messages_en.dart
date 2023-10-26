@@ -24,6 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
         "artBy": MessageLookupByLibrary.simpleMessage("Art by "),
+        "artist": MessageLookupByLibrary.simpleMessage("Artist"),
+        "artistHint":
+            MessageLookupByLibrary.simpleMessage("e.g.: Taylor Swift"),
+        "awaitingQueryDescription": MessageLookupByLibrary.simpleMessage(
+            "Enter a song name and/or an artist to search for songs."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
             "Insert a name for this server"),
@@ -37,6 +42,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Enter the address of the you want to connect to."),
         "manualConnectionPlaceholder":
             MessageLookupByLibrary.simpleMessage("Address"),
-        "name": MessageLookupByLibrary.simpleMessage("Name")
+        "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
+        "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
+        "songTitle": MessageLookupByLibrary.simpleMessage("Song title")
       };
 }

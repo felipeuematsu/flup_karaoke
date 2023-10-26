@@ -9,5 +9,11 @@
   "artBy": "Art by ",
   "insertNewServer": "Insert new server",
   "insertANameForThisServer": "Insert a name for this server",
-  "name": "Name"
+  "name": "Name",
+  "artist": "Artist",
+  "songTitle": "Song title",
+  "artistHint": "e.g.: Taylor Swift",
+  "songHint": "e.g.: Blank Space",
+  "noItemsFound": "No items found",
+  "awaitingQueryDescription": "Enter a song name and/or an artist to search for songs."
 }

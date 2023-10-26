@@ -149,6 +149,66 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Artist`
+  String get artist {
+    return Intl.message(
+      'Artist',
+      name: 'artist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Song title`
+  String get songTitle {
+    return Intl.message(
+      'Song title',
+      name: 'songTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g.: Taylor Swift`
+  String get artistHint {
+    return Intl.message(
+      'e.g.: Taylor Swift',
+      name: 'artistHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g.: Blank Space`
+  String get songHint {
+    return Intl.message(
+      'e.g.: Blank Space',
+      name: 'songHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items found`
+  String get noItemsFound {
+    return Intl.message(
+      'No items found',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a song name and/or an artist to search for songs.`
+  String get awaitingQueryDescription {
+    return Intl.message(
+      'Enter a song name and/or an artist to search for songs.',
+      name: 'awaitingQueryDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

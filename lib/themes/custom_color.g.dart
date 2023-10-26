@@ -8,7 +8,7 @@ const singingfishlight = Color(0xFFFFE497);
 const singingfishdark = Color(0xFFF6CC56);
 const twofishdetail = Color(0xFFC76598);
 
-CustomColors lightCustomColors = const CustomColors(
+CustomColors lightCustomColors = const CustomColors._(
   sourceIconbackground: Color(0xFF72DBF8),
   iconbackground: Color(0xFF00687B),
   onIconbackground: Color(0xFFFFFFFF),
@@ -46,7 +46,7 @@ CustomColors lightCustomColors = const CustomColors(
   onTwofishdetailContainer: Color(0xFF3D0027),
 );
 
-CustomColors darkCustomColors = const CustomColors(
+CustomColors darkCustomColors = const CustomColors._(
   sourceIconbackground: Color(0xFF72DBF8),
   iconbackground: Color(0xFF57D6F6),
   onIconbackground: Color(0xFF003641),
@@ -90,11 +90,12 @@ CustomColors darkCustomColors = const CustomColors(
 ///   * <https://m3.material.io/styles/color/the-color-system/custom-colors>
 @immutable
 class CustomColors extends ThemeExtension<CustomColors> {
+
   static CustomColors of(BuildContext context) {
     return Theme.of(context).extension<CustomColors>()!;
   }
 
-  const CustomColors({
+  const CustomColors._({
     required this.sourceIconbackground,
     required this.iconbackground,
     required this.onIconbackground,
@@ -206,7 +207,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? twofishdetailContainer,
     Color? onTwofishdetailContainer,
   }) {
-    return CustomColors(
+    return CustomColors._(
       sourceIconbackground: sourceIconbackground ?? this.sourceIconbackground,
       iconbackground: iconbackground ?? this.iconbackground,
       onIconbackground: onIconbackground ?? this.onIconbackground,
@@ -250,7 +251,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     if (other is! CustomColors) {
       return this;
     }
-    return CustomColors(
+    return CustomColors._(
       sourceIconbackground: Color.lerp(sourceIconbackground, other.sourceIconbackground, t),
       iconbackground: Color.lerp(iconbackground, other.iconbackground, t),
       onIconbackground: Color.lerp(onIconbackground, other.onIconbackground, t),
