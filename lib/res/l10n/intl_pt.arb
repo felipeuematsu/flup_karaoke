@@ -18,5 +18,6 @@
   "noItemsFound": "Nenhum item encontrado",
   "awaitingQueryDescription": "Insira um nome de música ou artista para fazer a busca.",
   "noMoreItems": "Não há mais itens para serem exibidos.",
-  "search": "Buscar"
+  "search": "Buscar",
+  "playlists": "Playlists"
 }

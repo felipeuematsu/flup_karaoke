@@ -17,5 +17,6 @@
   "noItemsFound": "No items found",
   "awaitingQueryDescription": "Enter a song name and/or an artist to search for songs.",
   "noMoreItems": "There are no more items to show.",
-  "search": "Search"
+  "search": "Search",
+  "playlists": "Playlists"
 }

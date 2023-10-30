@@ -229,6 +229,16 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Playlists`
+  String get playlists {
+    return Intl.message(
+      'Playlists',
+      name: 'playlists',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

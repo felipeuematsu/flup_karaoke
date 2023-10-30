@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Nenhum item encontrado"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "Não há mais itens para serem exibidos."),
+        "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "search": MessageLookupByLibrary.simpleMessage("Buscar"),
         "songHint": MessageLookupByLibrary.simpleMessage("ex: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Nome da música")
