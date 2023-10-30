@@ -32,7 +32,7 @@ class _SearchResultsComponentState extends State<SearchResultsComponent> {
           builderDelegate: PagedChildBuilderDelegate(
             itemBuilder: (context, item, index) => SongListTile(song: item),
             noItemsFoundIndicatorBuilder: (context) => const Center(child: NoItemsFoundWidget()),
-            noMoreItemsIndicatorBuilder: (context) => const NoMoreItemsWidget(),
+            noMoreItemsIndicatorBuilder: (context) => const Center(child: NoMoreItemsWidget()),
           ),
         );
       },

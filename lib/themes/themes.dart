@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+const appBarTheme = AppBarTheme(
+  centerTitle: false,
+
+);
+
 const buttonStyle = ButtonStyle(
   minimumSize: MaterialStatePropertyAll(Size(0, 42)),
   fixedSize: MaterialStatePropertyAll(null),

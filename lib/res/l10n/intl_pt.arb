@@ -16,5 +16,7 @@
   "artistHint": "ex: Taylor Swift",
   "songHint": "ex: Blank Space",
   "noItemsFound": "Nenhum item encontrado",
-  "awaitingQueryDescription": "Insira um nome de música ou artista para fazer a busca."
+  "awaitingQueryDescription": "Insira um nome de música ou artista para fazer a busca.",
+  "noMoreItems": "Não há mais itens para serem exibidos.",
+  "search": "Buscar"
 }

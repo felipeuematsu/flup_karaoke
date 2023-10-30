@@ -1,5 +1,4 @@
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:karaoke_request_api/src/model/song_search_response.dart';
 
 final _songModel = SongModel(
   songId: 1,

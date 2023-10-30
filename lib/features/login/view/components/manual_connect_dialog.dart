@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/model/server_entity.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
@@ -9,6 +10,7 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 enum _ServerTestStatus { idle, testing, success, error }
 
@@ -136,9 +138,9 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
     db.setCurrentServer(server);
     final ip = server.ip;
     if (ip != null) {
-      
-      GetIt.I.registerSingleton(KaraokeApiServiceMock());
-      // GetIt.I.registerSingleton(KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip)));
+      final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip));
+      GetIt.I.registerSingleton<KaraokeApiService>(service);
+
       AutoRouter.of(context).replaceAll([const HomeRoute()]);
     }
   }

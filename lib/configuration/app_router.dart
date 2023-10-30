@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flutter/widgets.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends $AppRouter {
@@ -10,4 +11,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: LoginRoute.page, path: '/server'),
         AutoRoute(page: SearchRoute.page, path: '/search'),
       ];
+}
+
+void logout(BuildContext context) {
+  AutoRouter.of(context).replaceAll([const LoginRoute()]);
 }

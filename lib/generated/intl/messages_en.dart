@@ -44,6 +44,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Address"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
+        "noMoreItems": MessageLookupByLibrary.simpleMessage(
+            "There are no more items to show."),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Song title")
       };

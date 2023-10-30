@@ -6,9 +6,10 @@ final lightTextTheme = Typography.whiteCupertino.apply(
   bodyColor: lightColorScheme.onBackground,
   displayColor: darkColorScheme.primary,
   fontFamily: FontFamily.poppins,
-);
+).merge(const TextTheme(titleLarge: TextStyle(fontSize: 48)));
 final darkTextTheme = Typography.blackCupertino.apply(
   bodyColor: darkColorScheme.onBackground,
   displayColor: darkColorScheme.primary,
   fontFamily: FontFamily.poppins,
-);
+).merge(const TextTheme(titleLarge: TextStyle(fontSize: 48)));
+

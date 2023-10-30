@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flup_karaoke/database/model/server_entity.dart';
+import 'package:flup_karaoke/extensions/locale.dart';
 import 'package:flup_karaoke/main.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,8 @@ const _schemas = <CollectionSchema>[
 
 class AppDB {
   final SharedPreferences prefs;
+
+  static const String localeKey = 'localeKey';
 
   AppDB(this.prefs);
 
@@ -55,5 +58,22 @@ class AppDB {
     if (jsonDecoded is! Map<String, dynamic>) return null;
 
     return ServerRecord.fromJson(jsonDecoded);
+  }
+
+  Locale? get locale {
+    final locale = prefs.getString(localeKey);
+    if (locale == null) return null;
+    final jsonDecoded = jsonDecode(locale);
+    if (jsonDecoded is! Map<String, dynamic>) return null;
+
+    return localeFromJson(jsonDecoded);
+  }
+
+  Future<void> setLocale(Locale? locale) async {
+    if (locale == null) {
+      await prefs.remove(localeKey);
+    } else {
+      await prefs.setString(localeKey, jsonEncode(locale.toJson()));
+    }
   }
 }

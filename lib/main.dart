@@ -1,4 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flup_karaoke/configuration/app_locales.dart';
 import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/dependencies.dart';
 import 'package:flup_karaoke/database/database.dart';
@@ -16,13 +17,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupDependencies();
   GetIt.I.allowReassignment = true;
-  runApp(FlupKApp(initialDarkModeState: AppDB.get().darkMode));
+  final appDB = AppDB.get();
+  runApp(FlupKApp(initialDarkModeState: appDB.darkMode, initialLocale: appDB.locale));
 }
 
 class FlupKApp extends StatefulWidget {
-  const FlupKApp({Key? key, required this.initialDarkModeState}) : super(key: key);
+  const FlupKApp({Key? key, required this.initialDarkModeState, required this.initialLocale}) : super(key: key);
 
   final bool initialDarkModeState;
+  final Locale? initialLocale;
 
   static _FlupKAppState of(BuildContext context) => context.findAncestorStateOfType<_FlupKAppState>()!;
 
@@ -32,8 +35,9 @@ class FlupKApp extends StatefulWidget {
 
 class _FlupKAppState extends State<FlupKApp> {
   late final darkMode = ValueNotifier(widget.initialDarkModeState);
+  late final locale = ValueNotifier(widget.initialLocale);
   final List<FishAssets> randomFishes = (FishAssets.values.toList()..shuffle());
-  late final _randomFish = ValueNotifier(FishAssets.values.first);
+  final _randomFish = ValueNotifier(FishAssets.values.first);
 
   void setNextFish() {
     final index = randomFishes.indexOf(currentFish);
@@ -70,39 +74,45 @@ class _FlupKAppState extends State<FlupKApp> {
           valueListenable: _randomFish,
           builder: (context, fish, child) => ValueListenableBuilder(
             valueListenable: darkMode,
-            builder: (context, isDarkMode, child) => MaterialApp.router(
-              routerConfig: router.config(),
-              localizationsDelegates: const [
-                GlobalWidgetsLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                FlupS.delegate,
-              ],
-              theme: ThemeData(
-                textTheme: lightTextTheme,
-                cardTheme: cardTheme,
-                dialogTheme: dialogTheme,
-                elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
-                filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
-                outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
-                textButtonTheme: const TextButtonThemeData(style: buttonStyle),
-                useMaterial3: true,
-                colorScheme: fish.colorScheme(context, lightScheme, lightCustomColors),
-                extensions: [lightCustomColors],
+            builder: (context, isDarkMode, child) => ValueListenableBuilder(
+              valueListenable: locale,
+              builder: (context, locale, child) => MaterialApp.router(
+                routerConfig: router.config(),
+                locale: locale,
+                supportedLocales: appLocales.values,
+                localizationsDelegates: const [
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  FlupS.delegate,
+                ],
+                themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                theme: ThemeData(
+                  textTheme: lightTextTheme,
+                  cardTheme: cardTheme,
+                  dialogTheme: dialogTheme,
+                  appBarTheme: appBarTheme,
+                  elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
+                  filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
+                  outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
+                  textButtonTheme: const TextButtonThemeData(style: buttonStyle),
+                  useMaterial3: true,
+                  colorScheme: fish.colorScheme(context, lightScheme, lightCustomColors),
+                  extensions: [lightCustomColors],
+                ),
+                darkTheme: ThemeData(
+                  textTheme: darkTextTheme,
+                  cardTheme: cardTheme,
+                  dialogTheme: dialogTheme,
+                  elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
+                  filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
+                  outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
+                  textButtonTheme: const TextButtonThemeData(style: buttonStyle),
+                  useMaterial3: true,
+                  colorScheme: fish.colorScheme(context, darkScheme, darkCustomColors),
+                  extensions: [darkCustomColors],
+                ),
               ),
-              darkTheme: ThemeData(
-                textTheme: darkTextTheme,
-                cardTheme: cardTheme,
-                dialogTheme: dialogTheme,
-                elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
-                filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
-                outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
-                textButtonTheme: const TextButtonThemeData(style: buttonStyle),
-                useMaterial3: true,
-                colorScheme: fish.colorScheme(context, darkScheme, darkCustomColors),
-                extensions: [darkCustomColors],
-              ),
-              themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
             ),
           ),
         );

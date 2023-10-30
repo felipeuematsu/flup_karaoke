@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/constants/mamiiranda.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/model/server_entity.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -41,16 +43,19 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
+      final theme = Theme.of(context);
       return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0.8),
+        backgroundColor: theme.colorScheme.background,
         appBar: AppBar(backgroundColor: Colors.transparent, actions: [
-          IconButton(
-            onPressed: () {
-              AutoRouter.of(context).replace(const HomeRoute());
-              print('HomeRoute');
-            },
-            icon: const Icon(Icons.home),
-          ),
+          if (isMockOn)
+            IconButton(
+              onPressed: () {
+                GetIt.I.registerSingleton<KaraokeApiService>(KaraokeApiServiceMock());
+
+                AutoRouter.of(context).replace(const HomeRoute());
+              },
+              icon: const Icon(Icons.home),
+            ),
           IconButton(
             onPressed: FlupKApp.of(context).setNextFish,
             icon: const Icon(Icons.refresh),
@@ -71,10 +76,7 @@ class _LoginViewState extends State<LoginView> {
               child: FittedBox(
                 child: Text(
                   FlupS.of(context).appName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineLarge
-                      ?.copyWith(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  style: theme.textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.onPrimaryContainer),
                 ),
               ),
             ),
@@ -88,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
             _body(context),
             const SizedBox(height: 16),
             RichText(
-              text: TextSpan(style: Theme.of(context).textTheme.labelSmall, children: [
+              text: TextSpan(style: theme.textTheme.labelSmall, children: [
                 TextSpan(text: FlupS.of(context).artBy),
                 TextSpan(
                   text: mamiirandaName,
@@ -177,8 +179,10 @@ class _LoginViewState extends State<LoginView> {
     db.setCurrentServer(server);
     final ip = server.ip;
     if (ip != null) {
-      GetIt.I.registerSingleton(KaraokeApiServiceMock());
-      // GetIt.I.registerSingleton(KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip)));
+      if (isMockOn) {
+        final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip));
+        GetIt.I.registerSingleton<KaraokeApiService>(service);
+      }
       AutoRouter.of(context).replaceAll([const HomeRoute()]);
     }
   }

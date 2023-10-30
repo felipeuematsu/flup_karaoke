@@ -24,10 +24,14 @@ class _SearchBarComponentState extends State<SearchBarComponent> {
         Padding(
           padding: const EdgeInsets.all(8),
           child: TextFormField(
+            onFieldSubmitted: (_) => controller.onSubmit(),
             focusNode: _songTitleFocusNode,
             onTapOutside: (_) => _songTitleFocusNode.unfocus(),
             controller: controller.songTitleController,
+            textInputAction: TextInputAction.search,
             decoration: InputDecoration(
+              fillColor: Colors.white12,
+              filled: true,
               label: Text(FlupS.of(context).songTitle),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -46,9 +50,13 @@ class _SearchBarComponentState extends State<SearchBarComponent> {
           padding: const EdgeInsets.all(8),
           child: TextFormField(
             focusNode: _artistFocusNode,
+            onFieldSubmitted: (_) => controller.onSubmit(),
             onTapOutside: (_) => _artistFocusNode.unfocus(),
+            textInputAction: TextInputAction.search,
             controller: controller.artistController,
             decoration: InputDecoration(
+              fillColor: Colors.white12,
+              filled: true,
               label: Text(FlupS.of(context).artist),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16))),

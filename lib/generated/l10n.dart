@@ -209,6 +209,26 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `There are no more items to show.`
+  String get noMoreItems {
+    return Intl.message(
+      'There are no more items to show.',
+      name: 'noMoreItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {
