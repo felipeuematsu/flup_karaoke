@@ -6,6 +6,7 @@ import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/generated/assets.gen.dart';
+import 'package:flup_karaoke/helper/ip_helper.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flup_karaoke/themes/custom_color.g.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> with SingleTickerProviderStateMixin {
   final animationDuration = const Duration(milliseconds: 750);
+
   late final AnimationController controller = AnimationController(vsync: this, duration: animationDuration);
 
   final db = AppDB.get();
@@ -35,18 +37,18 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   Future<void> redirect() async {
     await controller.forward();
     await Future.delayed(const Duration(milliseconds: 1000));
-    final ip = db.currentServer?.ip;
     await controller.reverse();
+    final ip = db.currentServer?.ip;
     if (ip == null) return AutoRouter.of(context).replaceAll([const LoginRoute()]);
 
     final loginController = GetIt.I<LoginController>();
     final testHost = await loginController.testHost(ip);
-    if (testHost) {
-      final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip));
-      GetIt.I.registerSingleton<KaraokeApiService>(service);
+    if (!testHost) return AutoRouter.of(context).replaceAll([const LoginRoute()]);
 
-      return AutoRouter.of(context).replaceAll([const HomeRoute()]);
-    }
+    final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
+    GetIt.I.registerSingleton<KaraokeApiService>(service);
+
+    return AutoRouter.of(context).replaceAll([const HomeRoute()]);
   }
 
   @override

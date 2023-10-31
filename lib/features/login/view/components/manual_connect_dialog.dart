@@ -7,6 +7,7 @@ import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/database/model/server_entity.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
+import 'package:flup_karaoke/helper/ip_helper.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -15,23 +16,26 @@ import 'package:karaoke_request_api/karaoke_request_api.dart';
 enum _ServerTestStatus { idle, testing, success, error }
 
 class ManualConnectDialog extends StatefulWidget {
-  const ManualConnectDialog({super.key, required this.controller});
-
-  final LoginController controller;
+  const ManualConnectDialog({super.key});
 
   @override
   State<ManualConnectDialog> createState() => _ManualConnectDialogState();
 }
 
 class _ManualConnectDialogState extends State<ManualConnectDialog> {
+  final controller = GetIt.I<LoginController>();
+
   final _serverTestStatus = ValueNotifier(_ServerTestStatus.idle);
 
   final db = AppDB.get();
 
   Timer? _timer;
 
-  late final _ipController = TextEditingController();
-  late final _nameController = TextEditingController();
+  final _ipController = TextEditingController();
+  final _nameController = TextEditingController();
+
+  final manualIpFocusNode = FocusNode();
+  final manualNameFocusNode = FocusNode();
 
   void onAddressChanged(String value) {
     _timer?.cancel();
@@ -41,7 +45,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
     }
     _timer = Timer(const Duration(milliseconds: 500), () async {
       _serverTestStatus.value = _ServerTestStatus.testing;
-      final result = await widget.controller.testHost(value);
+      final result = await controller.testHost(value);
       _serverTestStatus.value = result ? _ServerTestStatus.success : _ServerTestStatus.error;
     });
   }
@@ -54,7 +58,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(contentPadding: const EdgeInsets.all(32.0), children: [
+    return SimpleDialog(elevation: 10, contentPadding: const EdgeInsets.all(32.0), children: [
       SizedBox(
         width: 300,
         child: Column(children: [
@@ -64,6 +68,10 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
           ),
           const SizedBox(height: 32),
           TextField(
+            focusNode: manualNameFocusNode,
+            onTapOutside: (_) => manualNameFocusNode.unfocus(),
+            onSubmitted: (_) => manualIpFocusNode.requestFocus(),
+            textInputAction: TextInputAction.next,
             controller: _nameController,
             decoration: InputDecoration(
               constraints: const BoxConstraints(),
@@ -77,6 +85,8 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
           Row(children: [
             Expanded(
               child: TextField(
+                focusNode: manualIpFocusNode,
+                onTapOutside: (_) => manualIpFocusNode.unfocus(),
                 controller: _ipController,
                 onChanged: onAddressChanged,
                 decoration: InputDecoration(
@@ -93,17 +103,11 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
               dimension: 24,
               child: ValueListenableBuilder(
                 valueListenable: _serverTestStatus,
-                builder: (context, value, child) {
-                  switch (value) {
-                    case _ServerTestStatus.idle:
-                      return const SizedBox();
-                    case _ServerTestStatus.testing:
-                      return const CircularProgressIndicator();
-                    case _ServerTestStatus.success:
-                      return Icon(Icons.check, color: Theme.of(context).colorScheme.primary);
-                    case _ServerTestStatus.error:
-                      return Icon(Icons.close, color: Theme.of(context).colorScheme.error);
-                  }
+                builder: (context, value, child) => switch (value) {
+                  _ServerTestStatus.idle => const SizedBox(),
+                  _ServerTestStatus.testing => const CircularProgressIndicator(),
+                  _ServerTestStatus.success => Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
+                  _ServerTestStatus.error => Icon(Icons.close, color: Theme.of(context).colorScheme.error)
                 },
               ),
             ),
@@ -134,11 +138,12 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
   }
 
   void _goToHome(ServerRecord server) {
-    db.isar.serverRecords.put(server);
+    db.isar.writeTxn(() => db.isar.serverRecords.put(server));
+
     db.setCurrentServer(server);
     final ip = server.ip;
     if (ip != null) {
-      final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip));
+      final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
       GetIt.I.registerSingleton<KaraokeApiService>(service);
 
       AutoRouter.of(context).replaceAll([const HomeRoute()]);

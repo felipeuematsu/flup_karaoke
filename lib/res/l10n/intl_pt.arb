@@ -19,5 +19,6 @@
   "awaitingQueryDescription": "Insira um nome de música ou artista para fazer a busca.",
   "noMoreItems": "Não há mais itens para serem exibidos.",
   "search": "Buscar",
-  "playlists": "Playlists"
+  "playlists": "Playlists",
+  "nowPlaying": "Tocando agora"
 }

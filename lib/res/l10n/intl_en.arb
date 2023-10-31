@@ -18,5 +18,15 @@
   "awaitingQueryDescription": "Enter a song name and/or an artist to search for songs.",
   "noMoreItems": "There are no more items to show.",
   "search": "Search",
-  "playlists": "Playlists"
+  "playlists": "Playlists",
+  "nowPlaying": "Now Playing",
+  "serverIsNotAvailable": "Server {name} is not available",
+  "@serverIsNotAvailable": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "FLUP Karaoke"
+      }
+    }
+  }
 }

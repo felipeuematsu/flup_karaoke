@@ -12,7 +12,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SearchRoute.page, path: '/search'),
         AutoRoute(page: AllPlaylistsRoute.page, path: '/playlists',children: [
 
-        AutoRoute(page: PlaylistDetailsRoute.page, path: '/playlist/:id'),
+        AutoRoute(page: PlaylistDetailsRoute.page, path: ':id'),
         ]),
       ];
 }

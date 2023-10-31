@@ -7,6 +7,7 @@ import 'package:flup_karaoke/database/model/server_entity.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/features/login/view/components/manual_connect_dialog.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
+import 'package:flup_karaoke/helper/ip_helper.dart';
 import 'package:flup_karaoke/main.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/gestures.dart';
@@ -45,6 +46,7 @@ class _LoginViewState extends State<LoginView> {
     return Builder(builder: (context) {
       final theme = Theme.of(context);
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: theme.colorScheme.background,
         appBar: AppBar(backgroundColor: Colors.transparent, actions: [
           if (isMockOn)
@@ -76,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
               child: FittedBox(
                 child: Text(
                   FlupS.of(context).appName,
-                  style: theme.textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.onPrimaryContainer),
+                  style: theme.textTheme.displayLarge?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.onPrimaryContainer),
                 ),
               ),
             ),
@@ -108,10 +110,7 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _body(BuildContext context) {
     final newServerButton = TextButton(
-      onPressed: () => showDialog(
-        context: context,
-        builder: (context) => ManualConnectDialog(controller: LoginController()),
-      ),
+      onPressed: () => showDialog(context: context, useSafeArea: true, builder: (context) => const ManualConnectDialog()),
       child: Text(FlupS.of(context).insertNewServer),
     );
     final optionsRow = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -174,16 +173,32 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void _goToHome(ServerRecord server) {
-    db.isar.serverRecords.put(server);
-    db.setCurrentServer(server);
+  Future<void> _goToHome(ServerRecord server) async {
     final ip = server.ip;
-    if (ip != null) {
-      if (isMockOn) {
-        final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: ip));
-        GetIt.I.registerSingleton<KaraokeApiService>(service);
-      }
-      AutoRouter.of(context).replaceAll([const HomeRoute()]);
-    }
+    if (ip == null) return;
+
+    final loginController = GetIt.I.get<LoginController>();
+    final testHost = await loginController.testHost(ip);
+
+    if (!testHost) return showCurrentServerError(server);
+    db.isar.writeTxn(() => db.isar.serverRecords.put(server));
+    db.setCurrentServer(server);
+    final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
+    GetIt.I.registerSingleton<KaraokeApiService>(service);
+    AutoRouter.of(context).replaceAll([const HomeRoute()]);
+  }
+
+  void showCurrentServerError(ServerRecord server) {
+    final snackBar = SnackBar(
+      content: Text(
+        FlupS.of(context).serverIsNotAvailable(server.name ?? ''),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onError),
+      ),
+      elevation: 8,
+      backgroundColor: Theme.of(context).colorScheme.error,
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

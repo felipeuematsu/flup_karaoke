@@ -35,14 +35,14 @@ class _AllPlaylistsViewState extends State<AllPlaylistsView> {
             builder: (context, value, child) {
               if (value == null) return const Center(child: CircularProgressIndicator());
 
-              if (value.isEmpty) return const NoItemsFoundWidget();
+              if (value.isEmpty) return const Center(child: NoItemsFoundWidget());
 
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   final imageUrl = value[index].imageUrl;
                   return ListTile(
-                    leading: imageUrl != null ? Image.network(imageUrl) : null ,
+                    leading: imageUrl != null ? Image.network(imageUrl) : const Icon(Icons.music_note),
                     title: Text(value[index].name ?? ''),
                     onTap: () => AutoRouter.of(context).push(PlaylistDetailsRoute(playlist: value[index], id: value[index].id ?? 0)),
                   );

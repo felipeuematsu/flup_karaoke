@@ -13,7 +13,6 @@ class SongListTile extends StatelessWidget {
 
     final duration = Duration(seconds: song.duration ?? 0);
     final subtitle = '${song.artist ?? '--'} - ${duration.toMinutesSeconds()}';
-    print('SongListTile.build: $subtitle');
     return SizedBox(
       height: 64,
       child: ListTile(

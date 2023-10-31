@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/features/home/view/components/home_grid_tile.dart';
 import 'package:flup_karaoke/features/mini_player/controller/mini_player_controller.dart';
 import 'package:flup_karaoke/features/mini_player/view/mini_player_view.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
+import 'package:flup_karaoke/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -40,8 +42,9 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home'), centerTitle: false,actions: [
+      appBar: AppBar(title: const Text('Home'), centerTitle: false, actions: [
         IconButton(
+          icon: const Icon(Icons.accessibility),
           onPressed: () {
             if (animationController.isCompleted) {
               animationController.reverse();
@@ -49,17 +52,35 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
               animationController.forward();
             }
           },
+        ),
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: FlupKApp.of(context).setNextFish,
+        ),
+        IconButton(
+          onPressed: () => AppDB.get().toggleDarkMode(context),
+          icon: ValueListenableBuilder(
+            valueListenable: FlupKApp.of(context).darkMode,
+            builder: (context, value, child) => value == true ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode),
+          ),
+        ),
+        IconButton(
           icon: const Icon(Icons.logout),
+          onPressed: () => logout(context),
         ),
       ]),
       body: Stack(children: [
         Positioned.fill(
           child: GridView(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16),
+            padding: const EdgeInsets.all(8),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4, mainAxisSpacing: 4),
             children: [
               HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
+              HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
+              HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
+              HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
             ],
           ),
         ),

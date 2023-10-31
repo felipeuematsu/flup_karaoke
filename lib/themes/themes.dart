@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const appBarTheme = AppBarTheme(
   centerTitle: false,
-
+  color: Colors.transparent,
 );
 
 const buttonStyle = ButtonStyle(

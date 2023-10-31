@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(name) => "Server ${name} is not available";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
@@ -46,8 +48,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "There are no more items to show."),
+        "nowPlaying": MessageLookupByLibrary.simpleMessage("Now Playing"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "serverIsNotAvailable": m0,
         "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Song title")
       };

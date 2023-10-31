@@ -16,7 +16,7 @@ class HomeGridTile extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(icon, size: 48),
           const SizedBox(height: 16),
-          Text(title, maxLines: 1, textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelSmall),
+          Text(title, maxLines: 1, textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
         ]),
       ),
     );

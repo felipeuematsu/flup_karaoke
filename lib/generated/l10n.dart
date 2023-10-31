@@ -239,6 +239,26 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Now Playing`
+  String get nowPlaying {
+    return Intl.message(
+      'Now Playing',
+      name: 'nowPlaying',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Server {name} is not available`
+  String serverIsNotAvailable(Object name) {
+    return Intl.message(
+      'Server $name is not available',
+      name: 'serverIsNotAvailable',
+      desc: '',
+      args: [name],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {
