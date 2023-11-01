@@ -12,6 +12,7 @@ import 'package:flup_karaoke/main.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -90,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             _body(context),
-            const SizedBox(height: 16),
+            const Gap(16),
             RichText(
               text: TextSpan(style: theme.textTheme.labelSmall, children: [
                 TextSpan(text: FlupS.of(context).artBy),
@@ -101,7 +102,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ]),
             ),
-            const SizedBox(height: 16),
+            const Gap(16),
           ]),
         ),
       );
@@ -127,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
           child: Image.network('https://cdn.icon-icons.com/icons2/2385/PNG/512/list_icon_144238.png', height: 32, width: 32, fit: BoxFit.cover),
         ),
       ),
-      const SizedBox(width: 64),
+      const Gap(64),
       IconButton(
         padding: EdgeInsets.zero,
         color: Colors.black.withOpacity(0.08),
@@ -162,10 +163,10 @@ class _LoginViewState extends State<LoginView> {
                   ]),
                 ),
               ),
-              const SizedBox(height: 32),
+              const Gap(32),
             ],
             newServerButton,
-            const SizedBox(height: 32),
+            const Gap(32),
             optionsRow,
           ]),
         ),

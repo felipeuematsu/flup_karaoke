@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class HomeGridTile extends StatelessWidget {
   const HomeGridTile({super.key, required this.title, required this.icon, required this.route});
@@ -15,7 +16,7 @@ class HomeGridTile extends StatelessWidget {
       child: Card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(icon, size: 48),
-          const SizedBox(height: 16),
+          const Gap(16),
           Text(title, maxLines: 1, textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
         ]),
       ),

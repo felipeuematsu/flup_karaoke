@@ -10,6 +10,7 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/helper/ip_helper.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
@@ -66,7 +67,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
             FlupS.of(context).manualConnection,
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
           ),
-          const SizedBox(height: 32),
+          const Gap(32),
           TextField(
             focusNode: manualNameFocusNode,
             onTapOutside: (_) => manualNameFocusNode.unfocus(),
@@ -81,7 +82,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
               suffixIcon: IconButton(onPressed: clearAddress, icon: const Icon(Icons.close)),
             ),
           ),
-          const SizedBox(height: 16),
+          const Gap(16),
           Row(children: [
             Expanded(
               child: TextField(
@@ -98,7 +99,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            const Gap(16),
             SizedBox.square(
               dimension: 24,
               child: ValueListenableBuilder(
@@ -112,7 +113,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
               ),
             ),
           ]),
-          const SizedBox(height: 32),
+          const Gap(32),
           Row(children: [
             Expanded(
               child: OutlinedButton(
@@ -120,7 +121,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
                 child: Text(FlupS.of(context).cancel),
               ),
             ),
-            const SizedBox(width: 32),
+            const Gap(32),
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: _serverTestStatus,

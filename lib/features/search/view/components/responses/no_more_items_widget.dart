@@ -2,6 +2,7 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/helper/fish_assets.dart';
 import 'package:flup_karaoke/themes/custom_color.g.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class NoMoreItemsWidget extends StatelessWidget {
   const NoMoreItemsWidget({super.key});
@@ -13,9 +14,9 @@ class NoMoreItemsWidget extends StatelessWidget {
     return SizedBox(
       height: 128,
       child: Row(children: [
-        const SizedBox(width: 16),
+        const Gap(16),
         fish.icon.image(fit: BoxFit.contain),
-        const SizedBox(width: 16),
+        const Gap(16),
         Expanded(
           child: Text(
             FlupS.of(context).noMoreItems,
@@ -23,7 +24,7 @@ class NoMoreItemsWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(width: 16),
+        const Gap(16),
       ]),
     );
   }
