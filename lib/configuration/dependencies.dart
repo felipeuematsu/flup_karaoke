@@ -1,6 +1,6 @@
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
-import 'package:flup_karaoke/features/mini_player/controller/mini_player_controller.dart';
+import 'package:flup_karaoke/features/now_playing/controller/mini_player_controller.dart';
 import 'package:flup_karaoke/features/search/controller/search_view_controller.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,5 +17,5 @@ Future<void> setupDependencies() async {
   _rs(db);
   _rf(() => SearchViewController());
   _rf(() => LoginController());
-  _rf(() => MiniPlayerController());
+  _rf(() => NowPlayingController());
 }

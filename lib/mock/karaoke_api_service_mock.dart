@@ -55,6 +55,7 @@ class KaraokeApiServiceMock extends KaraokeApiService {
         singer: 'Singer',
         songId: 1,
         song: _songModel,
+        isPlaying: true,
       );
     });
   }
@@ -66,7 +67,7 @@ class KaraokeApiServiceMock extends KaraokeApiService {
 
   @override
   Future<PlaylistModel> getPlaylist(int id) async {
-    return PlaylistModel(
+    return const PlaylistModel(
       imageUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Features125/v4/a7/7b/92/a77b92fc-d331-dd1b-8772-80597dc51fd0/dj.xllwtvne.jpg/1200x1200bf-60.jpg',
       description: 'description',
       name: 'playlist',
@@ -77,7 +78,7 @@ class KaraokeApiServiceMock extends KaraokeApiService {
 
   @override
   Future<List<SimplePlaylistModel>> getPlaylists() async {
-    return [SimplePlaylistModel(id: 1, name: 'playlist')];
+    return [const SimplePlaylistModel(id: 1, name: 'playlist')];
   }
 
   @override

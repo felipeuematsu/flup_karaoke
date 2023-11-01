@@ -3,8 +3,8 @@ import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/features/home/view/components/home_grid_tile.dart';
-import 'package:flup_karaoke/features/mini_player/controller/mini_player_controller.dart';
 import 'package:flup_karaoke/features/mini_player/view/mini_player_view.dart';
+import 'package:flup_karaoke/features/now_playing/controller/mini_player_controller.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/main.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +19,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
-  late final MiniPlayerController miniPlayerController;
+  late final NowPlayingController miniPlayerController;
 
   late final animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
 
   @override
   void initState() {
     super.initState();
-    if (!GetIt.I.isRegistered<MiniPlayerController>()) {
+    if (!GetIt.I.isRegistered<NowPlayingController>()) {
       logout(context);
     }
     miniPlayerController = GetIt.I();
