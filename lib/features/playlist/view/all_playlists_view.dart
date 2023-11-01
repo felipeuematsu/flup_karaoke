@@ -20,6 +20,16 @@ class _AllPlaylistsViewState extends State<AllPlaylistsView> {
   final playlists = ValueNotifier<List<SimplePlaylistModel>?>(null);
 
   @override
+  void initState() {
+    super.initState();
+    fetchPlaylists();
+  }
+
+  Future<void> fetchPlaylists() async {
+    playlists.value = await service.getPlaylists();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(FlupS.of(context).playlists), actions: [
