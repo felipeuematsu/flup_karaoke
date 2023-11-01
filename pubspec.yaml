@@ -18,8 +18,9 @@ dependencies:
   dio: any
   shared_preferences: ^2.2.1
   karaoke_request_api:
-    hosted: https://dart.pkg.jetbrains.space/flup/p/main/flup/
-    version: ^1.3.2
+    git:
+      url: https://github.com/felipeuematsu/karaoke_request_api
+      ref: 1.3.3
 
   material_color_utilities: any
   flutter_secure_storage: ^8.0.0
