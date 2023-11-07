@@ -87,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
               flex: 6,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: FlupKApp.of(context).currentFish.icon.image(fit: BoxFit.contain),
+                child: FlupKApp.of(context).currentFish.value.icon.image(fit: BoxFit.contain),
               ),
             ),
             _body(context),

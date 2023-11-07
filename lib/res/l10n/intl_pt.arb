@@ -20,5 +20,16 @@
   "noMoreItems": "Não há mais itens para serem exibidos.",
   "search": "Buscar",
   "playlists": "Playlists",
-  "nowPlaying": "Tocando agora"
+  "nowPlaying": "Tocando agora",
+  "serverIsNotAvailable": "Servidor \"{name}\" não disponível",
+  "@serverIsNotAvailable": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "FLUP Karaoke"
+      }
+    }
+  },
+  "noSongPlaying": "Nenhuma música tocando",
+  "profile": "Perfil"
 }

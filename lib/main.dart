@@ -37,18 +37,16 @@ class _FlupKAppState extends State<FlupKApp> {
   late final darkMode = ValueNotifier(widget.initialDarkModeState);
   late final locale = ValueNotifier(widget.initialLocale);
   final List<FishAssets> randomFishes = (FishAssets.values.toList()..shuffle());
-  final _randomFish = ValueNotifier(FishAssets.values.first);
+  final currentFish = ValueNotifier(FishAssets.values.first);
 
   void setNextFish() {
-    final index = randomFishes.indexOf(currentFish);
+    final index = randomFishes.indexOf(currentFish.value);
     if (index == randomFishes.length - 1) {
-      _randomFish.value = randomFishes.first;
+      currentFish.value = randomFishes.first;
     } else {
-      _randomFish.value = randomFishes[index + 1];
+      currentFish.value = randomFishes[index + 1];
     }
   }
-
-  FishAssets get currentFish => _randomFish.value;
 
   final router = AppRouter();
 
@@ -71,7 +69,7 @@ class _FlupKAppState extends State<FlupKApp> {
         }
 
         return ValueListenableBuilder(
-          valueListenable: _randomFish,
+          valueListenable: currentFish,
           builder: (context, fish, child) => ValueListenableBuilder(
             valueListenable: darkMode,
             builder: (context, isDarkMode, child) => ValueListenableBuilder(

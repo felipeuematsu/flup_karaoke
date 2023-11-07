@@ -18,30 +18,31 @@ class NowPlayingImageSlider extends StatelessWidget {
     return SleekCircularSlider(
       appearance: CircularSliderAppearance(
         angleRange: 210,
+        startAngle: 165,
+        customWidths: CustomSliderWidths(progressBarWidth: 8, trackWidth: 8, handlerSize: 0),
         customColors: CustomSliderColors(
           trackColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
-          progressBarColors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
+          progressBarColors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
           dotColor: Theme.of(context).colorScheme.primary,
         ),
       ),
       onChangeEnd: (value) => service.setVolume(value.floor()),
       initialValue: nowPlayingController.currentVolume.value?.toDouble() ?? 0,
       innerWidget: (_) => Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.1), blurRadius: 16, spreadRadius: 8)],
-          ),
-          child: ValueListenableBuilder(
-            valueListenable: nowPlayingController.nowPlayingSong,
-            child: const Icon(Icons.music_note, size: 128),
-            builder: (context, value, child) {
-              if (value?.song?.imageUrl case final imageUrl?) {
-                return Image.network(imageUrl, fit: BoxFit.cover, height: 128, width: 128, errorBuilder: (_, __, ___) => child!);
-              }
-              return child!;
-            },
-          ),
+        child: ValueListenableBuilder(
+          valueListenable: nowPlayingController.nowPlayingSong,
+          builder: (context, value, child) {
+            final size = MediaQuery.of(context).size.width * 0.4;
+            final note = Icon(Icons.music_note, size: size);
+            if (value == null) return Icon(Icons.music_off, size: size);
+            if (value.song?.imageUrl case final imageUrl?) {
+              return DecoratedBox(
+                decoration: const BoxDecoration(shape: BoxShape.circle),
+                child: Image.network(imageUrl, fit: BoxFit.cover, height: size, width: size, errorBuilder: (_, __, ___) => note),
+              );
+            }
+            return note;
+          },
         ),
       ),
     );

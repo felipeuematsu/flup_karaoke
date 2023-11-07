@@ -20,7 +20,7 @@
   "search": "Search",
   "playlists": "Playlists",
   "nowPlaying": "Now Playing",
-  "serverIsNotAvailable": "Server {name} is not available",
+  "serverIsNotAvailable": "Server \"{name}\" is not available",
   "@serverIsNotAvailable": {
     "placeholders": {
       "name": {
@@ -28,5 +28,7 @@
         "example": "FLUP Karaoke"
       }
     }
-  }
+  },
+  "noSongPlaying": "No song playing",
+  "profile": "Profile"
 }

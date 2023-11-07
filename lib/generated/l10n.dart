@@ -250,13 +250,33 @@ class FlupS {
     );
   }
 
-  /// `Server {name} is not available`
+  /// `Server "{name}" is not available`
   String serverIsNotAvailable(Object name) {
     return Intl.message(
-      'Server $name is not available',
+      'Server "$name" is not available',
       name: 'serverIsNotAvailable',
       desc: '',
       args: [name],
+    );
+  }
+
+  /// `No song playing`
+  String get noSongPlaying {
+    return Intl.message(
+      'No song playing',
+      name: 'noSongPlaying',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message(
+      'Profile',
+      name: 'profile',
+      desc: '',
+      args: [],
     );
   }
 }

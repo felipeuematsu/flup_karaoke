@@ -71,18 +71,23 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
       ]),
       body: Stack(children: [
         Positioned.fill(
-          child: GridView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4, mainAxisSpacing: 4),
-            children: [
-              HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
-              HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
-              HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
-              HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
-            ],
-          ),
+          child: Column(children: [
+            GridView(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4, mainAxisSpacing: 4),
+              children: [
+                HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
+                HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
+                HomeGridTile(title: FlupS.of(context).nowPlaying, icon: Icons.play_arrow, route: const NowPlayingRoute()),
+                HomeGridTile(title: FlupS.of(context).profile, icon: Icons.person, route: const HomeRoute()),
+              ],
+            ),
+            const Spacer(),
+            ValueListenableBuilder(valueListenable: FlupKApp.of(context).currentFish, builder: (_, value, __) => value.icon.image()),
+            const Spacer(flex: 2),
+          ]),
         ),
         Builder(builder: (context) {
           const miniPlayerView = MiniPlayerView();
