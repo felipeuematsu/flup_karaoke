@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 const appBarTheme = AppBarTheme(
   centerTitle: false,
+  toolbarHeight: 80.0,
+  iconTheme: IconThemeData(size: 32.0),
   color: Colors.transparent,
 );
 
