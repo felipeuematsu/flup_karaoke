@@ -81,7 +81,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                 HomeGridTile(title: FlupS.of(context).search, icon: Icons.search, route: const SearchRoute()),
                 HomeGridTile(title: FlupS.of(context).playlists, icon: Icons.music_note, route: const AllPlaylistsRoute()),
                 HomeGridTile(title: FlupS.of(context).nowPlaying, icon: Icons.play_arrow, route: const NowPlayingRoute()),
-                HomeGridTile(title: FlupS.of(context).profile, icon: Icons.person, route: const HomeRoute()),
+                HomeGridTile(title: FlupS.of(context).profile, icon: Icons.person, route: const ProfileRoute()),
               ],
             ),
             const Spacer(),
