@@ -67,12 +67,49 @@ class KaraokeApiServiceMock extends KaraokeApiService {
 
   @override
   Future<PlaylistModel> getPlaylist(int id) async {
-    return const PlaylistModel(
+    return  PlaylistModel(
       imageUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Features125/v4/a7/7b/92/a77b92fc-d331-dd1b-8772-80597dc51fd0/dj.xllwtvne.jpg/1200x1200bf-60.jpg',
       description: 'description',
       name: 'playlist',
       id: 1,
-      songs: [],
+      songs: [
+        SongModel(
+          songId: 1,
+          artist: 'Ed Sheeran',
+          duration: 123,
+          filename: 'filename',
+          title: 'Thinking Out Loud',
+          imageUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Features125/v4/a7/7b/92/a77b92fc-d331-dd1b-8772-80597dc51fd0/dj.xllwtvne.jpg/1200x1200bf-60.jpg',
+          lastPlayed: DateTime.now().subtract(const Duration(days: 1)),
+          path: '',
+          plays: 3,
+          searchString: 'searchString',
+        ),
+        SongModel(
+          songId: 2,
+          artist: 'Ed Sheeran',
+          duration: 123,
+          filename: 'filename',
+          title: 'Thinking Out Loud',
+          imageUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Features125/v4/a7/7b/92/a77b92fc-d331-dd1b-8772-80597dc51fd0/dj.xllwtvne.jpg/1200x1200bf-60.jpg',
+          lastPlayed: DateTime.now().subtract(const Duration(days: 1)),
+          path: '',
+          plays: 3,
+          searchString: 'searchString',
+        ),
+        SongModel(
+          songId: 3,
+          artist: 'Ed Sheeran',
+          duration: 123,
+          filename: 'filename',
+          title: 'Thinking Out Loud',
+          imageUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Features125/v4/a7/7b/92/a77b92fc-d331-dd1b-8772-80597dc51fd0/dj.xllwtvne.jpg/1200x1200bf-60.jpg',
+          lastPlayed: DateTime.now().subtract(const Duration(days: 1)),
+          path: '',
+          plays: 3,
+          searchString: 'searchString',
+        ),
+      ],
     );
   }
 

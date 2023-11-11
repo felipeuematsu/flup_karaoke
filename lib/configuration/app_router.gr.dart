@@ -52,13 +52,15 @@ abstract class $AppRouter extends _i8.RootStackRouter {
       );
     },
     PlaylistDetailsRoute.name: (routeData) {
-      final args = routeData.argsAs<PlaylistDetailsRouteArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<PlaylistDetailsRouteArgs>(
+          orElse: () => PlaylistDetailsRouteArgs(id: pathParams.getInt('id')));
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i5.PlaylistDetailsView(
           key: args.key,
-          playlist: args.playlist,
           id: args.id,
+          playlist: args.playlist,
         ),
       );
     },
@@ -138,16 +140,17 @@ class NowPlayingRoute extends _i8.PageRouteInfo<void> {
 class PlaylistDetailsRoute extends _i8.PageRouteInfo<PlaylistDetailsRouteArgs> {
   PlaylistDetailsRoute({
     _i9.Key? key,
-    required _i10.SimplePlaylistModel playlist,
     required int id,
+    _i10.SimplePlaylistModel? playlist,
     List<_i8.PageRouteInfo>? children,
   }) : super(
           PlaylistDetailsRoute.name,
           args: PlaylistDetailsRouteArgs(
             key: key,
-            playlist: playlist,
             id: id,
+            playlist: playlist,
           ),
+          rawPathParams: {'id': id},
           initialChildren: children,
         );
 
@@ -160,19 +163,19 @@ class PlaylistDetailsRoute extends _i8.PageRouteInfo<PlaylistDetailsRouteArgs> {
 class PlaylistDetailsRouteArgs {
   const PlaylistDetailsRouteArgs({
     this.key,
-    required this.playlist,
     required this.id,
+    this.playlist,
   });
 
   final _i9.Key? key;
 
-  final _i10.SimplePlaylistModel playlist;
-
   final int id;
+
+  final _i10.SimplePlaylistModel? playlist;
 
   @override
   String toString() {
-    return 'PlaylistDetailsRouteArgs{key: $key, playlist: $playlist, id: $id}';
+    return 'PlaylistDetailsRouteArgs{key: $key, id: $id, playlist: $playlist}';
   }
 }
 

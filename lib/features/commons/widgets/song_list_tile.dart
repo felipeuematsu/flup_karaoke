@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongListTile extends StatelessWidget {
-  const SongListTile({super.key, required this.song});
+  const SongListTile({super.key, required this.song, this.onTap});
 
   final SongModel song;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class SongListTile extends StatelessWidget {
     return SizedBox(
       height: 64,
       child: ListTile(
+        onTap: onTap,
         title: Text(song.title ?? '--'),
         subtitle: Text(subtitle),
         leading: Container(
