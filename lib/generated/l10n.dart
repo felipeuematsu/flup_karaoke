@@ -279,6 +279,76 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `You must select a default singer to use this feature`
+  String get selectDefaultSinger {
+    return Intl.message(
+      'You must select a default singer to use this feature',
+      name: 'selectDefaultSinger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Erro`
+  String get error {
+    return Intl.message(
+      'Erro',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to queue`
+  String get addToQueue {
+    return Intl.message(
+      'Add to queue',
+      name: 'addToQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message(
+      'Filter',
+      name: 'filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No singers found for this filter`
+  String get noSingersFoundMessage {
+    return Intl.message(
+      'No singers found for this filter',
+      name: 'noSingersFoundMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Singers`
+  String get singers {
+    return Intl.message(
+      'Singers',
+      name: 'singers',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

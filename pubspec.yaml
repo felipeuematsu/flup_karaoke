@@ -41,6 +41,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   gap: ^3.0.1
   sleek_circular_slider: ^2.0.1
+  modal_bottom_sheet: 3.0.0-pre
 
 dev_dependencies:
   isar_generator: ^3.1.0+1

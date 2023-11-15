@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addToQueue": MessageLookupByLibrary.simpleMessage("Add to queue"),
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
         "artBy": MessageLookupByLibrary.simpleMessage("Art by "),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
@@ -32,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "awaitingQueryDescription": MessageLookupByLibrary.simpleMessage(
             "Enter a song name and/or an artist to search for songs."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "error": MessageLookupByLibrary.simpleMessage("Erro"),
+        "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
             "Insert a name for this server"),
         "insertNewServer":
@@ -48,13 +51,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "There are no more items to show."),
+        "noSingersFoundMessage": MessageLookupByLibrary.simpleMessage(
+            "No singers found for this filter"),
         "noSongPlaying":
             MessageLookupByLibrary.simpleMessage("No song playing"),
         "nowPlaying": MessageLookupByLibrary.simpleMessage("Now Playing"),
+        "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "selectDefaultSinger": MessageLookupByLibrary.simpleMessage(
+            "You must select a default singer to use this feature"),
         "serverIsNotAvailable": m0,
+        "singers": MessageLookupByLibrary.simpleMessage("Singers"),
         "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Song title")
       };

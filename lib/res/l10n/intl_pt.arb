@@ -31,5 +31,12 @@
     }
   },
   "noSongPlaying": "Nenhuma música tocando",
-  "profile": "Perfil"
+  "profile": "Perfil",
+  "selectDefaultSinger": "Você deve selecionar um cantor padrão para usar este recurso.",
+  "error": "Erro",
+  "ok": "Ok",
+  "addToQueue": "Adicionar à fila",
+  "filter": "Filtro",
+  "noSingersFoundMessage": "Nenhum cantor encontrado com esse nome",
+  "singers": "Cantores"
 }

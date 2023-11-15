@@ -30,5 +30,12 @@
     }
   },
   "noSongPlaying": "No song playing",
-  "profile": "Profile"
+  "profile": "Profile",
+  "selectDefaultSinger": "You must select a default singer to use this feature",
+  "error": "Erro",
+  "ok": "Ok",
+  "addToQueue": "Add to queue",
+  "filter": "Filter",
+  "noSingersFoundMessage": "No singers found for this filter",
+  "singers": "Singers"
 }
