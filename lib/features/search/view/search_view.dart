@@ -28,7 +28,7 @@ class _SearchViewState extends State<SearchView> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(centerTitle: false, title: const Text('Search'), actions: [
+      appBar: AppBar(title: const Text('Search'), actions: [
         IconButton(
           icon: const Icon(Icons.login),
           onPressed: () => AutoRouter.of(context).push(const LoginRoute()),

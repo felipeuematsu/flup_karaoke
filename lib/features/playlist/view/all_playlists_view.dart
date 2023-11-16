@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flup_karaoke/features/playlist/view/components/playlist_list_tile.dart';
 import 'package:flup_karaoke/features/search/view/components/responses/no_items_found_widget.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
@@ -47,16 +48,10 @@ class _AllPlaylistsViewState extends State<AllPlaylistsView> {
 
               if (value.isEmpty) return const Center(child: NoItemsFoundWidget());
 
-              return ListView.builder(
+              return ListView.separated(
+                separatorBuilder: (context, index) => const Gap(8),
                 itemCount: value.length,
-                itemBuilder: (context, index) {
-                  final imageUrl = value[index].imageUrl;
-                  return ListTile(
-                    leading: imageUrl != null ? Image.network(imageUrl) : const Icon(Icons.music_note),
-                    title: Text(value[index].name ?? ''),
-                    onTap: () => AutoRouter.of(context).push(PlaylistDetailsRoute(playlist: value[index], id: value[index].id ?? 0)),
-                  );
-                },
+                itemBuilder: (context, index) => PlaylistListTile(simplePlaylistModel: value[index]),
               );
             },
           ),
