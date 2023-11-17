@@ -37,7 +37,7 @@ class _FlupKAppState extends State<FlupKApp> {
   late final darkMode = ValueNotifier(widget.initialDarkModeState);
   late final locale = ValueNotifier(widget.initialLocale);
   final List<FishAssets> randomFishes = (FishAssets.values.toList()..shuffle());
-  final currentFish = ValueNotifier(FishAssets.values.first);
+  late final currentFish = ValueNotifier(randomFishes.first);
 
   void setNextFish() {
     final index = randomFishes.indexOf(currentFish.value);

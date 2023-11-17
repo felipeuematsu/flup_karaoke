@@ -553,10 +553,10 @@ packages:
     dependency: "direct main"
     description:
       name: karaoke_request_api
-      sha256: "4da66ccfe504fa4375f568efac8d7445a77770ff0ccee75152a8784532e34d5e"
+      sha256: be0d9bca4b6c23fa39187c74539be3800a4c7010a62610d42f440274e6c22499
       url: "https://dart.pkg.jetbrains.space/flup/p/main/flup/"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.2"
   lints:
     dependency: transitive
     description:
@@ -1110,10 +1110,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "350a11abd2d1d97e0cc7a28a81b781c08002aa2864d9e3f192ca0ffa18b06ed3"
+      sha256: "7c99c0e1e2fa190b48d25c81ca5e42036d5cac81430ef249027d97b0935c553f"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.9"
+    version: "5.1.0"
   xdg_directories:
     dependency: transitive
     description:

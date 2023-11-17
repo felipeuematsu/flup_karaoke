@@ -17,13 +17,14 @@ class SongListTile extends StatelessWidget {
     return SizedBox(
       height: 64,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
         horizontalTitleGap: 8,
         onTap: onTap,
-        visualDensity: VisualDensity.compact,
         title: Text(song.title ?? '--'),
         subtitle: Text(subtitle),
-        leading: SizedBox.square(dimension: 64, child: imageUrl != null ? Image.network(imageUrl) : const Icon(Icons.music_note)),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(imageUrl ?? '', height: 48, width: 48, fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.music_note, size: 48)),
+        ),
       ),
     );
   }

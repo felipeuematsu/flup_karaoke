@@ -98,8 +98,8 @@ class _NowPlayingViewState extends State<NowPlayingView> {
                 valueListenable: nowPlayingController.nowPlayingSong,
                 builder: (context, value, _) => IconButton(
                   iconSize: 96,
-                  icon: (value?.isPlaying ?? false) ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
-                  onPressed: () => (value?.isPlaying ?? false) ? service.pause() : service.play(),
+                  icon: value?.isPlaying == true ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
+                  onPressed: value?.isPlaying == true ? service.pause : service.play,
                   color: titleColor,
                 ),
               ),

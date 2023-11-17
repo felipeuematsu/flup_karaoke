@@ -1,4 +1,5 @@
 import 'package:flup_karaoke/database/database.dart';
+import 'package:flup_karaoke/features/commons/controller/current_singer_controller.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/features/now_playing/controller/mini_player_controller.dart';
 import 'package:flup_karaoke/features/search/controller/search_view_controller.dart';
@@ -18,4 +19,5 @@ Future<void> setupDependencies() async {
   _rf(() => SearchViewController());
   _rf(() => LoginController());
   _rf(() => NowPlayingController());
+  _rf(() => CurrentSingerController());
 }

@@ -24,21 +24,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addSongFromYoutube":
+            MessageLookupByLibrary.simpleMessage("Add song from YouTube"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Add to queue"),
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
         "artBy": MessageLookupByLibrary.simpleMessage("Art by "),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
         "artistHint":
             MessageLookupByLibrary.simpleMessage("e.g.: Taylor Swift"),
+        "artistName": MessageLookupByLibrary.simpleMessage("Artist name"),
         "awaitingQueryDescription": MessageLookupByLibrary.simpleMessage(
             "Enter a song name and/or an artist to search for songs."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "error": MessageLookupByLibrary.simpleMessage("Erro"),
+        "error": MessageLookupByLibrary.simpleMessage("Error"),
         "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
             "Insert a name for this server"),
         "insertNewServer":
             MessageLookupByLibrary.simpleMessage("Insert new server"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "manualConnection":
             MessageLookupByLibrary.simpleMessage("Manual connection"),
         "manualConnectionButton":
@@ -51,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "There are no more items to show."),
+        "noResultsFound":
+            MessageLookupByLibrary.simpleMessage("No results found."),
         "noSingersFoundMessage": MessageLookupByLibrary.simpleMessage(
             "No singers found for this filter"),
         "noSongPlaying":
@@ -59,12 +65,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "profileMenu": MessageLookupByLibrary.simpleMessage("Profile Menu"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectDefaultSinger": MessageLookupByLibrary.simpleMessage(
             "You must select a default singer to use this feature"),
         "serverIsNotAvailable": m0,
         "singers": MessageLookupByLibrary.simpleMessage("Singers"),
         "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
-        "songTitle": MessageLookupByLibrary.simpleMessage("Song title")
+        "songTitle": MessageLookupByLibrary.simpleMessage("Song title"),
+        "youtubeSearch": MessageLookupByLibrary.simpleMessage("Youtube Search")
       };
 }

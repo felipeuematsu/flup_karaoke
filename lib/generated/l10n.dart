@@ -290,10 +290,10 @@ class FlupS {
     );
   }
 
-  /// `Erro`
+  /// `Error`
   String get error {
     return Intl.message(
-      'Erro',
+      'Error',
       name: 'error',
       desc: '',
       args: [],
@@ -345,6 +345,76 @@ class FlupS {
     return Intl.message(
       'Singers',
       name: 'singers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Youtube Search`
+  String get youtubeSearch {
+    return Intl.message(
+      'Youtube Search',
+      name: 'youtubeSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results found.`
+  String get noResultsFound {
+    return Intl.message(
+      'No results found.',
+      name: 'noResultsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add song from YouTube`
+  String get addSongFromYoutube {
+    return Intl.message(
+      'Add song from YouTube',
+      name: 'addSongFromYoutube',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Artist name`
+  String get artistName {
+    return Intl.message(
+      'Artist name',
+      name: 'artistName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile Menu`
+  String get profileMenu {
+    return Intl.message(
+      'Profile Menu',
+      name: 'profileMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
       desc: '',
       args: [],
     );

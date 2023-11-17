@@ -24,11 +24,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addSongFromYoutube":
+            MessageLookupByLibrary.simpleMessage("Adicionar música do Youtube"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Adicionar à fila"),
         "appName": MessageLookupByLibrary.simpleMessage("FLUP Karaoke"),
         "artBy": MessageLookupByLibrary.simpleMessage("Arte por "),
         "artist": MessageLookupByLibrary.simpleMessage("Artista"),
         "artistHint": MessageLookupByLibrary.simpleMessage("ex: Taylor Swift"),
+        "artistName": MessageLookupByLibrary.simpleMessage("Nome do artista"),
         "awaitingQueryDescription": MessageLookupByLibrary.simpleMessage(
             "Insira um nome de música ou artista para fazer a busca."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
@@ -38,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Insira um nome para este servidor"),
         "insertNewServer":
             MessageLookupByLibrary.simpleMessage("Inserir novo servidor"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "manualConnection":
             MessageLookupByLibrary.simpleMessage("Conexão manual"),
         "manualConnectionButton":
@@ -51,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Nenhum item encontrado"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "Não há mais itens para serem exibidos."),
+        "noResultsFound":
+            MessageLookupByLibrary.simpleMessage("Nenhum resultado encontrado"),
         "noSingersFoundMessage": MessageLookupByLibrary.simpleMessage(
             "Nenhum cantor encontrado com esse nome"),
         "noSongPlaying":
@@ -59,12 +65,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "profile": MessageLookupByLibrary.simpleMessage("Perfil"),
+        "profileMenu": MessageLookupByLibrary.simpleMessage("Menu de perfil"),
+        "save": MessageLookupByLibrary.simpleMessage("Salvar"),
         "search": MessageLookupByLibrary.simpleMessage("Buscar"),
         "selectDefaultSinger": MessageLookupByLibrary.simpleMessage(
             "Você deve selecionar um cantor padrão para usar este recurso."),
         "serverIsNotAvailable": m0,
         "singers": MessageLookupByLibrary.simpleMessage("Cantores"),
         "songHint": MessageLookupByLibrary.simpleMessage("ex: Blank Space"),
-        "songTitle": MessageLookupByLibrary.simpleMessage("Nome da música")
+        "songTitle": MessageLookupByLibrary.simpleMessage("Nome da música"),
+        "youtubeSearch":
+            MessageLookupByLibrary.simpleMessage("Busca no Youtube")
       };
 }

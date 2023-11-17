@@ -38,5 +38,12 @@
   "addToQueue": "Adicionar à fila",
   "filter": "Filtro",
   "noSingersFoundMessage": "Nenhum cantor encontrado com esse nome",
-  "singers": "Cantores"
+  "singers": "Cantores",
+  "youtubeSearch": "Busca no Youtube",
+  "noResultsFound": "Nenhum resultado encontrado",
+  "addSongFromYoutube": "Adicionar música do Youtube",
+  "save": "Salvar",
+  "artistName": "Nome do artista",
+  "profileMenu": "Menu de perfil",
+  "logout": "Logout"
 }

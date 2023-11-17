@@ -13,6 +13,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: NowPlayingRoute.page, path: '/playing'),
         AutoRoute(page: AllPlaylistsRoute.page, path: '/playlists'),
         AutoRoute(page: PlaylistDetailsRoute.page, path: '/playlists/:id'),
+        AutoRoute(page: ProfileMenuRoute.page, path: '/queue'),
+        AutoRoute(page: YoutubeSearchRoute.page, path: '/youtube_search'),
       ];
 }
 

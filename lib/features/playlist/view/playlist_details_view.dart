@@ -18,7 +18,7 @@ class PlaylistDetailsView extends StatefulWidget {
 
 class _PlaylistDetailsViewState extends State<PlaylistDetailsView> {
   final service = GetIt.I<KaraokeApiService>();
-  final currentSingerController = CurrentSingerController();
+  final currentSingerController = GetIt.I<CurrentSingerController>();
 
   final playlistDetails = ValueNotifier<PlaylistModel?>(null);
 

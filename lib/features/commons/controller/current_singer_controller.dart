@@ -12,8 +12,5 @@ class CurrentSingerController {
 
   SingerModel? get currentSinger => _currentSinger;
 
-  set currentSinger(SingerModel? value) {
-    _database.setCurrentSinger(value);
-    _currentSinger = value;
-  }
+  set currentSinger(SingerModel? value) => _database.setCurrentSinger(_currentSinger = value);
 }

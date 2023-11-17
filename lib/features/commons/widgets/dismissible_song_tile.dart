@@ -28,32 +28,27 @@ class _DismissibleSongTileState extends State<DismissibleSongTile> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      onDismissed: (_) => quickAddToQueue(context, widget.song.songId),
       onUpdate: (details) => controller.value = details.progress,
       direction: DismissDirection.startToEnd,
       dismissThresholds: const {DismissDirection.startToEnd: 0.3},
       background: ValueListenableBuilder(
         valueListenable: controller,
-        builder: (context, value, child) =>
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 32.0),
-              color: Color.lerp(Colors.grey, Colors.lightGreen, max(value < 0.3 ? 1 : 0.0, min(0.3, pow(5.0 * (value - 0.1), 3).toDouble()))),
-              child: const Icon(Icons.playlist_add, color: Colors.white),
-            ),
+        builder: (context, value, _) => Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(left: 32.0),
+          color: Color.lerp(Colors.grey, Colors.lightGreen, max(value > 0.3 ? 1 : 0.0, min(0.3, pow(5.0 * (value - 0.1), 3).toDouble()))),
+          child: const Icon(Icons.playlist_add, color: Colors.white),
+        ),
       ),
-      confirmDismiss: (direction) => Future.value(false),
+      confirmDismiss: (direction) => quickAddToQueue(context, widget.song.songId).then((value) => false),
       key: ValueKey(widget.song.songId ?? 0),
       child: SongListTile(
         song: widget.song,
-        onTap: () =>
-            showCupertinoModalBottomSheet(
-              context: context,
-              backgroundColor: Theme
-                  .of(context)
-                  .platform == TargetPlatform.iOS ? CupertinoColors.systemBackground : null,
-              builder: (context) => AddToQueueBottomSheet(song: widget.song),
-            ),
+        onTap: () => showCupertinoModalBottomSheet(
+          context: context,
+          backgroundColor: Theme.of(context).platform == TargetPlatform.iOS ? CupertinoColors.systemBackground : null,
+          builder: (context) => AddToQueueBottomSheet(song: widget.song),
+        ),
       ),
     );
   }

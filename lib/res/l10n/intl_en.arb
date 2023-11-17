@@ -32,10 +32,17 @@
   "noSongPlaying": "No song playing",
   "profile": "Profile",
   "selectDefaultSinger": "You must select a default singer to use this feature",
-  "error": "Erro",
+  "error": "Error",
   "ok": "Ok",
   "addToQueue": "Add to queue",
   "filter": "Filter",
   "noSingersFoundMessage": "No singers found for this filter",
-  "singers": "Singers"
+  "singers": "Singers",
+  "youtubeSearch": "Youtube Search",
+  "noResultsFound": "No results found.",
+  "addSongFromYoutube": "Add song from YouTube",
+  "save": "Save",
+  "artistName": "Artist name",
+  "profileMenu": "Profile Menu",
+  "logout": "Logout"
 }
