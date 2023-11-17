@@ -45,5 +45,20 @@
   "save": "Salvar",
   "artistName": "Nome do artista",
   "profileMenu": "Menu de perfil",
-  "logout": "Logout"
+  "logout": "Logout",
+  "queue": "Fila",
+  "removeFromQueue": "Remover da fila",
+  "removeFromQueueMessage": "Tem certeza que deseja remover \"{name}\" da fila?",
+  "@removeFromQueueMessage": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "Blank Space"
+      }
+    }
+  },
+  "remove": "Remover",
+  "noSongsInQueueYet": "Nenhuma música na fila ainda. Adicione uma música para começar!",
+  "youCanReorderTheQueue": "Você pode reordenar a fila!",
+  "youCanReorderTheQueueMessage": "Arraste e solte as músicas para reordenar a fila."
 }

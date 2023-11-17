@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 class SongListTile extends StatelessWidget {
-  const SongListTile({super.key, required this.song, this.onTap});
+  const SongListTile({super.key, required this.song, this.onTap, this.singer});
 
   final SongModel song;
+  final SingerModel? singer;
   final VoidCallback? onTap;
 
   @override
@@ -13,7 +14,11 @@ class SongListTile extends StatelessWidget {
     final imageUrl = song.imageUrl;
 
     final duration = Duration(seconds: song.duration ?? 0);
-    final subtitle = '${song.artist ?? '--'} - ${duration.toMinutesSeconds()}';
+    var subtitle = '${song.artist ?? '--'} - ${duration.toMinutesSeconds()}';
+    final singerName = singer?.name;
+    if (singerName != null) {
+      subtitle += '\n$singerName';
+    }
     return SizedBox(
       height: 64,
       child: ListTile(

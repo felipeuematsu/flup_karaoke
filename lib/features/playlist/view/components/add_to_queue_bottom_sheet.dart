@@ -1,4 +1,5 @@
 import 'package:flup_karaoke/features/commons/controller/current_singer_controller.dart';
+import 'package:flup_karaoke/features/commons/widgets/adaptative_text_button.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,7 +59,7 @@ class _AddToQueueBottomSheetState extends State<AddToQueueBottomSheet> {
           navigationBar: CupertinoNavigationBar(
             leading: CupertinoButton(padding: EdgeInsets.zero, onPressed: () => Navigator.of(context).pop(), child: Text(FlupS.of(context).cancel)),
             middle: Text(FlupS.of(context).addToQueue),
-            trailing: CupertinoButton(
+            trailing: AdaptiveTextButton(
               padding: EdgeInsets.zero,
               onPressed: () {
                 if (singer.value == null || singer.value?.id == null) return;

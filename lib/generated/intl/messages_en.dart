@@ -20,7 +20,10 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(name) => "Server \"${name}\" is not available";
+  static String m0(name) =>
+      "Are you sure you want to remove \"${name}\" from the queue?";
+
+  static String m1(name) => "Server \"${name}\" is not available";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -61,19 +64,30 @@ class MessageLookup extends MessageLookupByLibrary {
             "No singers found for this filter"),
         "noSongPlaying":
             MessageLookupByLibrary.simpleMessage("No song playing"),
+        "noSongsInQueueYet": MessageLookupByLibrary.simpleMessage(
+            "No songs in queue yet. Add some!"),
         "nowPlaying": MessageLookupByLibrary.simpleMessage("Now Playing"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "profileMenu": MessageLookupByLibrary.simpleMessage("Profile Menu"),
+        "queue": MessageLookupByLibrary.simpleMessage("Queue"),
+        "remove": MessageLookupByLibrary.simpleMessage("Remove"),
+        "removeFromQueue":
+            MessageLookupByLibrary.simpleMessage("Remove from queue"),
+        "removeFromQueueMessage": m0,
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectDefaultSinger": MessageLookupByLibrary.simpleMessage(
             "You must select a default singer to use this feature"),
-        "serverIsNotAvailable": m0,
+        "serverIsNotAvailable": m1,
         "singers": MessageLookupByLibrary.simpleMessage("Singers"),
         "songHint": MessageLookupByLibrary.simpleMessage("e.g.: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Song title"),
+        "youCanReorderTheQueue":
+            MessageLookupByLibrary.simpleMessage("You can reorder the queue!"),
+        "youCanReorderTheQueueMessage": MessageLookupByLibrary.simpleMessage(
+            "Just drag and drop the songs to reorder them."),
         "youtubeSearch": MessageLookupByLibrary.simpleMessage("Youtube Search")
       };
 }

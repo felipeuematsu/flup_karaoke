@@ -419,6 +419,76 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Queue`
+  String get queue {
+    return Intl.message(
+      'Queue',
+      name: 'queue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove from queue`
+  String get removeFromQueue {
+    return Intl.message(
+      'Remove from queue',
+      name: 'removeFromQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove "{name}" from the queue?`
+  String removeFromQueueMessage(Object name) {
+    return Intl.message(
+      'Are you sure you want to remove "$name" from the queue?',
+      name: 'removeFromQueueMessage',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Remove`
+  String get remove {
+    return Intl.message(
+      'Remove',
+      name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No songs in queue yet. Add some!`
+  String get noSongsInQueueYet {
+    return Intl.message(
+      'No songs in queue yet. Add some!',
+      name: 'noSongsInQueueYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can reorder the queue!`
+  String get youCanReorderTheQueue {
+    return Intl.message(
+      'You can reorder the queue!',
+      name: 'youCanReorderTheQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Just drag and drop the songs to reorder them.`
+  String get youCanReorderTheQueueMessage {
+    return Intl.message(
+      'Just drag and drop the songs to reorder them.',
+      name: 'youCanReorderTheQueueMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

@@ -44,5 +44,21 @@
   "save": "Save",
   "artistName": "Artist name",
   "profileMenu": "Profile Menu",
-  "logout": "Logout"
+  "logout": "Logout",
+  "queue": "Queue",
+  "removeFromQueue": "Remove from queue",
+  "removeFromQueueMessage": "Are you sure you want to remove \"{name}\" from the queue?",
+  "@removeFromQueueMessage": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "Blank Space"
+      }
+    }
+  },
+  "remove": "Remove",
+  "noSongsInQueueYet": "No songs in queue yet. Add some!",
+  "youCanReorderTheQueue": "You can reorder the queue!",
+  "youCanReorderTheQueueMessage": "Just drag and drop the songs to reorder them."
+
 }
