@@ -37,12 +37,16 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   Future<void> redirect() async {
     await controller.forward();
     await Future.delayed(const Duration(milliseconds: 1000));
-    await controller.reverse();
     final ip = db.currentServer?.ip;
-    if (ip == null) return AutoRouter.of(context).replaceAll([const LoginRoute()]);
+
+    if (ip == null) {
+      await controller.reverse();
+      return AutoRouter.of(context).replaceAll([const LoginRoute()]);
+    }
 
     final loginController = GetIt.I<LoginController>();
     final testHost = await loginController.testHost(ip);
+    await controller.reverse();
     if (!testHost) return AutoRouter.of(context).replaceAll([const LoginRoute()]);
 
     final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));

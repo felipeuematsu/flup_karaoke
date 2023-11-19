@@ -31,7 +31,7 @@ class SearchViewController {
 
   Future<void> _fetchMore(int pageKey) async {
     final response = await search(pageKey);
-    if (pageKey == response.page) {
+    if (pageKey == (response.totalPages ?? 0) - 1) {
       pagingController.appendLastPage(response.data ?? []);
     } else {
       pagingController.appendPage(response.data ?? [], pageKey + 1);
