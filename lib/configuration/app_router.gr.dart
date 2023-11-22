@@ -17,8 +17,8 @@ import 'package:flup_karaoke/features/playlist/view/all_playlists_view.dart'
     as _i1;
 import 'package:flup_karaoke/features/playlist/view/playlist_details_view.dart'
     as _i5;
-import 'package:flup_karaoke/features/profile/view/profile_view.dart' as _i6;
 import 'package:flup_karaoke/features/search/view/search_view.dart' as _i7;
+import 'package:flup_karaoke/features/singers/view/profile_view.dart' as _i6;
 import 'package:flup_karaoke/features/splash/view/splash_view.dart' as _i8;
 import 'package:flutter/material.dart' as _i10;
 import 'package:karaoke_request_api/karaoke_request_api.dart' as _i11;
