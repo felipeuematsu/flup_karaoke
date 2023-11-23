@@ -553,10 +553,10 @@ packages:
     dependency: "direct main"
     description:
       name: karaoke_request_api
-      sha256: "831c13a21f27e9e03d8e68778dfb2d69468e1c1d12300e4c876f48056980b09e"
+      sha256: fb12f39d1a4092b50495c215a717276f7958824c69557e78f838ca41e8c8ec74
       url: "https://dart.pkg.jetbrains.space/flup/p/main/flup/"
     source: hosted
-    version: "1.8.8"
+    version: "1.8.9"
   lints:
     dependency: transitive
     description:

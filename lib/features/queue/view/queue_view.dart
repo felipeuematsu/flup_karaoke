@@ -22,39 +22,50 @@ class _QueueViewState extends State<QueueView> {
 
   final refreshKey = GlobalKey<RefreshIndicatorState>();
 
+  @override
+  void initState() {
+    super.initState();
+    controller.getQueue();
+  }
+
   Future<void> _onTapItem(SongQueueItem song) async {
     return showCupertinoModalBottomSheet(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
       context: context,
-      builder: (context) => ListView(
-        padding: const EdgeInsets.all(20.0),
-        shrinkWrap: true,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: Text(FlupS.of(context).youCanReorderTheQueue),
-            subtitle: Text(FlupS.of(context).youCanReorderTheQueueMessage),
+      builder: (context) => Material(
+        child: SafeArea(
+          child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(20.0),
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: Text(FlupS.of(context).youCanReorderTheQueue),
+                subtitle: Text(FlupS.of(context).youCanReorderTheQueueMessage),
+              ),
+              const Divider(),
+              ListTile(
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                leading: const Icon(Icons.playlist_remove),
+                onTap: () async {
+                  final shouldRemove = await showAdaptiveDialog(context: context, builder: (_) => RemoveFromQueueDialog(song: song.song));
+                  if (shouldRemove != true) return;
+                  await controller.service.removeFromQueue(song.id ?? 0);
+                  await refreshKey.currentState?.show();
+                },
+                title: Text(FlupS.of(context).removeFromQueue),
+              ),
+              const Divider(),
+              ListTile(
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                leading: const Icon(Icons.cancel),
+                onTap: () => Navigator.pop(context),
+                title: Text(FlupS.of(context).cancel),
+              ),
+            ],
           ),
-          const Divider(),
-          ListTile(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            leading: const Icon(Icons.playlist_remove),
-            onTap: () async {
-              final shouldRemove = await showAdaptiveDialog(context: context, builder: (_) => RemoveFromQueueDialog(song: song.song));
-              if (shouldRemove != true) return;
-              await controller.service.removeFromQueue(song.id ?? 0);
-              await refreshKey.currentState?.show();
-            },
-            title: Text(FlupS.of(context).removeFromQueue),
-          ),
-          const Divider(),
-          ListTile(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            leading: const Icon(Icons.cancel),
-            onTap: () => Navigator.pop(context),
-            title: Text(FlupS.of(context).cancel),
-          ),
-        ],
+        ),
       ),
     );
   }
