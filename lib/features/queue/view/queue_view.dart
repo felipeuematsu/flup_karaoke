@@ -84,7 +84,7 @@ class _QueueViewState extends State<QueueView> {
             builder: (context, value, child) {
               if (value == null) return const Center(child: CircularProgressIndicator.adaptive());
 
-              if (value.isEmpty) return const EmptyQueueWidget();
+              if (value.isEmpty) return const Align(alignment: Alignment.topCenter, child: EmptyQueueWidget());
 
               Future<void> onReorder(int oldIndex, int newIndex) async {
                 await controller.reorderQueue(value[oldIndex].id ?? 0, newIndex);
