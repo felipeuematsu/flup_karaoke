@@ -34,33 +34,75 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(FlupS.of(context).addSongFromYoutube),
+      titlePadding: const EdgeInsets.all(16),
       content: FutureBuilder(
         future: widget.futureManifest,
         builder: (context, snapshot) {
-          final manifest = snapshot.data;
-          if (manifest != null) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Title: ${video.title}'),
-                  Text('Author: ${video.author}'),
-                  Text('Duration: ${video.duration}'),
-                  Text('Resolution: ${manifest.resolution}'),
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(labelText: FlupS.of(context).songTitle),
-                  ),
-                  TextField(
-                    controller: artistController,
-                    decoration: InputDecoration(labelText: FlupS.of(context).artistName),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
+          return SingleChildScrollView(
+            child: Builder(builder: (context) {
+              if (snapshot.data != null) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(text: 'Title: '),
+                        TextSpan(text: video.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                    ),
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(text: 'Author: '),
+                        TextSpan(text: video.author, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                    ),
+                    // duration in format hh:mm:ss
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(text: 'Duration: '),
+                        TextSpan(text: video.duration.toString().split('.').first, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                    ),
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(text: 'Views: '),
+                        TextSpan(text: video.viewCount?.toStringAsPowerNumber(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                    ),
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(text: 'Resolution: '),
+                        TextSpan(
+                            text: '${snapshot.data?.resolution?.width}x${snapshot.data?.resolution?.height}',
+                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                    ),
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(labelText: FlupS.of(context).songTitle),
+                    ),
+                    Center(
+                        child: IconButton(
+                      icon: const Icon(Icons.swap_vert),
+                      onPressed: () async => setState(() {
+                        final title = titleController.text;
+                        final artist = artistController.text;
+                        titleController.text = artist;
+                        artistController.text = title;
+                      }),
+                    )),
+                    TextField(
+                      controller: artistController,
+                      decoration: InputDecoration(labelText: FlupS.of(context).artistName),
+                    ),
+                  ],
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator.adaptive());
+              }
+            }),
+          );
         },
       ),
       actions: [
@@ -95,5 +137,17 @@ class _YoutubeSearchDialogState extends State<YoutubeSearchDialog> {
             }),
       ],
     );
+  }
+}
+
+extension on num {
+  String toStringAsPowerNumber() {
+    if (this > 1000000) {
+      return '${(this / 1000000).toStringAsFixed(1)}M';
+    } else if (this > 1000) {
+      return '${(this / 1000).toStringAsFixed(1)}K';
+    } else {
+      return toString();
+    }
   }
 }

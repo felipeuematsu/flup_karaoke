@@ -19,7 +19,7 @@ dependencies:
   shared_preferences: ^2.2.1
   karaoke_request_api:
     hosted: https://dart.pkg.jetbrains.space/flup/p/main/flup/
-    version: ^1.6.0
+    version: ^1.8.9
 
   material_color_utilities: any
   flutter_secure_storage: ^9.0.0
