@@ -1,0 +1,76 @@
+{
+  "@@locale": "pt",
+  "appName": "FLUP Karaoke",
+  "manualConnection": "Conexão manual",
+  "manualConnectionDescription": "Digite o endereço IP do servidor",
+  "manualConnectionPlaceholder": "Endereço",
+  "manualConnectionButton": "Conectar",
+  "manualConnectionError": "Não foi possível conectar ao servidor",
+  "cancel": "Cancelar",
+  "artBy": "Arte por ",
+  "insertNewServer": "Inserir novo servidor",
+  "insertANameForThisServer": "Insira um nome para este servidor",
+  "name": "Nome",
+  "artist": "Artista",
+  "songTitle": "Nome da música",
+  "artistHint": "ex: Taylor Swift",
+  "songHint": "ex: Blank Space",
+  "noItemsFound": "Nenhum item encontrado",
+  "awaitingQueryDescription": "Insira um nome de música ou artista para fazer a busca.",
+  "noMoreItems": "Não há mais itens para serem exibidos.",
+  "search": "Buscar",
+  "playlists": "Playlists",
+  "nowPlaying": "Tocando agora",
+  "serverIsNotAvailable": "Servidor \"{name}\" não disponível",
+  "@serverIsNotAvailable": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "FLUP Karaoke"
+      }
+    }
+  },
+  "noSongPlaying": "Nenhuma música tocando",
+  "profile": "Perfil",
+  "selectDefaultSinger": "Você deve selecionar um cantor padrão para usar este recurso.",
+  "error": "Erro",
+  "ok": "Ok",
+  "addToQueue": "Adicionar à fila",
+  "filter": "Filtro",
+  "noSingersFoundMessage": "Nenhum cantor encontrado com esse nome",
+  "singers": "Cantores",
+  "youtubeSearch": "Busca no Youtube",
+  "noResultsFound": "Nenhum resultado encontrado",
+  "addSongFromYoutube": "Adicionar música do Youtube",
+  "save": "Salvar",
+  "artistName": "Nome do artista",
+  "profileMenu": "Menu de perfil",
+  "logout": "Logout",
+  "queue": "Fila",
+  "removeFromQueue": "Remover da fila",
+  "removeFromQueueMessage": "Tem certeza que deseja remover \"{name}\" da fila?",
+  "@removeFromQueueMessage": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "Blank Space"
+      }
+    }
+  },
+  "remove": "Remover",
+  "noSongsInQueueYet": "Nenhuma música na fila ainda. Adicione uma música para começar!",
+  "youCanReorderTheQueue": "Você pode reordenar a fila!",
+  "youCanReorderTheQueueMessage": "Arraste e solte as músicas para reordenar a fila.",
+  "language": "Linguagem",
+  "portuguese": "Português",
+  "english": "English",
+  "noSingersFound": "Nenhum cantor encontrado",
+  "edit": "Editar",
+  "delete": "Excluir",
+  "disable": "Desativar",
+  "enable": "Ativar",
+  "editSinger": "Editar cantor",
+  "chooseFromLibrary": "Escolher da biblioteca",
+  "takePhoto": "Tirar foto",
+  "home": "Início"
+}

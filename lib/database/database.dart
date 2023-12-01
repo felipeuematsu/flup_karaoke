@@ -1,72 +1,98 @@
 import 'dart:convert';
 
-import 'package:flup_karaoke/database/adapters.dart';
-import 'package:flup_karaoke/database/exception/wl_database_encryption_key_exception.dart';
-import 'package:flup_karaoke/database/util/abstract_flutter_secure_storage.dart';
-import 'package:flup_karaoke/database/util/abstract_hive.dart';
-import 'package:flup_karaoke/database/util_impl/flutter_secure_storage_impl.dart';
-import 'package:flup_karaoke/database/util_impl/hive_impl.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flup_karaoke/database/model/server_entity.dart';
+import 'package:flup_karaoke/extensions/locale.dart';
+import 'package:flup_karaoke/main.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:isar/isar.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Database {
-  static const nonPersistentDatabase = 'non_persistent_database', persistentDatabase = 'persistent_database';
-  static const cryptoKeyName = 'crypto_key';
-  static const cryptoKey = 'z%C*F-J@NcRfUjXn2r5u8x/A?D(G+KbP';
+part 'keys.dart';
 
-  factory Database({AbstractFlutterSecureStorage? secureStorage, AbstractHive? hive}) => _shared
-    .._hive = _shared._hive ?? hive ?? const HiveImpl()
-    .._secureStorage = _shared._secureStorage ?? secureStorage ?? const FlutterSecureStorageImpl();
+const _schemas = <CollectionSchema>[
+  ServerRecordSchema,
+];
 
-  Database._internal();
+class AppDB {
+  final SharedPreferences prefs;
 
-  static final _shared = Database._internal();
-  AbstractHive? _hive;
-  AbstractFlutterSecureStorage? _secureStorage;
-  Box? _box, _persistentBox;
+  static const String _localeKey = 'localeKey';
+  static const String _singerKey = 'singerKey';
 
-  bool Function(int, int) get _strategy => (entries, deletedEntries) => deletedEntries > 50;
+  AppDB(this.prefs);
 
-  Future<void> init() async {
-    registerAdapters();
-    await _hive?.init();
-    final encryptedKey = await _getEncryptedKey();
-    final encryptionKey = base64Url.decode(encryptedKey);
-    _box = await _hive?.openBox(nonPersistentDatabase, HiveAesCipher(encryptionKey), _strategy);
-    _persistentBox = await _hive?.openBox(persistentDatabase, HiveAesCipher(encryptionKey), _strategy);
+  factory AppDB.get() => GetIt.I<AppDB>();
+
+  Isar? _isar;
+
+  Isar get isar {
+    assert(_isar != null, 'Database is not initialized. Run `await AppDB.get().openDatabase()` first.');
+    return _isar!;
   }
 
-  Future<String> _getEncryptedKey() async {
-    try {
-      if (false == await _secureStorage?.containsKey(key: cryptoKey)) {
-        await _secureStorage?.write(key: cryptoKeyName, value: base64Url.encode(cryptoKey.codeUnits));
-      }
-      final key = await _secureStorage?.read(key: cryptoKeyName);
-      if (key == null) throw WLDatabaseEncryptionKeyException();
-      return key;
-    } catch (_) {
-      return base64Url.encode('00000000000000000000000000000000'.codeUnits);
+  Future<Isar> openDatabase() async {
+    return _isar = await Isar.open(_schemas, directory: (await getApplicationDocumentsDirectory()).path);
+  }
+
+  Future<bool> toggleDarkMode(BuildContext context) async {
+    final darkMode = prefs.getBool(darkModeKey) ?? false;
+    await prefs.setBool(darkModeKey, !darkMode);
+    return FlupKApp.of(context).darkMode.value = !darkMode;
+  }
+
+  bool get darkMode => prefs.getBool(darkModeKey) ?? false;
+
+  Future<void> setCurrentServer(ServerRecord? server) async {
+    if (server == null || server.ip == null || server.ip!.isEmpty || server.name == null || server.name!.isEmpty) {
+      await prefs.remove(serverKey);
+    } else {
+      await prefs.setString(serverKey, jsonEncode(server.toJson()));
     }
   }
 
-  T? read<T>(String key, {bool persistent = false}) => persistent ? readPersistent(key) : readNonPersistent(key);
+  ServerRecord? get currentServer {
+    final server = prefs.getString(serverKey);
+    if (server == null) return null;
+    final jsonDecoded = jsonDecode(server);
+    if (jsonDecoded is! Map<String, dynamic>) return null;
 
-  Future<void> write(String key, dynamic value, {bool persistent = false}) => persistent ? writePersistent(key, value) : writeNonPersistent(key, value);
+    return ServerRecord.fromJson(jsonDecoded);
+  }
 
-  T? readNonPersistent<T>(String key) => _box?.get(key) as T?;
+  Locale? get locale {
+    final locale = prefs.getString(_localeKey);
+    if (locale == null) return null;
+    final jsonDecoded = jsonDecode(locale);
+    if (jsonDecoded is! Map<String, dynamic>) return null;
 
-  T? readPersistent<T>(String key) => _persistentBox?.get(key) as T?;
+    return localeFromJson(jsonDecoded);
+  }
 
-  Future<void> writeNonPersistent(String key, dynamic value) async => await _box?.put(key, value);
+  Future<void> setLocale(Locale? locale) async {
+    if (locale == null) {
+      await prefs.remove(_localeKey);
+    } else {
+      await prefs.setString(_localeKey, jsonEncode(locale.toJson()));
+    }
+  }
 
-  Future<void> writePersistent(String key, dynamic value) async => await _persistentBox?.put(key, value);
+  SingerModel? get currentSinger {
+    final singer = prefs.getString(_singerKey);
+    if (singer == null) return null;
+    final jsonDecoded = jsonDecode(singer);
+    if (jsonDecoded is! Map<String, dynamic>) return null;
 
-  Future<void> clearNonPersistent() async => await _box?.clear();
+    return SingerModel.fromJson(jsonDecoded);
+  }
 
-  Future<void> deleteByKeyNonPersistent(String key) async => await _box?.delete(key);
-
-  Future<void> close() async {
-    await _box?.close();
-    await _persistentBox?.close();
+  Future<void> setCurrentSinger(SingerModel? singer) async {
+    if (singer == null) {
+      await prefs.remove(_singerKey);
+    } else {
+      await prefs.setString(_singerKey, jsonEncode(singer.toJson()));
+    }
   }
 }

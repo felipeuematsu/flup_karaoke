@@ -1,0 +1,1 @@
+const isMockOn = bool.fromEnvironment('mock');

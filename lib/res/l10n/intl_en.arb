@@ -1,0 +1,75 @@
+{
+  "@@locale": "en",
+  "appName": "FLUP Karaoke",
+  "manualConnection": "Manual connection",
+  "manualConnectionDescription": "Enter the address of the you want to connect to.",
+  "manualConnectionPlaceholder": "Address",
+  "manualConnectionButton": "Connect",
+  "cancel": "Cancel",
+  "artBy": "Art by ",
+  "insertNewServer": "Insert new server",
+  "insertANameForThisServer": "Insert a name for this server",
+  "name": "Name",
+  "artist": "Artist",
+  "songTitle": "Song title",
+  "artistHint": "e.g.: Taylor Swift",
+  "songHint": "e.g.: Blank Space",
+  "noItemsFound": "No items found",
+  "awaitingQueryDescription": "Enter a song name and/or an artist to search for songs.",
+  "noMoreItems": "There are no more items to show.",
+  "search": "Search",
+  "playlists": "Playlists",
+  "nowPlaying": "Now Playing",
+  "serverIsNotAvailable": "Server \"{name}\" is not available",
+  "@serverIsNotAvailable": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "FLUP Karaoke"
+      }
+    }
+  },
+  "noSongPlaying": "No song playing",
+  "profile": "Profile",
+  "selectDefaultSinger": "You must select a default singer to use this feature",
+  "error": "Error",
+  "ok": "Ok",
+  "addToQueue": "Add to queue",
+  "filter": "Filter",
+  "noSingersFoundMessage": "No singers found for this filter",
+  "singers": "Singers",
+  "youtubeSearch": "Youtube Search",
+  "noResultsFound": "No results found.",
+  "addSongFromYoutube": "Add song from YouTube",
+  "save": "Save",
+  "artistName": "Artist name",
+  "profileMenu": "Profile Menu",
+  "logout": "Logout",
+  "queue": "Queue",
+  "removeFromQueue": "Remove from queue",
+  "removeFromQueueMessage": "Are you sure you want to remove \"{name}\" from the queue?",
+  "@removeFromQueueMessage": {
+    "placeholders": {
+      "name": {
+        "content": "{name}",
+        "example": "Blank Space"
+      }
+    }
+  },
+  "remove": "Remove",
+  "noSongsInQueueYet": "No songs in queue yet. Add some!",
+  "youCanReorderTheQueue": "You can reorder the queue!",
+  "youCanReorderTheQueueMessage": "Just drag and drop the songs to reorder them.",
+  "language": "Language",
+  "english": "English",
+  "portuguese": "Português",
+  "noSingersFound": "No singers found",
+  "edit": "Edit",
+  "delete": "Delete",
+  "disable": "Disable",
+  "enable": "Enable",
+  "editSinger": "Edit singer",
+  "chooseFromLibrary": "Choose from Library",
+  "takePhoto": "Take Photo",
+  "home": "Home"
+}
