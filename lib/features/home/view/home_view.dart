@@ -42,7 +42,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home'), centerTitle: false, actions: [
+      appBar: AppBar(title: Text(FlupS.of(context).home), centerTitle: false, actions: [
         IconButton(
           icon: const Icon(Icons.accessibility),
           onPressed: () {

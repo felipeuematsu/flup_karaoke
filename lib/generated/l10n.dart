@@ -489,6 +489,126 @@ class FlupS {
       args: [],
     );
   }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get english {
+    return Intl.message(
+      'English',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Português`
+  String get portuguese {
+    return Intl.message(
+      'Português',
+      name: 'portuguese',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No singers found`
+  String get noSingersFound {
+    return Intl.message(
+      'No singers found',
+      name: 'noSingersFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disable`
+  String get disable {
+    return Intl.message(
+      'Disable',
+      name: 'disable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable`
+  String get enable {
+    return Intl.message(
+      'Enable',
+      name: 'enable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit singer`
+  String get editSinger {
+    return Intl.message(
+      'Edit singer',
+      name: 'editSinger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose from Library`
+  String get chooseFromLibrary {
+    return Intl.message(
+      'Choose from Library',
+      name: 'chooseFromLibrary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take Photo`
+  String get takePhoto {
+    return Intl.message(
+      'Take Photo',
+      name: 'takePhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get home {
+    return Intl.message(
+      'Home',
+      name: 'home',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<FlupS> {

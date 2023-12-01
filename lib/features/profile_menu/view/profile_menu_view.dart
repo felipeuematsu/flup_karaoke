@@ -6,9 +6,14 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class ProfileMenuView extends StatelessWidget {
+class ProfileMenuView extends StatefulWidget {
   const ProfileMenuView({super.key});
 
+  @override
+  State<ProfileMenuView> createState() => ProfileMenuViewState();
+}
+
+class ProfileMenuViewState extends State<ProfileMenuView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +27,14 @@ class ProfileMenuView extends StatelessWidget {
               title: FlupS.of(context).youtubeSearch,
               onTap: () => AutoRouter.of(context).push(const YoutubeSearchRoute()),
             ),
+            ProfileMenuTile(icon: Icons.person, title: FlupS.of(context).singers, onTap: () => AutoRouter.of(context).push(const SingersRoute())),
+            ProfileMenuTile(
+              icon: Icons.translate,
+              title: FlupS.of(context).language,
+              onTap: () => AutoRouter.of(context).push(const LanguageSelectRoute()),
+            ),
+            const Divider(),
             ProfileMenuTile(icon: Icons.settings, title: FlupS.of(context).logout, onTap: () => logout(context)),
-            ProfileMenuTile(icon: Icons.person, title: FlupS.of(context).singers, onTap: () => {}),
           ],
         ),
       ),

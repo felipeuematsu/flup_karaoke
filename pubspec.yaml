@@ -42,6 +42,8 @@ dependencies:
   gap: ^3.0.1
   sleek_circular_slider: ^2.0.1
   modal_bottom_sheet: 3.0.0-pre
+  image_cropper: ^5.0.1
+  file_picker: ^6.1.1
 
 dev_dependencies:
   isar_generator: ^3.1.0+1

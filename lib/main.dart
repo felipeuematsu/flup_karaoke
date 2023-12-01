@@ -50,6 +50,14 @@ class _FlupKAppState extends State<FlupKApp> {
 
   final router = AppRouter();
 
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (context as Element).visitChildren(rebuild);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
@@ -77,7 +85,7 @@ class _FlupKAppState extends State<FlupKApp> {
               builder: (context, locale, child) => MaterialApp.router(
                 routerConfig: router.config(),
                 locale: locale,
-                supportedLocales: appLocales.values,
+                supportedLocales: appLocales,
                 localizationsDelegates: const [
                   GlobalWidgetsLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

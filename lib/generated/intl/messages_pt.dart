@@ -38,12 +38,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "awaitingQueryDescription": MessageLookupByLibrary.simpleMessage(
             "Insira um nome de música ou artista para fazer a busca."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "chooseFromLibrary":
+            MessageLookupByLibrary.simpleMessage("Escolher da biblioteca"),
+        "delete": MessageLookupByLibrary.simpleMessage("Excluir"),
+        "disable": MessageLookupByLibrary.simpleMessage("Desativar"),
+        "edit": MessageLookupByLibrary.simpleMessage("Editar"),
+        "editSinger": MessageLookupByLibrary.simpleMessage("Editar cantor"),
+        "enable": MessageLookupByLibrary.simpleMessage("Ativar"),
+        "english": MessageLookupByLibrary.simpleMessage("English"),
         "error": MessageLookupByLibrary.simpleMessage("Erro"),
         "filter": MessageLookupByLibrary.simpleMessage("Filtro"),
+        "home": MessageLookupByLibrary.simpleMessage("Início"),
         "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
             "Insira um nome para este servidor"),
         "insertNewServer":
             MessageLookupByLibrary.simpleMessage("Inserir novo servidor"),
+        "language": MessageLookupByLibrary.simpleMessage("Linguagem"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "manualConnection":
             MessageLookupByLibrary.simpleMessage("Conexão manual"),
@@ -60,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não há mais itens para serem exibidos."),
         "noResultsFound":
             MessageLookupByLibrary.simpleMessage("Nenhum resultado encontrado"),
+        "noSingersFound":
+            MessageLookupByLibrary.simpleMessage("Nenhum cantor encontrado"),
         "noSingersFoundMessage": MessageLookupByLibrary.simpleMessage(
             "Nenhum cantor encontrado com esse nome"),
         "noSongPlaying":
@@ -69,6 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "nowPlaying": MessageLookupByLibrary.simpleMessage("Tocando agora"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
+        "portuguese": MessageLookupByLibrary.simpleMessage("Português"),
         "profile": MessageLookupByLibrary.simpleMessage("Perfil"),
         "profileMenu": MessageLookupByLibrary.simpleMessage("Menu de perfil"),
         "queue": MessageLookupByLibrary.simpleMessage("Fila"),
@@ -84,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "singers": MessageLookupByLibrary.simpleMessage("Cantores"),
         "songHint": MessageLookupByLibrary.simpleMessage("ex: Blank Space"),
         "songTitle": MessageLookupByLibrary.simpleMessage("Nome da música"),
+        "takePhoto": MessageLookupByLibrary.simpleMessage("Tirar foto"),
         "youCanReorderTheQueue":
             MessageLookupByLibrary.simpleMessage("Você pode reordenar a fila!"),
         "youCanReorderTheQueueMessage": MessageLookupByLibrary.simpleMessage(

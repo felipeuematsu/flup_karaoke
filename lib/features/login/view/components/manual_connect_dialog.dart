@@ -79,7 +79,7 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               labelText: FlupS.of(context).name,
               border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-              suffixIcon: IconButton(onPressed: clearAddress, icon: const Icon(Icons.close)),
+              suffixIcon: IconButton(onPressed: _nameController.clear, icon: const Icon(Icons.close)),
             ),
           ),
           const Gap(16),

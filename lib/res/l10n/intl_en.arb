@@ -59,6 +59,17 @@
   "remove": "Remove",
   "noSongsInQueueYet": "No songs in queue yet. Add some!",
   "youCanReorderTheQueue": "You can reorder the queue!",
-  "youCanReorderTheQueueMessage": "Just drag and drop the songs to reorder them."
-
+  "youCanReorderTheQueueMessage": "Just drag and drop the songs to reorder them.",
+  "language": "Language",
+  "english": "English",
+  "portuguese": "Português",
+  "noSingersFound": "No singers found",
+  "edit": "Edit",
+  "delete": "Delete",
+  "disable": "Disable",
+  "enable": "Enable",
+  "editSinger": "Edit singer",
+  "chooseFromLibrary": "Choose from Library",
+  "takePhoto": "Take Photo",
+  "home": "Home"
 }

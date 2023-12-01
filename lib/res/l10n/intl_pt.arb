@@ -60,5 +60,17 @@
   "remove": "Remover",
   "noSongsInQueueYet": "Nenhuma música na fila ainda. Adicione uma música para começar!",
   "youCanReorderTheQueue": "Você pode reordenar a fila!",
-  "youCanReorderTheQueueMessage": "Arraste e solte as músicas para reordenar a fila."
+  "youCanReorderTheQueueMessage": "Arraste e solte as músicas para reordenar a fila.",
+  "language": "Linguagem",
+  "portuguese": "Português",
+  "english": "English",
+  "noSingersFound": "Nenhum cantor encontrado",
+  "edit": "Editar",
+  "delete": "Excluir",
+  "disable": "Desativar",
+  "enable": "Ativar",
+  "editSinger": "Editar cantor",
+  "chooseFromLibrary": "Escolher da biblioteca",
+  "takePhoto": "Tirar foto",
+  "home": "Início"
 }

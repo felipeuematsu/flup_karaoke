@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 final _songModel = SongModel(
@@ -33,7 +34,7 @@ class KaraokeApiServiceMock extends KaraokeApiService {
   }
 
   @override
-  Future<void> addSinger(String name) {
+  Future<void> addSinger(String name, MultipartFile? image) async {
     return Future<void>.delayed(const Duration(milliseconds: 50));
   }
 
@@ -43,7 +44,7 @@ class KaraokeApiServiceMock extends KaraokeApiService {
   }
 
   @override
-  Future<void> editSinger(SingerModel singer) {
+  Future<void> editSinger(SingerModel singer, MultipartFile? image) {
     return Future<void>.delayed(const Duration(milliseconds: 50));
   }
 

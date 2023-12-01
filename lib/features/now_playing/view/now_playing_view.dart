@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
 import 'package:flup_karaoke/extensions/duration.dart';
@@ -27,7 +26,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
     final titleColor = Theme.of(context).colorScheme.onBackground;
     final subtitleColor = Theme.of(context).colorScheme.onBackground.withOpacity(0.5);
     return Scaffold(
-      appBar: AppBar(title: Text(FlupS.of(context).nowPlaying), actions: [
+      appBar: AppBar(title: FittedBox(child: Text(FlupS.of(context).nowPlaying)), actions: [
         IconButton(
           icon: const Icon(Icons.queue_music),
           onPressed: () => AutoRouter.of(context).push(const QueueRoute()),
