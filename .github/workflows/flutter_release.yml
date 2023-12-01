@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.3.9"
+      FLUTTER_VERSION: "3.13.1"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -104,7 +104,7 @@ jobs:
 
       - name: Download Android keystore
         id: android_keystore
-        uses: timheuer/base64-to-file@v1.0.3
+        uses: timheuer/base64-to-file@v1.2
         with:
           fileName: key.jks
           encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -120,7 +120,7 @@ jobs:
         run: flutter build appbundle --build-number ${{ github.run_number }}
 
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
 
