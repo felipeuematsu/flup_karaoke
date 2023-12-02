@@ -44,6 +44,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Setup Flup Package
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
+
       - run: flutter pub get
       - name: Run analyzer
         run: flutter analyze --no-fatal-warnings --no-fatal-infos    
@@ -121,6 +125,9 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
 
+      - name: Setup Flup Package
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
+
       - name: Download pub dependencies
         run: flutter pub get
 
@@ -179,6 +186,9 @@ jobs:
           path: ${{ env.FLUTTER_HOME }}/.pub-cache
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
+
+      - name: Setup Flup Package
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
 
       - name: Download pub dependencies
         run: flutter pub get
