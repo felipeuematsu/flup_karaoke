@@ -3,7 +3,7 @@ import 'package:flup_karaoke/configuration/app_router.gr.dart';
 import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/constants/mamiiranda.dart';
 import 'package:flup_karaoke/database/database.dart';
-import 'package:flup_karaoke/database/model/server_entity.dart';
+import 'package:flup_karaoke/database/model/server_record.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/features/login/view/components/manual_connect_dialog.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
@@ -14,7 +14,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
-import 'package:isar/isar.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -33,13 +32,12 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    Future.microtask(getLastServer);
+    getLastServer();
     super.initState();
   }
 
-  Future<void> getLastServer() async {
-    final server = await db.isar.serverRecords.where().sortByLastConnectedDesc().findFirst();
-    this.server.value = server;
+  void getLastServer() {
+    server.value = db.servers.firstOrNull;
   }
 
   @override
@@ -125,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
             borderRadius: BorderRadius.circular(99),
           ),
           padding: const EdgeInsets.all(16.0),
-          child: Image.network('https://cdn.icon-icons.com/icons2/2385/PNG/512/list_icon_144238.png', height: 32, width: 32, fit: BoxFit.cover),
+          child: const Icon(Icons.list, size: 32),
         ),
       ),
       const Gap(64),
@@ -139,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
             borderRadius: BorderRadius.circular(99),
           ),
           padding: const EdgeInsets.all(16.0),
-          child: Image.network('https://cdn-icons-png.flaticon.com/512/2313/2313147.png', height: 32, width: 32, fit: BoxFit.cover),
+          child: const Icon(Icons.qr_code, size: 32),
         ),
       ),
     ]);
@@ -157,10 +155,7 @@ class _LoginViewState extends State<LoginView> {
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    Text(value.name ?? ''),
-                    Text(value.ip ?? ''),
-                  ]),
+                  child: Column(children: [Text(value.name), Text(value.ip)]),
                 ),
               ),
               const Gap(32),
@@ -176,13 +171,12 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> _goToHome(ServerRecord server) async {
     final ip = server.ip;
-    if (ip == null) return;
 
     final loginController = GetIt.I.get<LoginController>();
     final testHost = await loginController.testHost(ip);
 
     if (!testHost) return showCurrentServerError(server);
-    db.isar.writeTxn(() => db.isar.serverRecords.put(server));
+
     db.setCurrentServer(server);
     final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
     GetIt.I.registerSingleton<KaraokeApiService>(service);
@@ -192,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
   void showCurrentServerError(ServerRecord server) {
     final snackBar = SnackBar(
       content: Text(
-        FlupS.of(context).serverIsNotAvailable(server.name ?? ''),
+        FlupS.of(context).serverIsNotAvailable(server.name),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onError),
       ),
       elevation: 8,

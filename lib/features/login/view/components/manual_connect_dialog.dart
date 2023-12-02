@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
 import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/database/database.dart';
-import 'package:flup_karaoke/database/model/server_entity.dart';
+import 'package:flup_karaoke/database/model/server_record.dart';
 import 'package:flup_karaoke/features/login/controller/login_controller.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/helper/ip_helper.dart';
@@ -139,15 +139,13 @@ class _ManualConnectDialogState extends State<ManualConnectDialog> {
   }
 
   void _goToHome(ServerRecord server) {
-    db.isar.writeTxn(() => db.isar.serverRecords.put(server));
+
 
     db.setCurrentServer(server);
     final ip = server.ip;
-    if (ip != null) {
-      final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
-      GetIt.I.registerSingleton<KaraokeApiService>(service);
+    final service = isMockOn ? KaraokeApiServiceMock() : KaraokeApiService(configuration: KaraokeAPIConfiguration(baseUrl: formatHost(ip)?.toString() ?? ip));
+    GetIt.I.registerSingleton<KaraokeApiService>(service);
 
-      AutoRouter.of(context).replaceAll([const HomeRoute()]);
+    AutoRouter.of(context).replaceAll([const HomeRoute()]);
     }
-  }
 }

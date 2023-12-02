@@ -14,7 +14,6 @@ void Function<T extends Object>(FactoryFunc<T> factoryFunc, {String? instanceNam
 
 Future<void> setupDependencies() async {
   final db = AppDB(await SharedPreferences.getInstance());
-  await db.openDatabase();
   _rs(db);
   _rf(() => SearchViewController());
   _rf(() => LoginController());

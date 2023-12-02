@@ -1,24 +1,20 @@
-import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'server_entity.g.dart';
+part 'server_record.g.dart';
 
-@Collection()
 @JsonSerializable()
 class ServerRecord {
   ServerRecord({
-    this.ip,
-    this.name,
-  });
+    required this.ip,
+    required this.name,
+    DateTime? lastConnected,
+  }) : lastConnected = lastConnected ?? DateTime.now();
 
-  Id id = Isar.autoIncrement;
+  String ip;
 
-  @Index(type: IndexType.value)
-  String? ip;
+  String name;
 
-  String? name;
-
-  DateTime lastConnected = DateTime.now();
+  DateTime lastConnected;
 
   Map<String, dynamic> toJson() => _$ServerRecordToJson(this);
 
