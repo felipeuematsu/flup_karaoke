@@ -46,7 +46,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Setup Flup Package
-        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=secrets.FLUP_TOKEN
 
       - run: flutter pub get
       - name: Run analyzer
@@ -126,7 +126,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pub-
 
       - name: Setup Flup Package
-        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=secrets.FLUP_TOKEN
 
       - name: Download pub dependencies
         run: flutter pub get
@@ -188,7 +188,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pub-
 
       - name: Setup Flup Package
-        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
+        run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=secrets.FLUP_TOKEN
 
       - name: Download pub dependencies
         run: flutter pub get
