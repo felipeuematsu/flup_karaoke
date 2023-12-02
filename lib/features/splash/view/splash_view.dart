@@ -9,6 +9,7 @@ import 'package:flup_karaoke/generated/assets.gen.dart';
 import 'package:flup_karaoke/helper/ip_helper.dart';
 import 'package:flup_karaoke/mock/karaoke_api_service_mock.dart';
 import 'package:flup_karaoke/themes/custom_color.g.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -37,7 +38,8 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   Future<void> redirect() async {
     await controller.forward();
     await Future.delayed(const Duration(milliseconds: 1000));
-    final ip = db.currentServer?.ip;
+    final localIp = Uri.base.host;
+    final ip = db.currentServer?.ip ?? (kIsWeb ? localIp : null);
 
     if (ip == null) {
       await controller.reverse();
