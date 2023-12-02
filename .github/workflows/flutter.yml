@@ -26,6 +26,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
+      FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
       JAVA_VERSION: "11.0"
       FLUTTER_VERSION: "3.13.1"
     steps:
@@ -46,8 +47,6 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Setup Flup Package
-        env:
-          FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
         run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
 
       - run: flutter pub get
@@ -101,6 +100,7 @@ jobs:
     name: Test, build and Release on Web
     runs-on: ubuntu-latest
     env:
+      FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
       JAVA_VERSION: "11.0"
       FLUTTER_VERSION: "3.13.1"
     steps:
@@ -128,8 +128,6 @@ jobs:
           restore-keys: ${{ runner.os }}-pub-
 
       - name: Setup Flup Package
-        env:
-          FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
         run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
 
       - name: Download pub dependencies
@@ -165,6 +163,7 @@ jobs:
     if: ${{ needs.build.outputs.exists == 'false' }}
     runs-on: ubuntu-latest
     env:
+      FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
       JAVA_VERSION: "11.0"
       FLUTTER_VERSION: "3.13.1"
     steps:
@@ -192,8 +191,6 @@ jobs:
           restore-keys: ${{ runner.os }}-pub-
 
       - name: Setup Flup Package
-        env:
-          FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
         run: dart pub token add https://dart.pkg.jetbrains.space/flup/p/main/flup/ --env-var=FLUP_TOKEN
 
       - name: Download pub dependencies
