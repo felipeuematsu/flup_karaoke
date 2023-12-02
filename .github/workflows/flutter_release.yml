@@ -11,7 +11,7 @@ jobs:
     env:
       FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.13.1"
+      FLUTTER_VERSION: "3.16.2"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -76,7 +76,7 @@ jobs:
     env:
       FLUP_TOKEN: ${{ secrets.FLUP_TOKEN }}
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.13.1"
+      FLUTTER_VERSION: "3.16.2"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
