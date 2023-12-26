@@ -71,37 +71,39 @@ class _LoginViewState extends State<LoginView> {
         ]),
         extendBodyBehindAppBar: true,
         body: SafeArea(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: FittedBox(
-                child: Text(
-                  FlupS.of(context).appName,
-                  style: theme.textTheme.displayLarge?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.onPrimaryContainer),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 6,
-              child: Padding(
+          child: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: FlupKApp.of(context).currentFish.value.icon.image(fit: BoxFit.contain),
-              ),
-            ),
-            _body(context),
-            const Gap(16),
-            RichText(
-              text: TextSpan(style: theme.textTheme.labelSmall, children: [
-                TextSpan(text: FlupS.of(context).artBy),
-                TextSpan(
-                  text: mamiirandaName,
-                  style: const TextStyle(color: Colors.blue),
-                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(linktreeUrl),
+                child: FittedBox(
+                  child: Text(
+                    FlupS.of(context).appName,
+                    style: theme.textTheme.displayLarge?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.onPrimaryContainer),
+                  ),
                 ),
-              ]),
-            ),
-            const Gap(16),
-          ]),
+              ),
+              Expanded(
+                flex: 6,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  child: FlupKApp.of(context).currentFish.value.icon.image(fit: BoxFit.contain),
+                ),
+              ),
+              _body(context),
+              const Gap(16),
+              RichText(
+                text: TextSpan(style: theme.textTheme.labelSmall, children: [
+                  TextSpan(text: FlupS.of(context).artBy),
+                  TextSpan(
+                    text: mamiirandaName,
+                    style: const TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(linktreeUrl),
+                  ),
+                ]),
+              ),
+              const Gap(16),
+            ]),
+          ),
         ),
       );
     });

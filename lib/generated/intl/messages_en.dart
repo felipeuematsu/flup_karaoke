@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addSongFromYoutube":
             MessageLookupByLibrary.simpleMessage("Add song from YouTube"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Add to queue"),
@@ -50,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Error"),
         "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "inactive": MessageLookupByLibrary.simpleMessage("Inactive"),
         "insertANameForThisServer": MessageLookupByLibrary.simpleMessage(
             "Insert a name for this server"),
         "insertNewServer":
@@ -65,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "manualConnectionPlaceholder":
             MessageLookupByLibrary.simpleMessage("Address"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "noActiveSingers":
+            MessageLookupByLibrary.simpleMessage("No active singers"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noMoreItems": MessageLookupByLibrary.simpleMessage(
             "There are no more items to show."),

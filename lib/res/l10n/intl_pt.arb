@@ -72,5 +72,8 @@
   "editSinger": "Editar cantor",
   "chooseFromLibrary": "Escolher da biblioteca",
   "takePhoto": "Tirar foto",
-  "home": "Início"
+  "home": "Início",
+  "active": "Ativo",
+  "inactive": "Inativo",
+  "noActiveSingers": "Nenhum cantor ativo"
 }

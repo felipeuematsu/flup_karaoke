@@ -71,5 +71,8 @@
   "editSinger": "Edit singer",
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
-  "home": "Home"
+  "home": "Home",
+  "active": "Active",
+  "inactive": "Inactive",
+  "noActiveSingers": "No active singers"
 }

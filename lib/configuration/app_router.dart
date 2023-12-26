@@ -15,6 +15,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: PlaylistDetailsRoute.page, path: '/playlists/:id'),
         AutoRoute(page: ProfileMenuRoute.page, path: '/menu'),
         AutoRoute(page: QueueRoute.page, path: '/queue'),
+        AutoRoute(page: SingersRoute.page, path: '/singers'),
         AutoRoute(page: YoutubeSearchRoute.page, path: '/youtube_search'),
         AutoRoute(page: LanguageSelectRoute.page, path: '/language_select'),
       ];

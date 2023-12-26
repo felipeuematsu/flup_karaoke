@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
 import 'package:flup_karaoke/extensions/duration.dart';
@@ -36,18 +38,23 @@ class _NowPlayingViewState extends State<NowPlayingView> {
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SizedBox.square(
-              dimension: MediaQuery.of(context).size.width - 64,
-              child: Stack(children: [
-                Positioned.fill(child: NowPlayingImageSlider(service: service, nowPlayingController: nowPlayingController)),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: (MediaQuery.of(context).size.width - 64) * 0.7,
-                  child: const IgnorePointer(child: Row(children: [Icon(Icons.volume_down, size: 32), Spacer(), Icon(Icons.volume_up, size: 32)])),
-                ),
-              ]),
-            ),
+            Builder(builder: (context) {
+              final height = MediaQuery.of(context).size.height * 0.4;
+              final width = MediaQuery.of(context).size.width * 0.4;
+              final size = min(height, width);
+              return SizedBox.square(
+                dimension: size,
+                child: Stack(children: [
+                  Positioned.fill(child: NowPlayingImageSlider(service: service, nowPlayingController: nowPlayingController)),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: (MediaQuery.of(context).size.width - 64) * 0.7,
+                    child: const IgnorePointer(child: Row(children: [Icon(Icons.volume_down, size: 32), Spacer(), Icon(Icons.volume_up, size: 32)])),
+                  ),
+                ]),
+              );
+            }),
             const MaxGap(32),
             ValueListenableBuilder(
               valueListenable: nowPlayingController.nowPlayingSong,

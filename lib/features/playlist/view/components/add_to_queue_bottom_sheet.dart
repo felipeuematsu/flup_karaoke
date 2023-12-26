@@ -74,71 +74,71 @@ class _AddToQueueBottomSheetState extends State<AddToQueueBottomSheet> {
             child: ValueListenableBuilder(
               valueListenable: isLoading,
               builder: (context, isLoading, child) => ValueListenableBuilder(
-                  valueListenable: singerFilterController,
-                  builder: (context, filter, child) {
-                    return ValueListenableBuilder(
-                      valueListenable: allSingers,
-                      builder: (context, value, child) {
-                        if (isLoading) {
-                          return const Center(child: CupertinoActivityIndicator());
-                        }
+                valueListenable: singerFilterController,
+                builder: (context, filter, child) => ValueListenableBuilder(
+                  valueListenable: allSingers,
+                  builder: (context, value, child) {
+                    if (isLoading) return const Center(child: CupertinoActivityIndicator());
 
-                        if (value == null) {
-                          return const Center(child: Text('Error'));
-                        }
+                    if (value == null) return Center(child: Text(FlupS.of(context).error));
 
-                        if (value.isEmpty) {
-                          return const Center(child: Text('No data'));
-                        }
+                    if (value.isEmpty) return Center(child: Text(FlupS.of(context).noSingersFound));
 
-                        final filtered = value.where((e) => e.name?.toLowerCase().contains(filter.text.toLowerCase()) ?? false).toList();
+                    final active = value.where((e) => e.active == true).toList();
 
-                        return SingleChildScrollView(
-                          padding: const EdgeInsets.only(top: 32),
-                          controller: ModalScrollController.of(context),
-                          child: CupertinoFormSection.insetGrouped(
-                              margin: const EdgeInsets.only(bottom: 128, left: 20, right: 20),
-                              header: Column(mainAxisSize: MainAxisSize.min, children: [
-                                Text(
-                                  FlupS.of(context).singers,
-                                  style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
+                    if (active.isEmpty) return Center(child: Text(FlupS.of(context).noActiveSingers));
+
+                    final filtered = active.where((e) => e.name?.toLowerCase().contains(filter.text.toLowerCase()) ?? false).toList();
+
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.only(top: 32),
+                      controller: ModalScrollController.of(context),
+                      child: CupertinoFormSection.insetGrouped(
+                        margin: const EdgeInsets.only(bottom: 128, left: 20, right: 20),
+                        header: Column(mainAxisSize: MainAxisSize.min, children: [
+                          Text(
+                            FlupS.of(context).singers,
+                            style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
+                          ),
+                          const Gap(8),
+                          CupertinoTextFormFieldRow(
+                            focusNode: singerFilterFocusNode,
+                            prefix: const Icon(CupertinoIcons.search),
+                            placeholder: FlupS.of(context).filter,
+                            controller: singerFilterController,
+                          ),
+                          if (filtered.isEmpty) Center(child: Text(FlupS.of(context).noSingersFoundMessage)),
+                        ]),
+                        children: [
+                          if (filtered.isEmpty)
+                            const SizedBox()
+                          else
+                            for (final e in filtered)
+                              ValueListenableBuilder(
+                                valueListenable: singer,
+                                child: Image.network(
+                                  service.singerImageUrl(e.id ?? 0),
+                                  fit: BoxFit.cover,
+                                  height: 32,
+                                  width: 32,
+                                  errorBuilder: (_, __, ___) => const Icon(CupertinoIcons.person, size: 32),
                                 ),
-                                const Gap(8),
-                                CupertinoTextFormFieldRow(
-                                  focusNode: singerFilterFocusNode,
-                                  prefix: const Icon(CupertinoIcons.search),
-                                  placeholder: FlupS.of(context).filter,
-                                  controller: singerFilterController,
-                                ),
-                                if (filtered.isEmpty) Center(child: Text(FlupS.of(context).noSingersFoundMessage)),
-                              ]),
-                              children: [
-                                if (filtered.isEmpty)
-                                  const SizedBox()
-                                else
-                                  for (final e in filtered)
-                                    ValueListenableBuilder(
-                                      valueListenable: singer,
-                                      child: Image.network(
-                                        service.singerImageUrl(e.id ?? 0),
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) => const Icon(CupertinoIcons.person),
-                                      ),
-                                      builder: (context, singer, child) {
-                                        final isSelected = singer?.id == e.id;
-                                        return CupertinoListTile(
-                                          trailing: isSelected ? const Icon(CupertinoIcons.checkmark) : null,
-                                          leading: child,
-                                          title: Text(e.name ?? '--', style: isSelected ? const TextStyle(color: CupertinoColors.systemBlue) : null),
-                                          onTap: () => this.singer.value = e,
-                                        );
-                                      },
-                                    ),
-                              ]),
-                        );
-                      },
+                                builder: (context, singer, child) {
+                                  final isSelected = singer?.id == e.id;
+                                  return CupertinoListTile(
+                                    trailing: isSelected ? const Icon(CupertinoIcons.checkmark) : null,
+                                    leading: child,
+                                    title: Text(e.name ?? '--', style: isSelected ? const TextStyle(color: CupertinoColors.systemBlue) : null),
+                                    onTap: () => this.singer.value = e,
+                                  );
+                                },
+                              ),
+                        ],
+                      ),
                     );
-                  }),
+                  },
+                ),
+              ),
             ),
           ),
         );
@@ -151,50 +151,71 @@ class _AddToQueueBottomSheetState extends State<AddToQueueBottomSheet> {
     return Scaffold(
       appBar: AppBar(title: FittedBox(child: Text(FlupS.of(context).addToQueue))),
       body: Column(children: [
+        const Gap(8),
         Expanded(
           child: ValueListenableBuilder(
             valueListenable: isLoading,
             builder: (context, isLoading, child) => ValueListenableBuilder(
-              valueListenable: allSingers,
-              builder: (context, value, child) {
-                if (isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+                valueListenable: singerFilterController,
+                builder: (context, filter, child) {
+                  return ValueListenableBuilder(
+                    valueListenable: allSingers,
+                    builder: (context, value, child) {
+                      if (isLoading) return const Center(child: CupertinoActivityIndicator());
 
-                if (value == null) {
-                  return const Center(child: Text('Error'));
-                }
+                      if (value == null) return Center(child: Text(FlupS.of(context).error));
 
-                if (value.isEmpty) {
-                  return const Center(child: Text('No data'));
-                }
-                return ValueListenableBuilder(
-                  valueListenable: singer,
-                  builder: (context, singer, child) {
-                    return ListView.builder(
-                      controller: ModalScrollController.of(context),
-                      itemCount: value.length,
-                      itemBuilder: (context, index) {
-                        final isSelected = singer?.id == value[index].id;
-                        return ListTile(
-                          selected: isSelected,
-                          selectedTileColor: Colors.grey.shade300,
-                          leading: Image.network(
-                            service.singerImageUrl(value[index].id ?? 0),
-                            height: 32,
-                            width: 32,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => const Icon(Icons.person),
+                      if (value.isEmpty) return Center(child: Text(FlupS.of(context).noSingersFound));
+
+                      final active = value.where((e) => e.active == true).toList();
+
+                      if (active.isEmpty) return Center(child: Text(FlupS.of(context).noActiveSingers));
+
+                      final filtered = active.where((e) => e.name?.toLowerCase().contains(filter.text.toLowerCase()) ?? false).toList();
+
+                      return SingleChildScrollView(
+                        child: Column(children: [
+                          Text(
+                            FlupS.of(context).singers,
+                            style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
                           ),
-                          title: Text(value[index].name ?? '--', style: isSelected ? const TextStyle(color: Colors.blue) : null),
-                          onTap: () => this.singer.value = value[index],
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
+                          const Gap(8),
+                          CupertinoTextFormFieldRow(
+                            focusNode: singerFilterFocusNode,
+                            prefix: const Icon(CupertinoIcons.search),
+                            placeholder: FlupS.of(context).filter,
+                            controller: singerFilterController,
+                          ),
+                          if (filtered.isEmpty) Center(child: Text(FlupS.of(context).noSingersFoundMessage)),
+                          ValueListenableBuilder(
+                            valueListenable: singer,
+                            builder: (context, singer, child) => ListView.builder(
+                              shrinkWrap: true,
+                              controller: ModalScrollController.of(context),
+                              itemCount: filtered.length,
+                              itemBuilder: (context, index) {
+                                final isSelected = singer?.id == filtered[index].id;
+                                return ListTile(
+                                  selected: isSelected,
+                                  selectedTileColor: Colors.grey.shade300,
+                                  leading: Image.network(
+                                    service.singerImageUrl(filtered[index].id ?? 0),
+                                    height: 32,
+                                    width: 32,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => const Icon(Icons.person, size: 32),
+                                  ),
+                                  title: Text(filtered[index].name ?? '--', style: isSelected ? const TextStyle(color: Colors.blue) : null),
+                                  onTap: () => this.singer.value = filtered[index],
+                                );
+                              },
+                            ),
+                          ),
+                        ]),
+                      );
+                    },
+                  );
+                }),
           ),
         ),
         const Gap(8),
@@ -206,6 +227,7 @@ class _AddToQueueBottomSheetState extends State<AddToQueueBottomSheet> {
           },
           child: Text(FlupS.of(context).addToQueue),
         ),
+        const Gap(32),
       ]),
     );
   }

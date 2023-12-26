@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flup_karaoke/features/now_playing/controller/mini_player_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
@@ -32,7 +34,9 @@ class NowPlayingImageSlider extends StatelessWidget {
         child: ValueListenableBuilder(
           valueListenable: nowPlayingController.nowPlayingSong,
           builder: (context, value, child) {
-            final size = MediaQuery.of(context).size.width * 0.4;
+            final height = MediaQuery.of(context).size.height * 0.3;
+            final width = MediaQuery.of(context).size.width * 0.3;
+            final size = min(height, width);
             final note = Icon(Icons.music_note, size: size);
             if (value == null) return Icon(Icons.music_off, size: size);
             if (value.song?.imageUrl case final imageUrl?) {

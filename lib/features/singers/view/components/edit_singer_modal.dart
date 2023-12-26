@@ -1,3 +1,4 @@
+import 'package:flup_karaoke/features/commons/widgets/adaptative_text_button.dart';
 import 'package:flup_karaoke/features/commons/widgets/update_photo_modal.dart';
 import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,17 +24,19 @@ class _EditSingerModalState extends State<EditSingerModal> {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
+
       onClosing: () {},
       builder: (context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(FlupS.of(context).editSinger),
-          trailing: CupertinoButton(
+          trailing: AdaptiveTextButton(
             onPressed: () => service.editSinger(widget.singer, null),
             child: Text(FlupS.of(context).save),
           ),
         ),
         child: SafeArea(
           child: Column(children: [
+            const Gap(32),
             GestureDetector(
               onTap: () => showCupertinoModalBottomSheet(context: context, builder: (context) => UpdatePhotoModal(singer: widget.singer)),
               child: Center(

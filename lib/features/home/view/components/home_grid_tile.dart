@@ -11,9 +11,10 @@ class HomeGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => AutoRouter.of(context).push(route),
-      child: Card(
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => AutoRouter.of(context).push(route),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(icon, size: 48),
           const Gap(16),

@@ -27,7 +27,11 @@ class ProfileMenuViewState extends State<ProfileMenuView> {
               title: FlupS.of(context).youtubeSearch,
               onTap: () => AutoRouter.of(context).push(const YoutubeSearchRoute()),
             ),
-            ProfileMenuTile(icon: Icons.person, title: FlupS.of(context).singers, onTap: () => AutoRouter.of(context).push(const SingersRoute())),
+            ProfileMenuTile(
+              icon: Icons.person,
+              title: FlupS.of(context).singers,
+              onTap: () => AutoRouter.of(context).push(const SingersRoute()),
+            ),
             ProfileMenuTile(
               icon: Icons.translate,
               title: FlupS.of(context).language,
