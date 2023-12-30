@@ -52,7 +52,6 @@ class _LoginViewState extends State<LoginView> {
             IconButton(
               onPressed: () {
                 GetIt.I.registerSingleton<KaraokeApiService>(KaraokeApiServiceMock());
-
                 AutoRouter.of(context).replace(const HomeRoute());
               },
               icon: const Icon(Icons.home),
