@@ -29,7 +29,7 @@ class YoutubeSearchController {
   }
 
   Future<SearchQueryResponse> searchMore() async {
-    if (uuidSearch != query || uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
+    if (uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
       uuid = null;
       uuidSearch = null;
       uuidExpiration = null;
