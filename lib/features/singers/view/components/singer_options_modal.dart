@@ -3,7 +3,6 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karaoke_request_api/karaoke_request_api.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SingerOptionsModal extends StatefulWidget {
   const SingerOptionsModal({super.key, required this.singer});
