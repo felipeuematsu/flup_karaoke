@@ -9,10 +9,11 @@ class YoutubeSearchController {
   YoutubeSearchController();
 
   String? uuid;
+  String? uuidSearch;
   DateTime? uuidExpiration;
 
   Future<SearchQueryResponse> search(String query) async {
-    if (uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
+    if (uuidSearch != query || uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
       return searchQuery(query);
     }
     return searchMore();
@@ -21,14 +22,16 @@ class YoutubeSearchController {
   Future<SearchQueryResponse> searchQuery(String query) async {
     final response = await service.youtubeSearch(query, null);
 
+    uuidSearch = query;
     uuid = response.uuid;
     uuidExpiration = response.expiration;
     return response;
   }
 
   Future<SearchQueryResponse> searchMore() async {
-    if (uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
+    if (uuidSearch != query || uuid == null || uuidExpiration == null || (uuidExpiration?.isBefore(DateTime.now()) ?? true)) {
       uuid = null;
+      uuidSearch = null;
       uuidExpiration = null;
       return const SearchQueryResponse(content: []);
     }
