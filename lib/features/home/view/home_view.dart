@@ -42,19 +42,22 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
       logout(context);
     }
     miniPlayerController = GetIt.I();
-    miniPlayerController.nowPlayingSong.addListener(() {
-      if (miniPlayerController.nowPlayingSong.value == null) {
-        animationController.reverse();
-      } else {
-        animationController.forward();
-      }
-    });
+    miniPlayerController.nowPlayingSong.addListener(animationListener);
+  }
+
+  void animationListener() {
+    if (miniPlayerController.nowPlayingSong.value == null) {
+      animationController.reverse();
+    } else {
+      animationController.forward();
+    }
   }
 
   @override
   void dispose() {
     timer.cancel();
     animationController.dispose();
+    miniPlayerController.nowPlayingSong.removeListener(animationListener);
     super.dispose();
   }
 

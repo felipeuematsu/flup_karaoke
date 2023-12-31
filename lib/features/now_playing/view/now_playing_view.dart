@@ -59,7 +59,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Builder(builder: (context) {
               final height = MediaQuery.of(context).size.height * 0.4;
-              final width = MediaQuery.of(context).size.width * 0.4;
+              final width = MediaQuery.of(context).size.width * 0.8;
               final size = min(height, width);
               return SizedBox.square(
                 dimension: size,

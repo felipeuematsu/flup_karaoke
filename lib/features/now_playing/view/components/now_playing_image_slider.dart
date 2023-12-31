@@ -39,7 +39,7 @@ class NowPlayingImageSlider extends StatelessWidget {
               valueListenable: nowPlayingController.nowPlayingSong,
               builder: (context, value, child) {
                 final height = MediaQuery.of(context).size.height * 0.3;
-                final width = MediaQuery.of(context).size.width * 0.3;
+                final width = MediaQuery.of(context).size.width * 0.4;
                 final size = min(height, width);
                 final note = Icon(Icons.music_note, size: size);
                 if (value == null) return Icon(Icons.music_off, size: size);
