@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
@@ -9,6 +11,7 @@ import 'package:flup_karaoke/generated/l10n.dart';
 import 'package:flup_karaoke/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:karaoke_request_api/karaoke_request_api.dart';
 
 @RoutePage()
 class HomeView extends StatefulWidget {
@@ -22,6 +25,14 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   late final NowPlayingController miniPlayerController;
 
   late final animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+
+  late final timer = Timer.periodic(
+    const Duration(seconds: 1),
+    (_) => GetIt.I<KaraokeApiService>()
+        .getNowPlayingSong()
+        .then((value) => miniPlayerController.nowPlayingSong.value = value)
+        .onError((error, stackTrace) => null),
+  );
 
   @override
   void initState() {
@@ -37,6 +48,13 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
         animationController.forward();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    animationController.dispose();
+    super.dispose();
   }
 
   @override

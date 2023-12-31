@@ -17,6 +17,6 @@ Future<void> setupDependencies() async {
   _rs(db);
   _rf(() => SearchViewController());
   _rf(() => LoginController());
-  _rf(() => NowPlayingController());
+  _rs(NowPlayingController());
   _rf(() => CurrentSingerController());
 }

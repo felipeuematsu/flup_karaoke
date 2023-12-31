@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
@@ -20,8 +21,26 @@ class NowPlayingView extends StatefulWidget {
 }
 
 class _NowPlayingViewState extends State<NowPlayingView> {
+  Timer? timer;
   final service = GetIt.I<KaraokeApiService>();
   final nowPlayingController = GetIt.I<NowPlayingController>();
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 1), refresh);
+  }
+
+  Future<void> refresh(_) async {
+    await service.getVolume().then((value) => nowPlayingController.currentVolume.value = value);
+    await service.getNowPlayingSong().then((value) => nowPlayingController.nowPlayingSong.value = value);
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +98,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
             ValueListenableBuilder(
               valueListenable: nowPlayingController.nowPlayingSong,
               builder: (context, value, _) => LinearProgressIndicator(
-                value: (value?.position ?? 0 / (value?.song?.duration ?? 1)).toDouble(),
+                value: ((value?.position ?? 0) / (value?.song?.duration ?? 1)).toDouble(),
                 borderRadius: BorderRadius.circular(16),
                 minHeight: 8,
                 backgroundColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),

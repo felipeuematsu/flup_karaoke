@@ -17,38 +17,44 @@ class NowPlayingImageSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SleekCircularSlider(
-      appearance: CircularSliderAppearance(
-        angleRange: 210,
-        startAngle: 165,
-        customWidths: CustomSliderWidths(progressBarWidth: 8, trackWidth: 8, handlerSize: 0),
-        customColors: CustomSliderColors(
-          trackColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
-          progressBarColors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
-          dotColor: Theme.of(context).colorScheme.primary,
-        ),
-      ),
-      onChangeEnd: (value) => service.setVolume(value.floor()),
-      initialValue: nowPlayingController.currentVolume.value?.toDouble() ?? 0,
-      innerWidget: (_) => Center(
-        child: ValueListenableBuilder(
-          valueListenable: nowPlayingController.nowPlayingSong,
-          builder: (context, value, child) {
-            final height = MediaQuery.of(context).size.height * 0.3;
-            final width = MediaQuery.of(context).size.width * 0.3;
-            final size = min(height, width);
-            final note = Icon(Icons.music_note, size: size);
-            if (value == null) return Icon(Icons.music_off, size: size);
-            if (value.song?.imageUrl case final imageUrl?) {
-              return DecoratedBox(
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: Image.network(imageUrl, fit: BoxFit.cover, height: size, width: size, errorBuilder: (_, __, ___) => note),
-              );
-            }
-            return note;
-          },
-        ),
-      ),
+    return ValueListenableBuilder(
+      valueListenable: nowPlayingController.currentVolume,
+      builder: (context, value, child) {
+        return SleekCircularSlider(
+
+          appearance: CircularSliderAppearance(
+            angleRange: 210,
+            startAngle: 165,
+            customWidths: CustomSliderWidths(progressBarWidth: 8, trackWidth: 8, handlerSize: 0),
+            customColors: CustomSliderColors(
+              trackColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+              progressBarColors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.secondary],
+              dotColor: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          onChangeEnd: (value) => service.setVolume(value.floor()),
+          initialValue: value?.toDouble() ?? 0,
+          innerWidget: (_) => Center(
+            child: ValueListenableBuilder(
+              valueListenable: nowPlayingController.nowPlayingSong,
+              builder: (context, value, child) {
+                final height = MediaQuery.of(context).size.height * 0.3;
+                final width = MediaQuery.of(context).size.width * 0.3;
+                final size = min(height, width);
+                final note = Icon(Icons.music_note, size: size);
+                if (value == null) return Icon(Icons.music_off, size: size);
+                if (value.song?.imageUrl case final imageUrl?) {
+                  return DecoratedBox(
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.network(imageUrl, fit: BoxFit.cover, height: size, width: size, errorBuilder: (_, __, ___) => note),
+                  );
+                }
+                return note;
+              },
+            ),
+          ),
+        );
+      }
     );
   }
 }
