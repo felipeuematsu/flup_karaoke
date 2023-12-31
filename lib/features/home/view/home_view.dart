@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flup_karaoke/configuration/app_router.dart';
 import 'package:flup_karaoke/configuration/app_router.gr.dart';
+import 'package:flup_karaoke/configuration/constants.dart';
 import 'package:flup_karaoke/database/database.dart';
 import 'package:flup_karaoke/features/home/view/components/home_grid_tile.dart';
 import 'package:flup_karaoke/features/mini_player/view/mini_player_view.dart';
@@ -61,16 +62,17 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(FlupS.of(context).home), centerTitle: false, actions: [
-        IconButton(
-          icon: const Icon(Icons.accessibility),
-          onPressed: () {
-            if (animationController.isCompleted) {
-              animationController.reverse();
-            } else {
-              animationController.forward();
-            }
-          },
-        ),
+        if (isMockOn)
+          IconButton(
+            icon: const Icon(Icons.accessibility),
+            onPressed: () {
+              if (animationController.isCompleted) {
+                animationController.reverse();
+              } else {
+                animationController.forward();
+              }
+            },
+          ),
         IconButton(
           icon: const Icon(Icons.refresh),
           onPressed: FlupKApp.of(context).setNextFish,
